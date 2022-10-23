@@ -4,6 +4,8 @@
     <title>Hello World</title>
     <url>/2022/10/19/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
@@ -21,7 +23,10 @@
   <entry>
     <title>FIRI 5V5 源码解析</title>
     <url>/2022/10/21/5V5/</url>
-    <content><![CDATA[<h2 id="主攻，助攻，替补等策略"><a href="#主攻，助攻，替补等策略" class="headerlink" title="主攻，助攻，替补等策略"></a>主攻，助攻，替补等策略</h2><h4 id="主攻mianAttacker-："><a href="#主攻mianAttacker-：" class="headerlink" title="主攻mianAttacker()："></a>主攻mianAttacker()：</h4><ol>
+    <content><![CDATA[<p>各策略解析</p>
+<span id="more"></span>
+
+<h2 id="主攻，助攻，替补等策略"><a href="#主攻，助攻，替补等策略" class="headerlink" title="主攻，助攻，替补等策略"></a>主攻，助攻，替补等策略</h2><h4 id="主攻mianAttacker-："><a href="#主攻mianAttacker-：" class="headerlink" title="主攻mianAttacker()："></a>主攻mianAttacker()：</h4><ol>
 <li>若满足射门条件就射门，不满足就判断是否可以传球，若可以传球就传球，然后和助攻互换身份</li>
 <li>若都不能根据<strong>目标和index</strong>的y坐标进行attackplayer1()或attackplayer2()</li>
 <li>goAway(index)和Hit(index)</li>
@@ -44,7 +49,10 @@
   <entry>
     <title></title>
     <url>/2022/10/21/%E8%BF%BD%E7%90%83/</url>
-    <content><![CDATA[<h1 id="追球"><a href="#追球" class="headerlink" title="追球"></a>追球</h1><p>push(),jiqiu(),jiqiu2(),rollkick(),keep(),stopBall()都存在向球的方向移动</p>
+    <content><![CDATA[<h1 id="追球"><a href="#追球" class="headerlink" title="追球"></a>追球</h1><p>存在追球策略的各函数</p>
+<span id="more"></span>
+
+<p>push(),jiqiu(),jiqiu2(),rollkick(),keep(),stopBall()都存在向球的方向移动</p>
 <p>keepfar()	防止禁区机器人多，保持距离</p>
 <h2 id="attackplayer-2866"><a href="#attackplayer-2866" class="headerlink" title="attackplayer() 2866"></a>attackplayer() 2866</h2><h4 id="attackplayer1-："><a href="#attackplayer1-：" class="headerlink" title="attackplayer1()："></a>attackplayer1()：</h4><p>代码注释：左边进攻路队员 ，包含禁区内的射门，禁区外长条区域进攻式踢球  ，禁区角配合式的定位并转向球门中点;</p>
 <p>首先判断是否需要推球，移动位置或进行push()；不需要进行推球时，根据球员、球和预测的位置信息判断进行移动或jiqiu()，存在移动到球的位置的情况;</p>
