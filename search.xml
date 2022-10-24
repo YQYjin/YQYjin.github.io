@@ -1,32 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>FIRI 5V5 源码解析</title>
-    <url>/2022/10/21/5V5/</url>
-    <content><![CDATA[<p>各策略解析</p>
-<span id="more"></span>
-
-<h2 id="主攻，助攻，替补等策略"><a href="#主攻，助攻，替补等策略" class="headerlink" title="主攻，助攻，替补等策略"></a>主攻，助攻，替补等策略</h2><h4 id="主攻mianAttacker-："><a href="#主攻mianAttacker-：" class="headerlink" title="主攻mianAttacker()："></a>主攻mianAttacker()：</h4><ol>
-<li>若满足射门条件就射门，不满足就判断是否可以传球，若可以传球就传球，然后和助攻互换身份</li>
-<li>若都不能根据<strong>目标和index</strong>的y坐标进行attackplayer1()或attackplayer2()</li>
-<li>goAway(index)和Hit(index)</li>
-</ol>
-<h4 id="助攻helpAttacker"><a href="#助攻helpAttacker" class="headerlink" title="助攻helpAttacker():"></a>助攻helpAttacker():</h4><ol>
-<li>满足射门条件就根据情况射门</li>
-<li>等待传球信号，发送接球信号，接球</li>
-<li><strong>目标和index</strong>的y坐标判断进行attackplayer1()或attackplayer2()</li>
-<li>goAway(index)和Hit(index)</li>
-</ol>
-<h4 id="替补insdAttacker"><a href="#替补insdAttacker" class="headerlink" title="替补insdAttacker():"></a>替补insdAttacker():</h4><ol>
-<li>满足射门条件就根据情况射门</li>
-<li>若不能射门，根据<strong>球</strong>的y坐标判断进行attackplayer1()或attackplayer2()</li>
-<li>goAway(index)和Hit(index)</li>
-</ol>
-<p>goAway()	机器人不进入禁区 </p>
-<p>Hit()	如果可以，把敌方撞进门区制造点球犯规</p>
-]]></content>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2022/10/19/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -44,23 +18,6 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2022/10/21/%E8%BF%BD%E7%90%83/</url>
-    <content><![CDATA[<h1 id="追球"><a href="#追球" class="headerlink" title="追球"></a>追球</h1><p>存在追球策略的各函数</p>
-<span id="more"></span>
-
-<p>push(),jiqiu(),jiqiu2(),rollkick(),keep(),stopBall()都存在向球的方向移动</p>
-<p>keepfar()	防止禁区机器人多，保持距离</p>
-<h2 id="attackplayer-2866"><a href="#attackplayer-2866" class="headerlink" title="attackplayer() 2866"></a>attackplayer() 2866</h2><h4 id="attackplayer1-："><a href="#attackplayer1-：" class="headerlink" title="attackplayer1()："></a>attackplayer1()：</h4><p>代码注释：左边进攻路队员 ，包含禁区内的射门，禁区外长条区域进攻式踢球  ，禁区角配合式的定位并转向球门中点;</p>
-<p>首先判断是否需要推球，移动位置或进行push()；不需要进行推球时，根据球员、球和预测的位置信息判断进行移动或jiqiu()，存在移动到球的位置的情况;</p>
-<h4 id="attackplayer2"><a href="#attackplayer2" class="headerlink" title="attackplayer2():"></a>attackplayer2():</h4><p>代码注释：进攻右边路队员 ，相当于了leftplay() ,是个综合的效果;</p>
-<p>和1的策略相似</p>
-<h2 id="push-1969"><a href="#push-1969" class="headerlink" title="push() 1969"></a>push() 1969</h2><p>push()策略是主要的追球策略</p>
-<p>球在右下底线：若rx &gt; 211.2980 &amp;&amp; ry &gt; cby + 5.08，且球周围无机器人或只有一个机器人且是自己，前往球的位置，否则执行keepfar()	</p>
-<h2 id="stopBall-3126"><a href="#stopBall-3126" class="headerlink" title="stopBall() 3126"></a>stopBall() 3126</h2><p>判断，球在机器人左侧则跑到球的位置击球 ，否则根据预测位置与球员位置再次判断是否球在机器人左侧，否则以避开球的方式移动到预测位置，或以某点为轴心，高速弧线前进到目标点，<strong>可能会产生没有追球的假象</strong></p>
 ]]></content>
   </entry>
 </search>
