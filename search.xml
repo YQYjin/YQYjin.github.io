@@ -123,7 +123,7 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
+    <title>二叉树</title>
     <url>/2022/11/06/%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
     <content><![CDATA[<h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a><center>二叉树</center></h1><h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a><center>遍历</center></h2><p>前序遍历 <code>根-左-右</code>		中序遍历 <code>左-根-右</code>		后序遍历 <code>左-右-根</code></p>
 <p><img src="https://s2.loli.net/2022/11/06/FrwMeBjslUpYDuH.png" alt="二叉树图.png"></p>
@@ -142,5 +142,11 @@
 
 <p>​		对三种遍历结果进行观察，前序的最前边是头节点，而后序的最后一个是头节点，然后根据中序遍历的结果可以进行二叉树复原，但只有前序和后序是无法复原的。</p>
 <h2 id="祖先"><a href="#祖先" class="headerlink" title="祖先"></a><center>祖先</center></h2><h4 id="最近公共祖先"><a href="#最近公共祖先" class="headerlink" title="最近公共祖先"></a>最近公共祖先</h4>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+      </tags>
   </entry>
 </search>
