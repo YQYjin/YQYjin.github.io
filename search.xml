@@ -134,7 +134,10 @@
 <p><em>先序遍历代码实现：</em></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//深度优先遍历 非递归先序遍历 头=&gt;左=&gt;右</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">preOrderUnRecur</span><span class="params">(BinaryTree* head)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (head != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">		stack&lt;BinaryTree*&gt; stk;	<span class="comment">//定义一个栈</span></span><br><span class="line">		stk.<span class="built_in">push</span>(head);</span><br><span class="line">		<span class="keyword">while</span> (!stk.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">			head = stk.<span class="built_in">top</span>();</span><br><span class="line">			stk.<span class="built_in">pop</span>();</span><br><span class="line">			cout &lt;&lt; head-&gt;val &lt;&lt; endl;	<span class="comment">//处理语句</span></span><br><span class="line">			<span class="keyword">if</span> (head-&gt;right != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">				stk.<span class="built_in">push</span>(head-&gt;right);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (head-&gt;left != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">				stk.<span class="built_in">push</span>(head-&gt;left);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><em>中序遍历代码实现</em>	</p>
+<p><em>中序遍历代码实现</em></p>
+<p>中序遍历时先把所有左节点入栈，遇到空指针时出一个左节点并把其右节点入栈，</p>
+<p>并在此时进行操作，就可以实现左-中-右的遍历</p>
+<p>​	</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//非递归中序遍历	左=&gt;头=&gt;右</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">inOrderUnRecur</span><span class="params">(BinaryTree* head)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (head != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">		stack&lt;BinaryTree*&gt; stk;</span><br><span class="line">		<span class="keyword">while</span> (!stk.<span class="built_in">empty</span>()||head!=<span class="literal">nullptr</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> (head != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">				stk.<span class="built_in">push</span>(head);</span><br><span class="line">				head = head-&gt;left;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				head = stk.<span class="built_in">top</span>();</span><br><span class="line">				cout &lt;&lt; head-&gt;val &lt;&lt; endl;</span><br><span class="line">				stk.<span class="built_in">pop</span>();</span><br><span class="line">				head = head-&gt;right;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><em>后序遍历代码实现：</em></p>
@@ -144,6 +147,68 @@
 <h2 id="祖先"><a href="#祖先" class="headerlink" title="祖先"></a><center>祖先</center></h2><h4 id="最近公共祖先"><a href="#最近公共祖先" class="headerlink" title="最近公共祖先"></a>最近公共祖先</h4>]]></content>
       <categories>
         <category>算法</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>类与对象</title>
+    <url>/2022/12/27/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/</url>
+    <content><![CDATA[<h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><h2 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h2><ul>
+<li><p>对象：具体的事物</p>
+</li>
+<li><p>类：概念，模板，抽象的描述</p>
+</li>
+</ul>
+<h4 id="类的代码定义"><a href="#类的代码定义" class="headerlink" title="类的代码定义"></a>类的代码定义</h4><p><strong>格式：public class 类名 {}</strong></p>
+<p>命名规范： 类目必须与所在的文件名一致，要求首字母大写，使用驼峰命名规范</p>
+<p>内容：</p>
+<p>​	成员属性：数据类型 数据名</p>
+<p>​	成员方法：修饰词 返回值类型 方法名（参数类型 参数名） {}</p>
+<p>​	任何方法都要放在类的结构中</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="comment">// 属性</span></span><br><span class="line">    String userName;</span><br><span class="line">    String userPwd;</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    <span class="type">int</span> score;</span><br><span class="line">    <span class="type">boolean</span> isOnline;</span><br><span class="line">    <span class="comment">// 方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showUserInfo</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkPassword</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">changePassword</span><span class="params">(String oldpwd, String newpwd)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="封装属性"><a href="#封装属性" class="headerlink" title="封装属性"></a>封装属性</h2><ul>
+<li><p>将成员属性私有化，限制对属性的调用，针对每一个属性对设置对应的 赋值方法和获取方法</p>
+</li>
+<li><p>优点： </p>
+<ul>
+<li>set属性时 ，可以对传入参数进行验证，保证数据规范安全 </li>
+<li>get属性时，可以对需要返回数据进行整合处理 返回对方需要的格式类型 </li>
+<li>结构更清晰  size(w,h); 简化代码 整合数据 </li>
+<li>读写分离，存在一些属性，不暴露 读&#x2F;写</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="comment">// 属性</span></span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line">    <span class="keyword">private</span> String userPwd;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> isOnline;</span><br><span class="line">    <span class="comment">// 方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserName</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserPwd</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserAge</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserScore</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserName</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserPwd</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserAge</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserScore</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">getUserOnline</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showUserInfo</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkPassword</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">changePassword</span><span class="params">(String oldpwd, String newpwd)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>初始化： 构造方法<ul>
+<li>格式：类名 （参数列表）{}    没有返回值结构</li>
+<li>每个类都自带一个隐式的空参数构造方法 ，一旦自己写了构造方法，不管有无参数 都会覆盖隐式的 </li>
+<li>构造方法可以重组</li>
+<li>构造方法在创建对象时调用，且只被调用一次</li>
+</ul>
+</li>
+<li>私有化构造方法：<ul>
+<li>私有化构造可有令该类不能在类的外部创建对象，对创建对象的权限做了限制</li>
+</ul>
+</li>
+<li>单例：<ul>
+<li>单例类只能有一个对象存在</li>
+<li>将构造方法私有化后在单例类中创建一个公有 静态 的对象，该对象可以在类外部通过类名直接调用</li>
+<li>在类中创建类对象若不添加static 关键字会导致不断递归创建该对象，导致死循环</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="comment">// 属性</span></span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line">    <span class="keyword">private</span> String userPwd;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> isOnline;</span><br><span class="line">    <span class="comment">// 构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">User</span><span class="params">(String userName,String userPwd,<span class="type">int</span> age,<span class="type">int</span> score)</span>&#123;&#125;</span><br><span class="line">    <span class="comment">// 单例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> User king= <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;king&quot;</span>,<span class="string">&quot;123&quot;</span>,<span class="number">50</span>,<span class="number">100</span>);</span><br><span class="line">    <span class="comment">// 方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> User <span class="title function_">getKing</span><span class="params">()</span>&#123;<span class="keyword">return</span> king&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserName</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserPwd</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserAge</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserScore</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserName</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserPwd</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserAge</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserScore</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">getUserOnline</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showUserInfo</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkPassword</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">changePassword</span><span class="params">(String oldpwd, String newpwd)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>工程</category>
       </categories>
       <tags>
         <tag>基础</tag>

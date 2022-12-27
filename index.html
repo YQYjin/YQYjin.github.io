@@ -195,6 +195,124 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/27/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/12/27/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="post-title-link" itemprop="url">类与对象</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-27 21:03:18 / 修改时间：23:07:10" itemprop="dateCreated datePublished" datetime="2022-12-27T21:03:18+08:00">2022-12-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><h2 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h2><ul>
+<li><p>对象：具体的事物</p>
+</li>
+<li><p>类：概念，模板，抽象的描述</p>
+</li>
+</ul>
+<h4 id="类的代码定义"><a href="#类的代码定义" class="headerlink" title="类的代码定义"></a>类的代码定义</h4><p><strong>格式：public class 类名 {}</strong></p>
+<p>命名规范： 类目必须与所在的文件名一致，要求首字母大写，使用驼峰命名规范</p>
+<p>内容：</p>
+<p>​	成员属性：数据类型 数据名</p>
+<p>​	成员方法：修饰词 返回值类型 方法名（参数类型 参数名） {}</p>
+<p>​	任何方法都要放在类的结构中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="comment">// 属性</span></span><br><span class="line">    String userName;</span><br><span class="line">    String userPwd;</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    <span class="type">int</span> score;</span><br><span class="line">    <span class="type">boolean</span> isOnline;</span><br><span class="line">    <span class="comment">// 方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showUserInfo</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkPassword</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">changePassword</span><span class="params">(String oldpwd, String newpwd)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="封装属性"><a href="#封装属性" class="headerlink" title="封装属性"></a>封装属性</h2><ul>
+<li><p>将成员属性私有化，限制对属性的调用，针对每一个属性对设置对应的 赋值方法和获取方法</p>
+</li>
+<li><p>优点： </p>
+<ul>
+<li>set属性时 ，可以对传入参数进行验证，保证数据规范安全 </li>
+<li>get属性时，可以对需要返回数据进行整合处理 返回对方需要的格式类型 </li>
+<li>结构更清晰  size(w,h); 简化代码 整合数据 </li>
+<li>读写分离，存在一些属性，不暴露 读&#x2F;写</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="comment">// 属性</span></span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line">    <span class="keyword">private</span> String userPwd;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> isOnline;</span><br><span class="line">    <span class="comment">// 方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserName</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserPwd</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserAge</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserScore</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserName</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserPwd</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserAge</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserScore</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">getUserOnline</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showUserInfo</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkPassword</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">changePassword</span><span class="params">(String oldpwd, String newpwd)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>初始化： 构造方法<ul>
+<li>格式：类名 （参数列表）{}    没有返回值结构</li>
+<li>每个类都自带一个隐式的空参数构造方法 ，一旦自己写了构造方法，不管有无参数 都会覆盖隐式的 </li>
+<li>构造方法可以重组</li>
+<li>构造方法在创建对象时调用，且只被调用一次</li>
+</ul>
+</li>
+<li>私有化构造方法：<ul>
+<li>私有化构造可有令该类不能在类的外部创建对象，对创建对象的权限做了限制</li>
+</ul>
+</li>
+<li>单例：<ul>
+<li>单例类只能有一个对象存在</li>
+<li>将构造方法私有化后在单例类中创建一个公有 静态 的对象，该对象可以在类外部通过类名直接调用</li>
+<li>在类中创建类对象若不添加static 关键字会导致不断递归创建该对象，导致死循环</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="comment">// 属性</span></span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line">    <span class="keyword">private</span> String userPwd;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> isOnline;</span><br><span class="line">    <span class="comment">// 构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">User</span><span class="params">(String userName,String userPwd,<span class="type">int</span> age,<span class="type">int</span> score)</span>&#123;&#125;</span><br><span class="line">    <span class="comment">// 单例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> User king= <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;king&quot;</span>,<span class="string">&quot;123&quot;</span>,<span class="number">50</span>,<span class="number">100</span>);</span><br><span class="line">    <span class="comment">// 方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> User <span class="title function_">getKing</span><span class="params">()</span>&#123;<span class="keyword">return</span> king&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserName</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserPwd</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserAge</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserScore</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserName</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserPwd</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserAge</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserScore</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">getUserOnline</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showUserInfo</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkPassword</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">changePassword</span><span class="params">(String oldpwd, String newpwd)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/06/%E4%BA%8C%E5%8F%89%E6%A0%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -220,7 +338,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-11-06 09:29:11 / 修改时间：22:38:51" itemprop="dateCreated datePublished" datetime="2022-11-06T09:29:11+08:00">2022-11-06</time>
+              <time title="创建时间：2022-11-06 09:29:11 / 修改时间：22:47:08" itemprop="dateCreated datePublished" datetime="2022-11-06T09:29:11+08:00">2022-11-06</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -252,7 +370,10 @@
 <p><em>先序遍历代码实现：</em></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//深度优先遍历 非递归先序遍历 头=&gt;左=&gt;右</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">preOrderUnRecur</span><span class="params">(BinaryTree* head)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (head != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">		stack&lt;BinaryTree*&gt; stk;	<span class="comment">//定义一个栈</span></span><br><span class="line">		stk.<span class="built_in">push</span>(head);</span><br><span class="line">		<span class="keyword">while</span> (!stk.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">			head = stk.<span class="built_in">top</span>();</span><br><span class="line">			stk.<span class="built_in">pop</span>();</span><br><span class="line">			cout &lt;&lt; head-&gt;val &lt;&lt; endl;	<span class="comment">//处理语句</span></span><br><span class="line">			<span class="keyword">if</span> (head-&gt;right != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">				stk.<span class="built_in">push</span>(head-&gt;right);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (head-&gt;left != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">				stk.<span class="built_in">push</span>(head-&gt;left);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><em>中序遍历代码实现</em>	</p>
+<p><em>中序遍历代码实现</em></p>
+<p>中序遍历时先把所有左节点入栈，遇到空指针时出一个左节点并把其右节点入栈，</p>
+<p>并在此时进行操作，就可以实现左-中-右的遍历</p>
+<p>​	</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//非递归中序遍历	左=&gt;头=&gt;右</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">inOrderUnRecur</span><span class="params">(BinaryTree* head)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (head != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">		stack&lt;BinaryTree*&gt; stk;</span><br><span class="line">		<span class="keyword">while</span> (!stk.<span class="built_in">empty</span>()||head!=<span class="literal">nullptr</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> (head != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">				stk.<span class="built_in">push</span>(head);</span><br><span class="line">				head = head-&gt;left;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				head = stk.<span class="built_in">top</span>();</span><br><span class="line">				cout &lt;&lt; head-&gt;val &lt;&lt; endl;</span><br><span class="line">				stk.<span class="built_in">pop</span>();</span><br><span class="line">				head = head-&gt;right;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><em>后序遍历代码实现：</em></p>
@@ -635,14 +756,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
