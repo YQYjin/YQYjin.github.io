@@ -351,4 +351,84 @@
         <tag>数据库</tag>
       </tags>
   </entry>
+  <entry>
+    <title>DML</title>
+    <url>/2022/12/31/MySQL2/</url>
+    <content><![CDATA[<h1 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h1><p><strong>DML用来对表中数据记录进行增删改操作</strong></p>
+<h2 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h2><ul>
+<li>给指定字段添加数据 <code>insert into 表名(字段名1,字段名2,...) values(值1,值2,...);</code></li>
+<li>给全部字段添加数据 <code>insert into 表名 values(值1,值2,...);</code></li>
+<li>批量添加数据<code>insert into 表名(字段名1,...) values(值1,...),(值1,...)...;</code></li>
+</ul>
+<p>注意:</p>
+<p>​	<em>值与字段名一一对应;</em></p>
+<p>​	<em>字符串和日期型数据应包含在引号中;</em></p>
+<p>​	<em>插入的数据应在字段规定的范围内;</em></p>
+<h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><ul>
+<li><p><code>update 表名 set 字段名1=值1,...... [where 条件];</code> 若无条件则修改所有字段</p>
+<pre><code>   如: `update employee set name = &#39;itheima&#39; where id = 1;`
+</code></pre>
+</li>
+</ul>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><ul>
+<li><code>dalete from 表名 [where 条件];</code></li>
+</ul>
+<p>  delete不能删除某个字段的值,应使用update把字段的值设为NULL</p>
+<h1 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h1><p><strong>查询语言</strong></p>
+<ul>
+<li><p>基本查询</p>
+<ul>
+<li>查询多个字段 <code>select 字段1,字段2... from 表名;</code> or <code>select * from 表名;</code>查询所有字段</li>
+<li>设置别名 <code>select 字段1 [as 别名],...... from 表名;</code></li>
+<li>去除重复记录 <code>select distinct 字段列表 from 表名;</code></li>
+</ul>
+</li>
+<li><p>条件查询</p>
+<ul>
+<li><p><code>select 字段列表 from 表名 where 条件列表;</code>  </p>
+<p>like 占位符 模糊匹配(_匹配单个字符,%匹配任意个字符)</p>
+<p><code>select * from emp where name like &#39;__&#39;;</code>表示匹配两个字符的</p>
+<p><code>select * from emp where idcard like &#39;%X&#39;;</code> 匹配最后一个字符是X的</p>
+<p>is null  是空</p>
+<p>between … and … 某个范围内,闭区间</p>
+<p>in (…)	在in之后列表中的值,多选一</p>
+</li>
+</ul>
+</li>
+<li><p>聚合函数</p>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2022/12/31/%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<hr>
+<hr>
+<h1 id="图形化编程"><a href="#图形化编程" class="headerlink" title="图形化编程"></a>图形化编程</h1><h2 id="java图形化包"><a href="#java图形化包" class="headerlink" title="java图形化包"></a>java图形化包</h2><ul>
+<li><p>java的图像包有java.awt  和javax.swing </p>
+</li>
+<li><p>组件: 按钮,输入框,窗体,图片,这些组件在各语言里都已经设计好了</p>
+</li>
+</ul>
+<p>​	<strong>java窗体类 JFrame,使用import导入需要使用的类</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.swing.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Login</span>&#123;</span><br><span class="line">	<span class="type">JFrame</span> <span class="variable">jf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JFrame</span>();</span><br><span class="line">	jf.setSize(<span class="number">450</span>,<span class="number">550</span>);	</span><br><span class="line">	jf.setTitle(<span class="string">&quot;登录界面&quot;</span>);	</span><br><span class="line">    <span class="comment">//居中</span></span><br><span class="line">	jf.setLocationRelativeTo(<span class="literal">null</span>); </span><br><span class="line">	<span class="comment">//退出进程  查看该方法原代码查看整形参数的含义</span></span><br><span class="line">    jf.setDefaultCloseOperation(<span class="number">3</span>); </span><br><span class="line">    <span class="comment">//流式布局管理器</span></span><br><span class="line">    FlowLayout flow=<span class="keyword">new</span> <span class="title class_">FlowLayout</span>();</span><br><span class="line">    <span class="comment">//设置窗体类为流式布局</span></span><br><span class="line">    jf.setLayout(flow);</span><br><span class="line">    <span class="comment">//按钮</span></span><br><span class="line">    <span class="type">JButton</span> <span class="variable">jbu</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JButton</span>(<span class="string">&quot;登录&quot;</span>);</span><br><span class="line">    jf.add(jbu);</span><br><span class="line">    <span class="comment">//设置可见</span></span><br><span class="line">    jf.setVisible(<span class="literal">true</span>);</span><br><span class="line">    <span class="comment">//监听</span></span><br><span class="line">    <span class="type">ButtonListener</span> <span class="variable">listnener1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ButtonListener</span>();</span><br><span class="line">    jbu1.addActionListener(listnener1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>JFrame 窗体类</li>
+<li>FlowLayout 流式布局</li>
+<li>ImageIcon 图片读取</li>
+<li>JLabel  标签类,用于承载图片,文字等</li>
+<li>Dimension 布局类,除窗体外其他组件都需要使用该对象来设定布局</li>
+<li>JButton 按钮类</li>
+</ul>
+<h2 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h2><p>监听需新建一个类,继承自带的监视器类后重写其中的方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ButtonListener</span> <span class="keyword">implements</span> <span class="title class_">ActionListener</span> &#123;</span><br><span class="line">    <span class="comment">//事件处理方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">actionPerformed</span><span class="params">(ActionEvent e)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;登录中...&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(Account.findAccount(Login.getUser(),Login.getPwd()))&#123;</span><br><span class="line">            showSuccess();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            showFailed();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法是当按钮被按下时执行的程序</p>
+]]></content>
+  </entry>
 </search>
