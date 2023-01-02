@@ -374,16 +374,15 @@
 <li><code>dalete from 表名 [where 条件];</code></li>
 </ul>
 <p>  delete不能删除某个字段的值,应使用update把字段的值设为NULL</p>
-<h1 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h1><p><strong>查询语言</strong></p>
-<ul>
-<li><p>基本查询</p>
+<h1 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h1><h2 id="查询语言"><a href="#查询语言" class="headerlink" title="查询语言"></a>查询语言</h2><ul>
+<li><p><strong>基本查询</strong></p>
 <ul>
 <li>查询多个字段 <code>select 字段1,字段2... from 表名;</code> or <code>select * from 表名;</code>查询所有字段</li>
 <li>设置别名 <code>select 字段1 [as 别名],...... from 表名;</code></li>
 <li>去除重复记录 <code>select distinct 字段列表 from 表名;</code></li>
 </ul>
 </li>
-<li><p>条件查询</p>
+<li><p><strong>条件查询</strong></p>
 <ul>
 <li><p><code>select 字段列表 from 表名 where 条件列表;</code>  </p>
 <p>like 占位符 模糊匹配(_匹配单个字符,%匹配任意个字符)</p>
@@ -395,20 +394,52 @@
 </li>
 </ul>
 </li>
-<li><p>聚合函数</p>
+<li><p><strong>聚合函数</strong></p>
+<p>​	将一列数据作为一个整体,进行纵向计算</p>
+<p>​	常见聚合函数:  <code>cout</code> ,<code>max</code>,<code>min</code> ,<code>avg</code> ,<code>sum</code>,对有值的数据进行计算,null不参与计算</p>
 <ul>
-<li></li>
+<li><code>select 聚合函数(字段列表) from 表名</code></li>
+</ul>
+</li>
+<li><p><strong>分组查询</strong></p>
+<ul>
+<li><p><code>select 字段列表 from 表名 [where 条件] group by 分组字段名 [having 分组后的条件]</code></p>
+<p>where不能对聚合函数进行判断,而having可以</p>
+<p><code>select gender,count(*) from emp group by gender</code>根据性别进行分组</p>
+</li>
+</ul>
+</li>
+<li><p><strong>排序查询</strong></p>
+<ul>
+<li><p><code>select 字段列表 from 表名 order by 字段1 , 排序方式1,...;</code></p>
+<p>asc: 升序 (默认)	desc: 降序	</p>
+<p>多字段排序时,字段1的值相同后按字段2进行排序</p>
+</li>
+</ul>
+</li>
+<li><p><strong>分页查询</strong></p>
+<ul>
+<li><p><code>select 字段列表 from 表名 limit 起始索引,查询记录数;</code></p>
+<p>起始索引从0开始,等于(查询页码-1)*每一页返回的记录数</p>
+<p>若查询第一页的数据,起始引索可以省略,直接简写为</p>
+<p>查询第一页 <code>select * from emp limit 10;</code></p>
+<p>查询第二页 <code>select * from emp limit 10 , 10;</code></p>
+</li>
 </ul>
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
   </entry>
   <entry>
-    <title></title>
+    <title>图形化编程</title>
     <url>/2022/12/31/%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<hr>
-<hr>
-<h1 id="图形化编程"><a href="#图形化编程" class="headerlink" title="图形化编程"></a>图形化编程</h1><h2 id="java图形化包"><a href="#java图形化包" class="headerlink" title="java图形化包"></a>java图形化包</h2><ul>
+    <content><![CDATA[<h1 id="图形化编程"><a href="#图形化编程" class="headerlink" title="图形化编程"></a>图形化编程</h1><h2 id="java图形化包"><a href="#java图形化包" class="headerlink" title="java图形化包"></a>java图形化包</h2><ul>
 <li><p>java的图像包有java.awt  和javax.swing </p>
 </li>
 <li><p>组件: 按钮,输入框,窗体,图片,这些组件在各语言里都已经设计好了</p>
@@ -430,5 +461,11 @@
 
 <p>这个方法是当按钮被按下时执行的程序</p>
 ]]></content>
+      <categories>
+        <category>工程</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+      </tags>
   </entry>
 </search>
