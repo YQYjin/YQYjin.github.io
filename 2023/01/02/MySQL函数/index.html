@@ -20,21 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="课表">
-<meta property="og:type" content="website">
-<meta property="og:title" content="日程表">
-<meta property="og:url" content="http://example.com/schedule/index.html">
+  <meta name="description" content="函数一.字符串函数 concat(s1,s2,...) 拼接字符串  lower(str) 转换小写  upper(str) 转换小写  lpad(str,n,pad) 左填充,用字符串pad对str左边进行填充,达到n个字符串长度(总长度)  rpad(str,n,pad) 左填充,用字符串pad对str右边进行填充,达到n个字符串长度(总长度)  trim(str)去除头部和尾部的空格  su">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL函数">
+<meta property="og:url" content="http://example.com/2023/01/02/MySQL%E5%87%BD%E6%95%B0/index.html">
 <meta property="og:site_name" content="月 夜 梦 灵">
-<meta property="og:description" content="课表">
+<meta property="og:description" content="函数一.字符串函数 concat(s1,s2,...) 拼接字符串  lower(str) 转换小写  upper(str) 转换小写  lpad(str,n,pad) 左填充,用字符串pad对str左边进行填充,达到n个字符串长度(总长度)  rpad(str,n,pad) 左填充,用字符串pad对str右边进行填充,达到n个字符串长度(总长度)  trim(str)去除头部和尾部的空格  su">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s2.loli.net/2022/10/25/dJWcP1SMxUZFr5Y.png">
-<meta property="article:published_time" content="2022-10-22T12:57:13.000Z">
-<meta property="article:modified_time" content="2022-10-25T04:13:59.460Z">
+<meta property="article:published_time" content="2023-01-02T15:16:17.553Z">
+<meta property="article:modified_time" content="2023-01-02T15:16:17.553Z">
 <meta property="article:author" content="YQYjin">
+<meta property="article:tag" content="基础">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s2.loli.net/2022/10/25/dJWcP1SMxUZFr5Y.png">
 
-<link rel="canonical" href="http://example.com/schedule/">
+<link rel="canonical" href="http://example.com/2023/01/02/MySQL%E5%87%BD%E6%95%B0/">
 
 
 <script id="page-configurations">
@@ -42,13 +41,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>日程表 | 月 夜 梦 灵
-</title>
+  <title>MySQL函数 | 月 夜 梦 灵</title>
   
 
 
@@ -193,44 +191,148 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="zh-CN">
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/02/MySQL%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL函数
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">日程表
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-<div class="post-meta">
+              <time title="创建时间：2023-01-02 23:16:17" itemprop="dateCreated datePublished" datetime="2023-01-02T23:16:17+08:00">2023-01-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="一-字符串函数"><a href="#一-字符串函数" class="headerlink" title="一.字符串函数"></a>一.字符串函数</h2><ul>
+<li><p><code>concat(s1,s2,...) </code>拼接字符串</p>
+</li>
+<li><p><code>lower(str)</code> 转换小写</p>
+</li>
+<li><p><code>upper(str)</code> 转换小写</p>
+</li>
+<li><p><code>lpad(str,n,pad)</code> 左填充,用字符串pad对str左边进行填充,达到n个字符串长度(总长度)</p>
+</li>
+<li><p><code>rpad(str,n,pad)</code> 左填充,用字符串pad对str右边进行填充,达到n个字符串长度(总长度)</p>
+</li>
+<li><p><code>trim(str)</code>去除头部和尾部的空格</p>
+</li>
+<li><p><code>substring(str,start,len)</code>返回从start起的len个长度的字符串</p>
+</li>
+</ul>
+<h2 id="二-数值函数"><a href="#二-数值函数" class="headerlink" title="二.数值函数"></a>二.数值函数</h2><ul>
+<li><p><code>ceil(x)</code> 向上取整</p>
+</li>
+<li><p><code>floor(x)</code> 向下取整</p>
+</li>
+<li><p><code>mod(x,y)</code> 返回x&#x2F;y的模</p>
+</li>
+<li><p><code>rand()</code>返回[0,1]之间的随机数</p>
+</li>
+<li><p><code>round(x,y)</code> 返回x四舍五入的值,保留y位小数</p>
+<p>生成一个六位数的随机验证码</p>
+<p><code>select lpad(round( rand()*1000000 , 0),6,&#39;0&#39;);</code></p>
+</li>
+</ul>
+<h2 id="三-日期函数"><a href="#三-日期函数" class="headerlink" title="三.日期函数"></a>三.日期函数</h2><ul>
+<li><p><code>curdate()</code>返回当前日期</p>
+</li>
+<li><p><code>curtime()</code>返回当前时间</p>
+</li>
+<li><p><code>now()</code>返回当前日期和时间</p>
+</li>
+<li><p><code>year(data)</code>获取指定date的年份</p>
+</li>
+<li><p><code>month(data)</code>获取指定data的月份</p>
+</li>
+<li><p><code>day(data)</code>获取指定data的日期</p>
+</li>
+<li><p><code>date_add(data,INTERVAL expr type)</code>返回date加上一个时间间隔expr后的时间值</p>
+<p><code>select date_add(now(),INTERVAL 70 DAY);</code> 现在时间加上70天</p>
+</li>
+<li><p><code>datediff(date1,date2)</code>返回date1和date2之间的天数</p>
+</li>
+</ul>
+<h2 id="四-流程函数"><a href="#四-流程函数" class="headerlink" title="四.流程函数"></a>四.流程函数</h2><ul>
+<li><code>if(value,t,f)</code> value为true,返回t反之返回f</li>
+<li><code>ifnull(v1,v2)</code> v1不为空返回v1,为空返回v2</li>
+<li><code>case when [v1] then [res1] ... else [default] end</code>若v1为true,返回res1,…否则返回default</li>
+<li><code>case [expr] when [v1] then [res1] ... else [default] end</code> 若expr等于v1,返回res1,….否则返回default</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"># 基础</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/31/%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%BC%96%E7%A8%8B/" rel="prev" title="图形化编程">
+      <i class="fa fa-chevron-left"></i> 图形化编程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/03/MySQL%E7%BA%A6%E6%9D%9F/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <h1 id="课表"><a href="#课表" class="headerlink" title="课表"></a><center>课表</center></h1><p><img src="https://s2.loli.net/2022/10/25/dJWcP1SMxUZFr5Y.png" alt="课表.png"></p>
-
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
 
 
           </div>
@@ -281,7 +383,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%BE%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">课表</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">一.字符串函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E6%95%B0%E5%80%BC%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">二.数值函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%97%A5%E6%9C%9F%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">三.日期函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B-%E6%B5%81%E7%A8%8B%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.</span> <span class="nav-text">四.流程函数</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -428,6 +428,54 @@
 </ul>
 </li>
 </ul>
+<h1 id="DCL"><a href="#DCL" class="headerlink" title="DCL"></a>DCL</h1><p><strong>数据控制语言,用来管理数据库用户,控制数据库访问权限</strong></p>
+<ul>
+<li><p>查询用户</p>
+<ul>
+<li><code>use mysql;</code></li>
+<li>select * from user;</li>
+</ul>
+</li>
+<li><p>创建用户</p>
+<ul>
+<li><p><code>create user &#39;用户名&#39;@&#39;主机名&#39; identified by &#39;密码&#39;;</code></p>
+<p>主机名为 % 表示可以被任意主机访问</p>
+</li>
+</ul>
+</li>
+<li><p>修改用户密码</p>
+<ul>
+<li><code>alter user &#39;用户名&#39;@&#39;主机名&#39; identified with mysql_native_password by &#39;新密码&#39;;</code></li>
+</ul>
+</li>
+<li><p>删除用户</p>
+<ul>
+<li><code>drop user &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
+</ul>
+</li>
+<li><p>权限控制</p>
+<ul>
+<li><p><code>all</code> 所有权限 	<code>select</code>	查询数据	<code>insert</code>	插入数据	<code>update</code>	修改数据</p>
+<p><code>delete</code> 删除数据	<code>alter</code> 修改表	<code>drop</code> 删除数据库&#x2F;表&#x2F;视图	<code>create</code> 创建数据库</p>
+</li>
+</ul>
+</li>
+<li><p>查询权限</p>
+<ul>
+<li><code>show grants for &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
+</ul>
+</li>
+<li><p>授予权限</p>
+<ul>
+<li><code>grant 权限列表 on 数据库名.表名 to &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
+</ul>
+</li>
+<li><p>撤销权限</p>
+<ul>
+<li><code>revoke 权限列表 on 数据库名.表名 from &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>MySQL</category>
@@ -463,6 +511,165 @@
 ]]></content>
       <categories>
         <category>工程</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL函数</title>
+    <url>/2023/01/02/MySQL%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="一-字符串函数"><a href="#一-字符串函数" class="headerlink" title="一.字符串函数"></a>一.字符串函数</h2><ul>
+<li><p><code>concat(s1,s2,...) </code>拼接字符串</p>
+</li>
+<li><p><code>lower(str)</code> 转换小写</p>
+</li>
+<li><p><code>upper(str)</code> 转换小写</p>
+</li>
+<li><p><code>lpad(str,n,pad)</code> 左填充,用字符串pad对str左边进行填充,达到n个字符串长度(总长度)</p>
+</li>
+<li><p><code>rpad(str,n,pad)</code> 左填充,用字符串pad对str右边进行填充,达到n个字符串长度(总长度)</p>
+</li>
+<li><p><code>trim(str)</code>去除头部和尾部的空格</p>
+</li>
+<li><p><code>substring(str,start,len)</code>返回从start起的len个长度的字符串</p>
+</li>
+</ul>
+<h2 id="二-数值函数"><a href="#二-数值函数" class="headerlink" title="二.数值函数"></a>二.数值函数</h2><ul>
+<li><p><code>ceil(x)</code> 向上取整</p>
+</li>
+<li><p><code>floor(x)</code> 向下取整</p>
+</li>
+<li><p><code>mod(x,y)</code> 返回x&#x2F;y的模</p>
+</li>
+<li><p><code>rand()</code>返回[0,1]之间的随机数</p>
+</li>
+<li><p><code>round(x,y)</code> 返回x四舍五入的值,保留y位小数</p>
+<p>生成一个六位数的随机验证码</p>
+<p><code>select lpad(round( rand()*1000000 , 0),6,&#39;0&#39;);</code></p>
+</li>
+</ul>
+<h2 id="三-日期函数"><a href="#三-日期函数" class="headerlink" title="三.日期函数"></a>三.日期函数</h2><ul>
+<li><p><code>curdate()</code>返回当前日期</p>
+</li>
+<li><p><code>curtime()</code>返回当前时间</p>
+</li>
+<li><p><code>now()</code>返回当前日期和时间</p>
+</li>
+<li><p><code>year(data)</code>获取指定date的年份</p>
+</li>
+<li><p><code>month(data)</code>获取指定data的月份</p>
+</li>
+<li><p><code>day(data)</code>获取指定data的日期</p>
+</li>
+<li><p><code>date_add(data,INTERVAL expr type)</code>返回date加上一个时间间隔expr后的时间值</p>
+<p><code>select date_add(now(),INTERVAL 70 DAY);</code> 现在时间加上70天</p>
+</li>
+<li><p><code>datediff(date1,date2)</code>返回date1和date2之间的天数</p>
+</li>
+</ul>
+<h2 id="四-流程函数"><a href="#四-流程函数" class="headerlink" title="四.流程函数"></a>四.流程函数</h2><ul>
+<li><code>if(value,t,f)</code> value为true,返回t反之返回f</li>
+<li><code>ifnull(v1,v2)</code> v1不为空返回v1,为空返回v2</li>
+<li><code>case when [v1] then [res1] ... else [default] end</code>若v1为true,返回res1,…否则返回default</li>
+<li><code>case [expr] when [v1] then [res1] ... else [default] end</code> 若expr等于v1,返回res1,….否则返回default</li>
+</ul>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>接口</title>
+    <url>/2023/01/03/%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><p>格式: <code>interface 接口名 &#123;&#125;</code></p>
+<ul>
+<li>接口中的变量默认以 statci final 修饰,必须初始化赋值</li>
+<li>接口中可以定义抽象方法,静态方法和默认方法</li>
+</ul>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><ol>
+<li>创建一个类 实现 接口(继承接口) ,一个类可以实现多个接口但只能继承一个类</li>
+<li>类中必须重写接口中的所有抽象方法</li>
+<li>类中可以直接使用 接口中的变量,静态方法和默认方法</li>
+</ol>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">open</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Door</span>&#123;</span><br><span class="line">    Lock lock;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">openDoor</span><span class="params">()</span>&#123;</span><br><span class="line">        lock.open();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">closeDoor</span><span class="params">()</span>&#123;</span><br><span class="line">        lock.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//实现 接口Lock</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">leyLock</span> <span class="keyword">implements</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">open</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;key 正确,开门&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;key 正确,关门&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">calss Mange&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        Door door= <span class="keyword">new</span> <span class="title class_">Door</span>();</span><br><span class="line">        keyLock keylock=<span class="keyword">new</span> <span class="title class_">keyLock</span>();</span><br><span class="line">        door.lock() = keylock; <span class="comment">//传入接口</span></span><br><span class="line">        </span><br><span class="line">        door.open();</span><br><span class="line">        door.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若要对锁进行升级或修改,对实现锁这个接口的类进行修改或再次创建一个类对锁进行实现,然后传入接口就可以了,避免了对门和锁的源码进行修改</p>
+<h2 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h2><ul>
+<li><p>抽象类： </p>
+<ul>
+<li>定义抽象方法</li>
+<li>定义普通方法</li>
+</ul>
+</li>
+<li><p>接口 &gt; 抽象类 &gt; 类： </p>
+</li>
+<li><p>设计 &gt; 半成品 &gt; 成品 </p>
+</li>
+<li><p>依赖不能导致： </p>
+<ul>
+<li>抽象类可以继承非抽象类,但不要这么做</li>
+</ul>
+</li>
+<li><p>只要是抽象的都不可以实例化对象</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>工程</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2023/01/03/MySQL%E7%BA%A6%E6%9D%9F/</url>
+    <content><![CDATA[<h1 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h1><h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><ul>
+<li><p><code>primary key</code>主键</p>
+</li>
+<li><p><code>auto_increment</code>自动增长</p>
+</li>
+<li><p><code>not null</code>不为空</p>
+</li>
+<li><p><code>unique</code>不重复</p>
+</li>
+<li><p><code>check (条件列表)</code>检查约束,使符合某个条件</p>
+</li>
+<li><p><code>defualt 默认值</code> 默认约束</p>
+<p>约束关键字添加在数据类型后,多个约束使用空格分开</p>
+</li>
+</ul>
+<h2 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h2><p>使两张表建立联系,保证数据的一致性和完整性</p>
+<p>具有外键的表成为子表,子表关联的表称为父表(主表)</p>
+<ul>
+<li><p>添加外键</p>
+<ul>
+<li><p><code>alter table 表名 add constraint 外键名称 foreign key(外键字段名) references 主表(主表列表名)</code></p>
+</li>
+<li><pre><code class="sql">create table 表名(
+    字段名 数据类型,
+    ...
+    [constraint] [外键名称] foreign key(外键字段名) references 主表(主表列表名)
+);
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="删除更新外键"><a href="#删除更新外键" class="headerlink" title="删除更新外键"></a>删除更新外键</h2><ul>
+<li><code>no action</code> <code>restrict</code> 父表中删除或更新时,若子表有关联数据则不允许操作</li>
+<li><code>cascade</code> 父表中进行删除更新时,若有外键则对外键同步进行删除或更新</li>
+<li><code>set null</code>父表中进行删除或更新时,若有外键,则把外键设置为null</li>
+<li><code>set default</code>父表中进行删除或更新时,将外键设置为一个默认值</li>
+</ul>
+<p><code>alter table 表名 add constraint 外键名称 foreign key(外键字段) references 主表名(主表字段名) on update 关键字 on delete 关键字;</code></p>
+]]></content>
+      <categories>
+        <category>MySQL</category>
       </categories>
       <tags>
         <tag>基础</tag>
