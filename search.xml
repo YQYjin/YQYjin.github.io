@@ -626,7 +626,7 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
+    <title>约束</title>
     <url>/2023/01/03/MySQL%E7%BA%A6%E6%9D%9F/</url>
     <content><![CDATA[<h1 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h1><h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><ul>
 <li><p><code>primary key</code>主键</p>
