@@ -748,4 +748,76 @@
         <tag>游戏</tag>
       </tags>
   </entry>
+  <entry>
+    <title>hello 2023</title>
+    <url>/2023/01/10/hello-2023/</url>
+    <content><![CDATA[<h1 id="C-Least-Prefix-Sum"><a href="#C-Least-Prefix-Sum" class="headerlink" title="C     Least Prefix Sum"></a>C     Least Prefix Sum</h1><h2 id="原题"><a href="#原题" class="headerlink" title="原题:"></a>原题:</h2><p><a href="https://codeforces.com/contest/1779/problem/C"><strong>Least Prefix Sum</strong></a></p>
+<span id="more"></span>
+
+<blockquote>
+<p>Baltic, a famous chess player who is also a mathematician, has an array a1,a2,…,ana1,a2,…,an, and he can perform the following operation several (possibly 00) times:</p>
+<ul>
+<li>Choose some index ii (1≤i≤n1≤i≤n);</li>
+<li>multiply aiai with −1−1, that is, set ai:&#x3D;−aiai:&#x3D;−ai.</li>
+</ul>
+<p>Baltic’s favorite number is mm, and he wants a1+a2+⋯+ama1+a2+⋯+am to be the smallest of all non-empty prefix sums. More formally, for each k&#x3D;1,2,…,nk&#x3D;1,2,…,n it should hold that</p>
+<p>a1+a2+⋯+ak≥a1+a2+⋯+am.a1+a2+⋯+ak≥a1+a2+⋯+am.</p>
+<p>Please note that multiple smallest prefix sums may exist and that it is only required that a1+a2+⋯+ama1+a2+⋯+am is one of them.</p>
+<p>Help Baltic find the minimum number of operations required to make a1+a2+⋯+ama1+a2+⋯+am the least of all prefix sums. It can be shown that a valid sequence of operations always exists.</p>
+<p>Input</p>
+<p>Each test contains multiple test cases. The first line contains the number of test cases tt (1≤t≤100001≤t≤10000). The description of the test cases follows.</p>
+<p>The first line of each test case contains two integers nn and mm (1≤m≤n≤2⋅1051≤m≤n≤2⋅105) — the size of Baltic’s array and his favorite number.</p>
+<p>The second line contains nn integers a1,a2,…,ana1,a2,…,an (−109≤ai≤109−109≤ai≤109) — the array.</p>
+<p>It is guaranteed that the sum of nn over all test cases does not exceed 2⋅1052⋅105.</p>
+<p>Output</p>
+<p>For each test case, print a single integer — the minimum number of required operations.</p>
+</blockquote>
+<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>进行res次操作 ai&#x3D;-ai,使得给出的数列和一个下标m</p>
+<p>得到使数列和Sm的值小于或等于其他所有数列和Si(1&lt;&#x3D;i&lt;&#x3D;长度),求最小操作次数</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>要使Sm的值小于等于其它数列和</p>
+<p>当下标大于m时,am+1…ai(m+1&lt;&#x3D;i&lt;&#x3D;n)的值全部都要小于等于零,使得Sm加上后面的数之后的值都小于等于Sm以满足限制</p>
+<p>当下标小于等于m时,am,am-1…a1(1&lt;i**&lt;&#x3D;<strong>m)的值全部都要大于等于零,使得Sm减去以am起始的下标递减的数列和时得到的Si(1&lt;&#x3D;i</strong>&lt;**m)全部小于等于Sm,以满足限制.</p>
+<p>向前判断时不能把a1加入判断,因为判断完Sm-a1的值大于等于0后,S1&#x3D;a1&#x3D;Sm-(Sm-a1)已满足限制,若再次判断a1,会使限制增加导致结果错误</p>
+<p>使用大根堆来选取向前时的最大值和向后时的最大值,时操作次数最小</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> t, n, m,res,min;</span><br><span class="line">	<span class="type">long</span> <span class="type">long</span> sum;</span><br><span class="line">	<span class="type">int</span> arr[<span class="number">200001</span>];</span><br><span class="line">	cin &gt;&gt; t;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; t; ++i) &#123;</span><br><span class="line">		priority_queue&lt;<span class="type">int</span>&gt; pre, pos;</span><br><span class="line">		cin &gt;&gt; n&gt;&gt;m;</span><br><span class="line">		m = m - <span class="number">1</span>;</span><br><span class="line">		sum = <span class="number">0</span>, res = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n; ++j) &#123;</span><br><span class="line">			cin &gt;&gt; arr[j];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = m; j &gt;<span class="number">0</span> ; --j) &#123;<span class="comment">//为什么大于0而不是大于等于0</span></span><br><span class="line">			<span class="comment">//因为往前时要保证大于零使Sm小于Sa,即m向前m-a个数的和大于0,不包括a,即结束时不应包括第1个,否则增多了限制使结果出错</span></span><br><span class="line">			sum += arr[j];</span><br><span class="line">			<span class="keyword">if</span> (arr[j] &gt; <span class="number">0</span>) pre.<span class="built_in">push</span>(<span class="number">2</span> * arr[j]);</span><br><span class="line">			<span class="keyword">while</span> (sum &gt; <span class="number">0</span>) &#123;</span><br><span class="line">				sum -= pre.<span class="built_in">top</span>();</span><br><span class="line">				pre.<span class="built_in">pop</span>();</span><br><span class="line">				res++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		sum = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = m + <span class="number">1</span>; j &lt; n; ++j) &#123;</span><br><span class="line">			sum += arr[j];</span><br><span class="line">			<span class="keyword">if</span> (arr[j] &lt; <span class="number">0</span>) pos.<span class="built_in">push</span>(<span class="number">-2</span> * arr[j]);</span><br><span class="line">			<span class="keyword">while</span> (sum &lt; <span class="number">0</span>) &#123;</span><br><span class="line">				sum += pos.<span class="built_in">top</span>();</span><br><span class="line">				pos.<span class="built_in">pop</span>();</span><br><span class="line">				res += <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; res &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="D-Boris-and-His-Amazing-Haircut"><a href="#D-Boris-and-His-Amazing-Haircut" class="headerlink" title="D Boris and His Amazing Haircut"></a>D Boris and His Amazing Haircut</h1><p><strong><a href="https://codeforces.com/contest/1779/problem/D">Boris and His Amazing Haircut</a></strong></p>
+<h2 id="原题-1"><a href="#原题-1" class="headerlink" title="原题"></a>原题</h2><blockquote>
+<p>Boris thinks that chess is a tedious game. So he left his tournament early and went to a barber shop as his hair was a <em>bit</em> messy.</p>
+<p>His current hair can be described by an array a1,a2,…,ana1,a2,…,an, where aiai is the height of the hair standing at position ii. His desired haircut can be described by an array b1,b2,…,bnb1,b2,…,bn in a similar fashion.</p>
+<p>The barber has mm razors. Each has its own size and can be used <strong>at most</strong> once. In one operation, he chooses a razor and cuts a segment of Boris’s hair. More formally, an operation is:</p>
+<ul>
+<li>Choose any razor which hasn’t been used before, let its size be xx;</li>
+<li>Choose a segment [l,r][l,r] (1≤l≤r≤n1≤l≤r≤n);</li>
+<li>Set ai:&#x3D;min(ai,x)ai:&#x3D;min(ai,x) for each l≤i≤rl≤i≤r;</li>
+</ul>
+<p>Notice that some razors might have equal sizes — the barber can choose some size xx only as many times as the number of razors with size xx.</p>
+<p>He may perform as many operations as he wants, as long as any razor is used at most once and ai&#x3D;biai&#x3D;bi for each 1≤i≤n1≤i≤n at the end. He <strong>does not</strong> have to use all razors.</p>
+<p>Can you determine whether the barber can give Boris his desired haircut?</p>
+<p>Input</p>
+<p>Each test contains multiple test cases. The first line contains the number of test cases tt (1≤t≤200001≤t≤20000). The description of the test cases follows.</p>
+<p>The first line of each test case contains a positive integer nn (3≤n≤2⋅1053≤n≤2⋅105) — the length of arrays aa and bb.</p>
+<p>The second line of each test case contains nn positive integers a1,a2,…,ana1,a2,…,an (1≤ai≤1091≤ai≤109)  — Boris’s current hair.</p>
+<p>The third line of each test case contains nn positive integers b1,b2,…,bnb1,b2,…,bn (1≤bi≤1091≤bi≤109)  — Boris’s desired hair.</p>
+<p>The fourth line of each test case contains a positive integer mm (1≤m≤2⋅1051≤m≤2⋅105)  — the number of razors.</p>
+<p>The fifth line of each test case contains mm positive integers x1,x2,…,xmx1,x2,…,xm (1≤xi≤1091≤xi≤109)  — the sizes of the razors.</p>
+<p>It is guaranteed that the sum of nn and the sum of mm over all test cases do not exceed 2⋅1052⋅105.</p>
+<p>Output</p>
+<p>For each test case, print “YES” if the barber can cut Boris’s hair as desired. Otherwise, print “NO”.</p>
+<p>You can output the answer in any case (upper or lower). For example, the strings “yEs”, “yes”, “Yes”, and “YES” will be recognized as positive responses.</p>
+</blockquote>
+<h2 id="题解-1"><a href="#题解-1" class="headerlink" title="题解"></a>题解</h2><p>如果头发比要求的还要短,直接输出”NO”</p>
+<p>使用单调栈遍历目标数组,使用哈希表存储各推子的数数量,当栈不为空且栈的头元素小于遍历到的目标元素时不断出栈,当栈为空或栈顶元素不等于遍历到的元素且相应元素需要改变时,将该元素入栈,如果没有正确的推子剩余则输出”NO”,若有剩余则推子数减一</p>
+<p>通过遍历所有元素,即可判断是否可以满足条件</p>
+<p>因为如果头发的长度比上一个头发小,那么该头发必须消耗相应的推子,遇到长度大于上一个头发的时候,不断出栈直到栈顶不小于该头发,若该两头发值相等,则不需要再消耗推子,若不一样,则需要消耗相应推子,需要使用推子时推子数量需要大于0</p>
+<h2 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> t, n, m,i,j,in,res;</span><br><span class="line">	<span class="type">int</span> a[<span class="number">200001</span>], b[<span class="number">200001</span>];</span><br><span class="line">	cin &gt;&gt; t;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; t; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; n;</span><br><span class="line">		map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; mapp;</span><br><span class="line">		stack&lt;<span class="type">int</span>&gt; stk;</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; ++j) &#123;</span><br><span class="line">			cin &gt;&gt; a[j];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; ++j) &#123;</span><br><span class="line">			cin &gt;&gt; b[j];</span><br><span class="line">		&#125;</span><br><span class="line">		cin &gt;&gt; m;</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; m; ++j) &#123;</span><br><span class="line">			cin &gt;&gt; in;</span><br><span class="line">			mapp[in] += <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		res = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; ++j) &#123;</span><br><span class="line">			<span class="keyword">if</span> (a[j] &lt; b[j]) &#123;</span><br><span class="line">				res = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">while</span> (!stk.<span class="built_in">empty</span>() &amp;&amp; stk.<span class="built_in">top</span>() &lt; b[j]) &#123; stk.<span class="built_in">pop</span>(); &#125;</span><br><span class="line">			<span class="keyword">if</span> ((stk.<span class="built_in">empty</span>() || (!stk.<span class="built_in">empty</span>() &amp;&amp; stk.<span class="built_in">top</span>() != b[j])) &amp;&amp; a[j] &gt; b[j]) &#123;</span><br><span class="line">				stk.<span class="built_in">push</span>(b[j]);</span><br><span class="line">				<span class="keyword">if</span> (mapp[b[j]] &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">					res = <span class="number">0</span>;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				mapp[b[j]] -= <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (res) cout &lt;&lt; <span class="string">&quot;YES&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="keyword">else</span> cout &lt;&lt; <span class="string">&quot;NO&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="E-Anya’s-Simultaneous-Exhibition"><a href="#E-Anya’s-Simultaneous-Exhibition" class="headerlink" title="E Anya’s Simultaneous Exhibition"></a>E Anya’s Simultaneous Exhibition</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>codeforce</tag>
+      </tags>
+  </entry>
 </search>
