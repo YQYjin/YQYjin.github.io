@@ -820,4 +820,211 @@
         <tag>codeforce</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Unity3D脚本应用</title>
+    <url>/2023/01/13/Unity3D%E8%84%9A%E6%9C%AC%E5%BA%94%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="1-场景"><a href="#1-场景" class="headerlink" title="1.场景"></a>1.场景</h1><p>不同场景含有不同物体 </p>
+<h3 id="场景类-Scene"><a href="#场景类-Scene" class="headerlink" title="场景类: Scene"></a>场景类: Scene</h3><ul>
+<li><p>场景跳转</p>
+<ul>
+<li>导入UnityEngine.SceneManagement </li>
+<li>SceneManager.LoadScene()通过索引或名称加载目标场景</li>
+</ul>
+</li>
+<li><p>获取当前场景 Scene s&#x3D;SceneManager.GetActiveScene()</p>
+</li>
+<li><p>场景是否已被加载 scene.isLoaded</p>
+</li>
+</ul>
+<h3 id="场景管理类-SceneManager"><a href="#场景管理类-SceneManager" class="headerlink" title="场景管理类 SceneManager"></a>场景管理类 SceneManager</h3><ul>
+<li>创建场景 CreateScene(场景名)</li>
+<li>卸载场景 UnloadScene()</li>
+<li>加载场景 LoadScene()</li>
+<li>异步加载场景 LoadSceneAsync()</li>
+</ul>
+<h1 id="2-异步加载场景"><a href="#2-异步加载场景" class="headerlink" title="2.异步加载场景"></a>2.异步加载场景</h1><p>创建一个协程方法,用来异步加载场景,返回值必须是IEnumerator</p>
+<ul>
+<li>StartCoroutine(loadScene()); 用来调用自己写的协程方法 loadScene</li>
+<li>获取加载进度</li>
+</ul>
+<p><img src="https://s2.loli.net/2023/01/13/JanedLxI2mXCu4c.png" alt="BY__32S6_F_GYDTN_EAJH_S.png"></p>
+<h1 id="3-Transform"><a href="#3-Transform" class="headerlink" title="3.Transform"></a>3.Transform</h1><ul>
+<li><p>通过Transform控制物体姿态</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TransFormTest</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Start is called before the first frame update</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取位置</span></span><br><span class="line">        Debug.Log(transform.position); <span class="comment">//绝对位置</span></span><br><span class="line">        Debug.Log(transform.localPosition); <span class="comment">//相对于父物体的位置</span></span><br><span class="line">        <span class="comment">//获取旋转</span></span><br><span class="line">        Debug.Log(transform.rotation);  <span class="comment">//四元数</span></span><br><span class="line">        Debug.Log(transform.localRotation);</span><br><span class="line">        Debug.Log(transform.eulerAngles);   <span class="comment">//欧拉角</span></span><br><span class="line">        Debug.Log(transform.localEulerAngles);</span><br><span class="line">        <span class="comment">//获取缩放</span></span><br><span class="line">        Debug.Log(transform.localScale);</span><br><span class="line">        <span class="comment">//向量</span></span><br><span class="line">        Debug.Log(transform.forward);</span><br><span class="line">        Debug.Log(transform.right); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update is called once per frame</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//一直朝向原点</span></span><br><span class="line">        transform.LookAt(Vector3.zero);</span><br><span class="line">        <span class="comment">//旋转</span></span><br><span class="line">        transform.Rotate(Vector3.up,<span class="number">1</span>); <span class="comment">//沿up方向,每一帧旋转1度</span></span><br><span class="line">        <span class="comment">//绕某个物体旋转</span></span><br><span class="line">        transform.RotateAround(Vector3.zero, Vector3.up, <span class="number">1</span>); <span class="comment">//沿原点up方向每一帧旋转1度</span></span><br><span class="line">        <span class="comment">//移动</span></span><br><span class="line">        transform.Translate(Vector3.forward*<span class="number">0.1f</span>); <span class="comment">//朝前方每一帧移动0.1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过Transform控制父子关系</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//父子关系</span></span><br><span class="line">        <span class="comment">//获取父物体</span></span><br><span class="line">        Debug.Log(transform.parent.gameObject);</span><br><span class="line">        <span class="comment">//子物体个数</span></span><br><span class="line">        Debug.Log(transform.childCount);</span><br><span class="line">        <span class="comment">//解除所有子物体</span></span><br><span class="line">        transform.DetachChildren();</span><br><span class="line">        <span class="comment">//获取子物体</span></span><br><span class="line">        Transform tanns = transform.Find(<span class="string">&quot;Child&quot;</span>);</span><br><span class="line">        Transform tans = transform.GetChild(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">//判断是否是某一个物体的子物体</span></span><br><span class="line">        <span class="built_in">bool</span> res = transform.IsChildOf(transform);</span><br><span class="line">		<span class="comment">//设置父物体</span></span><br><span class="line">        tans.SetParent(transform);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="4-键鼠监听"><a href="#4-键鼠监听" class="headerlink" title="4.键鼠监听"></a>4.键鼠监听</h1><p>对键鼠的监听应在每一帧进行,因此应放在Update中</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//按下鼠标 0左键,1右键,2滚轮</span></span><br><span class="line">        <span class="keyword">if</span> (Input.GetMouseButtonDown(<span class="number">0</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(<span class="string">&quot;按下鼠标左键&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//持续按下鼠标</span></span><br><span class="line">        <span class="keyword">if</span> (Input.GetMouseButton(<span class="number">0</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(<span class="string">&quot;持续按下鼠标左键&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//抬起鼠标</span></span><br><span class="line">        Input.GetMouseButtonUp(<span class="number">0</span>);</span><br><span class="line">        <span class="comment">//键盘按键</span></span><br><span class="line">        <span class="comment">//按下</span></span><br><span class="line">        Input.GetKeyDown(KeyCode.A); <span class="comment">//按下A</span></span><br><span class="line">        Input.GetKey(KeyCode.A); <span class="comment">//持续按下A</span></span><br><span class="line">        Input.GetKeyUp(KeyCode.A); <span class="comment">//松开A</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-虚拟轴"><a href="#5-虚拟轴" class="headerlink" title="5.虚拟轴"></a>5.虚拟轴</h1><p>用虚拟轴可以使用不同的方式来控制,令键盘和手柄都操作虚拟轴,使得游戏可以适配所有设备</p>
+<p>虚拟轴的变换为 -1 — 0 — 1 浮点数渐变而不是直接从-1 到 0 或 从0 到 1</p>
+<p>虚拟轴设置在设置-输入管理器中</p>
+<p>若虚拟轴只有一个按钮(肯定或否定),则构不成虚拟轴,作为虚拟按键</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取水平轴</span></span><br><span class="line">        <span class="built_in">float</span> horizontal = Input.GetAxis(<span class="string">&quot;Horizontal&quot;</span>);</span><br><span class="line">        <span class="comment">//获取虚拟按键</span></span><br><span class="line">        Input.GetButtonDown(<span class="string">&quot;Jump&quot;</span>); <span class="comment">//参数为虚拟按键名</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-触摸监听"><a href="#6-触摸监听" class="headerlink" title="6.触摸监听"></a>6.触摸监听</h1><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//开启多点触摸</span></span><br><span class="line">        Input.multiTouchEnabled = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update is called once per frame</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//判断单点触摸 判断多点触摸时返回多个Touch对象,一个对象一个触摸点</span></span><br><span class="line">        <span class="keyword">if</span> (Input.touchCount == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Touch touch = Input.touches[<span class="number">0</span>];</span><br><span class="line">            <span class="comment">//触摸位置</span></span><br><span class="line">            Debug.Log(touch.position);</span><br><span class="line">            <span class="comment">//触摸阶段</span></span><br><span class="line">            <span class="keyword">switch</span> (touch.phase)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> TouchPhase.Began:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> TouchPhase.Moved:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> TouchPhase.Stationary:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> TouchPhase.Ended:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> TouchPhase.Canceled:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="7-灯光"><a href="#7-灯光" class="headerlink" title="7.灯光"></a>7.灯光</h1><ul>
+<li>定向灯光,从无穷远的方向照射过来,平行光,只有灯光的角度会影响灯光效果,位置不会影响</li>
+<li>聚光,手电筒式的灯光</li>
+<li>点光源</li>
+<li>区域灯光 ,从一个平面发射出的平行光,仅支持烘焙灯光</li>
+<li>遮罩可以删除或添加某一图层的光照效果</li>
+<li>实时灯光 ,消耗性能大</li>
+<li>烘焙 ,提前设定好灯光效果,灯光照射信息不再改变,不消耗性能,删除灯光后渲染效果依旧存在<ul>
+<li>在物体名称后的三角下选择Contribute GI来设置被烘焙</li>
+<li>然后在   窗口—渲染 右下角生成照明</li>
+</ul>
+</li>
+</ul>
+<h1 id="8-摄像机"><a href="#8-摄像机" class="headerlink" title="8.摄像机"></a>8.摄像机</h1><ul>
+<li>透视摄像机</li>
+<li>正交摄像机 没有近大远小的透视效果</li>
+<li>相机的深度来设定相机的优先度,深度越大越优先显示</li>
+<li>改为仅深度后,深度较高的相机拍摄到的内容就会叠加到深度较低的相机上</li>
+<li>视野 即相机显示的范围大小</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Unity3D</category>
+      </categories>
+      <tags>
+        <tag>游戏</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Unity3D基础</title>
+    <url>/2023/01/12/%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<ol>
+<li>脚本生命周期方法				6.旋转</li>
+<li>多脚本执行顺序                    7.Debug</li>
+<li>标识                                       8.物体类</li>
+<li>预设体                                  9.游戏时间</li>
+<li>vector3                                 10.Application</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="1-脚本生命周期方法"><a href="#1-脚本生命周期方法" class="headerlink" title="1.脚本生命周期方法"></a>1.脚本生命周期方法</h1><p>按调用顺序排序</p>
+<ol>
+<li>Awake()  最早调用,一般在此实现单例模式</li>
+<li>OnEnable()  组件激活后调用,在Awake后会调用一次</li>
+<li>Start() 可以在此设置一些初始值</li>
+<li>FixedUpdate() 固定频率调用方法,按规定时间间隔重复调用</li>
+<li>Update() 帧调用方法,每一帧调用一次</li>
+<li>LateUpdate() 在Update后紧接着调用</li>
+<li>OnDisabel() 组件取消激活时调用</li>
+<li>OnDestroy() 析构函数(移除组件时就会被调用)</li>
+</ol>
+<h1 id="2-多脚本执行顺序"><a href="#2-多脚本执行顺序" class="headerlink" title="2.多脚本执行顺序"></a>2.多脚本执行顺序</h1><ul>
+<li><p>对于使用了相同生命周期方法,后添加的脚本先执行</p>
+</li>
+<li><p>对于不同生命周期方法,按上述优先级执行</p>
+</li>
+<li><p>在设置里选择脚本执行顺序,改变执行顺序</p>
+</li>
+</ul>
+<h1 id="3-标识"><a href="#3-标识" class="headerlink" title="3.标识"></a>3.标识</h1><ul>
+<li><p>图层,图层最多32层,图层的概念比标签大,通过图层控制相机,碰撞等</p>
+</li>
+<li><p>标签用来区分游戏物体类别,标签可以重复</p>
+</li>
+<li><p>名称是唯一的,通过名称来选取某一特定游戏物体</p>
+</li>
+</ul>
+<h1 id="4-预设体"><a href="#4-预设体" class="headerlink" title="4.预设体"></a>4.预设体</h1><p>通过预设体创建变体,变体也受预设体影响,但对变体操作不影响预设体</p>
+<h1 id="5-Vector3"><a href="#5-Vector3" class="headerlink" title="5.Vector3"></a>5.Vector3</h1><ul>
+<li><p>vector: 结构体,后缀多少就意味着内部有几个变量,即是一个向量</p>
+</li>
+<li><p>vector3即三维向量,内含x,y,z三个变量,可以代表坐标或旋转量或缩放等</p>
+<ul>
+<li>vector3.zero即生成一个0,0,0的向量,用作右值,用于初始化</li>
+<li>vector3.normalized 规范化为单位向量</li>
+</ul>
+</li>
+</ul>
+<h1 id="6-旋转"><a href="#6-旋转" class="headerlink" title="6.旋转"></a>6.旋转</h1><ul>
+<li>欧拉角 用三个0-360的值代表旋转量</li>
+<li>四元数 quaternion<ul>
+<li>Quaternion.identity 创建一个没有旋转角度的四元数</li>
+<li>Quaternion.LookRotation() 创建一个朝向目标的四元数</li>
+</ul>
+</li>
+</ul>
+<h1 id="7-Debug"><a href="#7-Debug" class="headerlink" title="7.Debug"></a>7.Debug</h1><ul>
+<li>debug.log() 	输出信息</li>
+<li>debug.logworning() 输出警告信息</li>
+<li>debug.logerror() 输出错误信息</li>
+<li>debug还可以绘制线段,射线等</li>
+</ul>
+<p>debug输出的信息或绘制的内容只能在开发者视角看到,游戏中不会显示</p>
+<h1 id="8-物体类"><a href="#8-物体类" class="headerlink" title="8.物体类"></a>8.物体类</h1><p>每一个游戏物体都对应一个C#物体类 <a href="https://www.bilibili.com/video/BV1gQ4y1e7SS?p=24">详细视频</a> </p>
+<ul>
+<li><p>GameObject go&#x3D;this.gameObject 获取当前脚本挂载的游戏物体,也可以直接gameObject.方法来对游戏物体进行操作</p>
+</li>
+<li><p>可以在一个脚本里创建一个物体,然后通过该物体使得在本物体中改变其他物体 <em>5min</em></p>
+</li>
+<li><p>获取transfrom组件 this.transform</p>
+</li>
+<li><p>获取其他组件 GetComponent&lt;类型名称&gt;();</p>
+</li>
+<li><p>添加组件 AddComponent&lt;组件类型名&gt;();</p>
+</li>
+<li><p>通过物体名称获取物体 GameObject.find(string name);</p>
+</li>
+<li><p>通过物体标签获取物体 GameObject.FindWithTag(string tag);</p>
+</li>
+<li><p>获取预设体 ,可以通过预设体实例化一个游戏物体 <em>20min</em></p>
+</li>
+<li><p>销毁 Destory(对象);</p>
+</li>
+</ul>
+<h1 id="9-游戏时间"><a href="#9-游戏时间" class="headerlink" title="9.游戏时间"></a>9.游戏时间</h1><ul>
+<li>Time.time 从游戏开始到现在的时间</li>
+<li>Time.timeScale 时间缩放值,改变游戏速度</li>
+<li>Time.fixedDeltaTime 固定时间间隔</li>
+<li>Time.deltaTime 上一帧到这一帧的时间间隔<ul>
+<li>可以累加来计算以帧为单位的游戏时间</li>
+</ul>
+</li>
+</ul>
+<h1 id="10-Application"><a href="#10-Application" class="headerlink" title="10.Application"></a>10.Application</h1><p>Application类,不同平台的路径不一样,使用该类来获取路径</p>
+<ul>
+<li><p>游戏数据文件夹路径 Application.dataPath 返回一个字符串,后面加上文件名就可以读取相应文件了(只读)</p>
+</li>
+<li><p>持久化文件路径 Application.persistentDataPath 根据平台不同改变,写数据应写在该路径下(写)</p>
+</li>
+<li><p>StreamingAssets 文件夹路径  Application.StreamingAssetsPath 指向第一个路径下的StreamingAssets文件夹(配置文件,只读,不需要加密)</p>
+</li>
+<li><p>临时文件夹 Application.temporaryCachePath</p>
+</li>
+<li><p>控制是否在后台运行 Application.runlnBackground</p>
+</li>
+<li><p>打开url Application.OpenURL(“”) 打开一个链接</p>
+</li>
+<li><p>退出游戏 Application.Quit()</p>
+</li>
+</ul>
+<p>在脚本中使用Transform</p>
+<p>游戏物体的父子关系由transform控制</p>
+]]></content>
+      <categories>
+        <category>Unity3D</category>
+      </categories>
+      <tags>
+        <tag>游戏</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Edu 141</title>
+    <url>/2023/01/11/Edu-141/</url>
+    <content><![CDATA[<h1 id="A-Mike-it-Beautiful"><a href="#A-Mike-it-Beautiful" class="headerlink" title="A Mike it Beautiful"></a>A Mike it Beautiful</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>codeforce</tag>
+      </tags>
+  </entry>
 </search>

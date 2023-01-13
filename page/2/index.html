@@ -195,6 +195,379 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/30/MySQL1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/12/30/MySQL1/" class="post-title-link" itemprop="url">MySQL-DDL</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-30 12:10:07" itemprop="dateCreated datePublished" datetime="2022-12-30T12:10:07+08:00">2022-12-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-31 10:34:54" itemprop="dateModified" datetime="2022-12-31T10:34:54+08:00">2022-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一、启动"><a href="#一、启动" class="headerlink" title="一、启动"></a>一、启动</h1><ul>
+<li>使用MySQL终端输入密码后启动</li>
+<li>使用CMD，输入 <code>mysql -u 用户名 -p</code>后启动</li>
+</ul>
+<h1 id="二、数据类型"><a href="#二、数据类型" class="headerlink" title="二、数据类型"></a>二、数据类型</h1><ul>
+<li>关系型数据库：建立在关系模型的基础上，由多张相互连接的二维表组成的数据库</li>
+<li>非关系型数据库：</li>
+</ul>
+<h1 id="三、SQL"><a href="#三、SQL" class="headerlink" title="三、SQL"></a>三、SQL</h1><h2 id="1-通用语法及分类"><a href="#1-通用语法及分类" class="headerlink" title="1.通用语法及分类"></a>1.通用语法及分类</h2><ul>
+<li><p>通用语法</p>
+<ol>
+<li><p>可以单行或多行书写，以分号结尾</p>
+</li>
+<li><p>不区分大小写，关键字建议大写</p>
+</li>
+<li><p>单行注释： <code>--注释内容</code> or # <code>注释内容</code></p>
+</li>
+<li><p>多行注释：<code> /* 注释内容*/</code></p>
+</li>
+</ol>
+</li>
+<li><p>SQL分类</p>
+<ol>
+<li>DDL：定义语言，定义数据库对象</li>
+<li>DML：操作语言，进行增删改查</li>
+<li>DQL：查询语言，查询数据库中的记录</li>
+<li>DCL：控制语言，创建用户，修改权限</li>
+</ol>
+</li>
+</ul>
+<h2 id="2-DDL"><a href="#2-DDL" class="headerlink" title="2.DDL"></a>2.DDL</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
+<li>查询<ul>
+<li>查询全部数据库 <code>show databases;</code></li>
+<li>查询当前数据库<code>select database();</code></li>
+</ul>
+</li>
+<li>创建<ul>
+<li>创建数据库 <code>create database [if no exists] 名称 [default charset 字符集] [collate 排序规则]</code>,使用时去掉括号</li>
+</ul>
+</li>
+<li>删除<ul>
+<li><code>drop database [if exists] 名称</code></li>
+</ul>
+</li>
+<li>使用(切换数据库)<ul>
+<li><code>use 名称</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="表操作"><a href="#表操作" class="headerlink" title="表操作"></a>表操作</h3><ul>
+<li><p>查询</p>
+<ul>
+<li>查询当前所有表	<code>show tables;</code></li>
+<li>查询表结构   <code>desc 表名;</code></li>
+</ul>
+</li>
+<li><p>创建</p>
+<ul>
+<li>&#96;&#96;&#96;<br>create table 表名(<br>字段1 字段1类型[comment 字段1注释]<br>…….<br>)[comment 表注释];<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```sql</span><br><span class="line">create table tb_user(</span><br><span class="line">	id int comment &#x27;编号&#x27;,</span><br><span class="line">	name varchar(50) comment &#x27;姓名&#x27;,</span><br><span class="line">	......</span><br><span class="line">	age int comment &#x27;年龄&#x27;</span><br><span class="line">) comment &#x27;用户表&#x27;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>数据类型</p>
+<ul>
+<li>整形	名称 整形类型 [unsigned]</li>
+<li>浮点    名称 浮点类型(长度,小数位数)</li>
+<li>定长字符串  char(最大长度)  长度一直是10,性能好</li>
+<li>变长字符串  varchar(最大长度)  根据数据改变长度,性能较差</li>
+<li>后缀为 lob 代表是二进制数据</li>
+<li>date,time,year,datetime,timestamp</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> emp(</span><br><span class="line">	id <span class="type">int</span> comment <span class="string">&#x27;编号&#x27;</span>,</span><br><span class="line">	workno <span class="type">varchar</span>(<span class="number">10</span>) comment <span class="string">&#x27;工号&#x27;</span>,</span><br><span class="line">	name <span class="type">varchar</span>(<span class="number">10</span>) comment <span class="string">&#x27;姓名&#x27;</span>,</span><br><span class="line">	gender <span class="type">char</span>(<span class="number">1</span>) comment <span class="string">&#x27;性别&#x27;</span>,</span><br><span class="line">	age tinyint unsigned comment <span class="string">&#x27;年龄&#x27;</span>,</span><br><span class="line">	entrydate <span class="type">date</span> comment <span class="string">&#x27;入职时间&#x27;</span></span><br><span class="line">) comment <span class="string">&#x27;员工表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改</p>
+<ul>
+<li><p>添加字段 <code>alter table 表名 add 字段名 类型(长度) [comment 注释] [约束];</code></p>
+</li>
+<li><p>修改字段数据类型 <code>alter table 表名 modify 字段名 新数据类型(长度);</code></p>
+</li>
+<li><p>修改字段名和类型 <code>alter table 表名 change 旧字段名 新字段名 类型(长度) [comment 注释] [约束];</code></p>
+</li>
+<li><p>修改表名 <code>alter table 表名 rename to 新表名;</code></p>
+</li>
+<li><p>删除字段<code>alter table 表名 drop 字段名;</code></p>
+</li>
+<li><p>删除表 <code>drop table [if exists] 表名;</code></p>
+</li>
+<li><p>删除表后并重新创建该表<code>truncate table 表名;</code> 即留下一个空表</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/29/%E7%BB%A7%E6%89%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/12/29/%E7%BB%A7%E6%89%BF/" class="post-title-link" itemprop="url">继承</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-29 20:32:07 / 修改时间：21:26:48" itemprop="dateCreated datePublished" datetime="2022-12-29T20:32:07+08:00">2022-12-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><ul>
+<li>继承格式 ： class 类名 extends 父类名 {}</li>
+<li>访问修饰符：<ul>
+<li>public 该项目所有文件</li>
+<li>protrcted 子类及同包</li>
+<li>private 本类及友类</li>
+<li>无       同包下</li>
+</ul>
+</li>
+<li>方法重写：<ul>
+<li>在子类中重写父类中方法<ul>
+<li>访问修饰词  权限不变或小权限变大权限，扩展开放原则</li>
+<li>返回值类型  可以返回父类及父类的子类</li>
+<li>不能修改参数表</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>类型转换：<ul>
+<li>自动类型转换：基类指针可以指向子类，子类对象可以被自动转化为基类对象</li>
+<li>强制类型转化：将基类对象转化子类对象，需要进行强制类型转换，强制向下转型需要验证是否合法</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/27/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/12/27/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="post-title-link" itemprop="url">类与对象</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-27 21:03:18 / 修改时间：23:07:10" itemprop="dateCreated datePublished" datetime="2022-12-27T21:03:18+08:00">2022-12-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><h2 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h2><ul>
+<li><p>对象：具体的事物</p>
+</li>
+<li><p>类：概念，模板，抽象的描述</p>
+</li>
+</ul>
+<h4 id="类的代码定义"><a href="#类的代码定义" class="headerlink" title="类的代码定义"></a>类的代码定义</h4><p><strong>格式：public class 类名 {}</strong></p>
+<p>命名规范： 类目必须与所在的文件名一致，要求首字母大写，使用驼峰命名规范</p>
+<p>内容：</p>
+<p>​	成员属性：数据类型 数据名</p>
+<p>​	成员方法：修饰词 返回值类型 方法名（参数类型 参数名） {}</p>
+<p>​	任何方法都要放在类的结构中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="comment">// 属性</span></span><br><span class="line">    String userName;</span><br><span class="line">    String userPwd;</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    <span class="type">int</span> score;</span><br><span class="line">    <span class="type">boolean</span> isOnline;</span><br><span class="line">    <span class="comment">// 方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showUserInfo</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkPassword</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">changePassword</span><span class="params">(String oldpwd, String newpwd)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="封装属性"><a href="#封装属性" class="headerlink" title="封装属性"></a>封装属性</h2><ul>
+<li><p>将成员属性私有化，限制对属性的调用，针对每一个属性对设置对应的 赋值方法和获取方法</p>
+</li>
+<li><p>优点： </p>
+<ul>
+<li>set属性时 ，可以对传入参数进行验证，保证数据规范安全 </li>
+<li>get属性时，可以对需要返回数据进行整合处理 返回对方需要的格式类型 </li>
+<li>结构更清晰  size(w,h); 简化代码 整合数据 </li>
+<li>读写分离，存在一些属性，不暴露 读&#x2F;写</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="comment">// 属性</span></span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line">    <span class="keyword">private</span> String userPwd;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> isOnline;</span><br><span class="line">    <span class="comment">// 方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserName</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserPwd</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserAge</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserScore</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserName</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserPwd</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserAge</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserScore</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">getUserOnline</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showUserInfo</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkPassword</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">changePassword</span><span class="params">(String oldpwd, String newpwd)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>初始化： 构造方法<ul>
+<li>格式：类名 （参数列表）{}    没有返回值结构</li>
+<li>每个类都自带一个隐式的空参数构造方法 ，一旦自己写了构造方法，不管有无参数 都会覆盖隐式的 </li>
+<li>构造方法可以重组</li>
+<li>构造方法在创建对象时调用，且只被调用一次</li>
+</ul>
+</li>
+<li>私有化构造方法：<ul>
+<li>私有化构造可有令该类不能在类的外部创建对象，对创建对象的权限做了限制</li>
+</ul>
+</li>
+<li>单例：<ul>
+<li>单例类只能有一个对象存在</li>
+<li>将构造方法私有化后在单例类中创建一个公有 静态 的对象，该对象可以在类外部通过类名直接调用</li>
+<li>在类中创建类对象若不添加static 关键字会导致不断递归创建该对象，导致死循环</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">    <span class="comment">// 属性</span></span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line">    <span class="keyword">private</span> String userPwd;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> isOnline;</span><br><span class="line">    <span class="comment">// 构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">User</span><span class="params">(String userName,String userPwd,<span class="type">int</span> age,<span class="type">int</span> score)</span>&#123;&#125;</span><br><span class="line">    <span class="comment">// 单例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> User king= <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;king&quot;</span>,<span class="string">&quot;123&quot;</span>,<span class="number">50</span>,<span class="number">100</span>);</span><br><span class="line">    <span class="comment">// 方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> User <span class="title function_">getKing</span><span class="params">()</span>&#123;<span class="keyword">return</span> king&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserName</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserPwd</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserAge</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserScore</span><span class="params">(String userName)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserName</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserPwd</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserAge</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getUserScore</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">getUserOnline</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showUserInfo</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkPassword</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(String pwdin)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">changePassword</span><span class="params">(String oldpwd, String newpwd)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/06/%E4%BA%8C%E5%8F%89%E6%A0%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -641,14 +1014,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
