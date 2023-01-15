@@ -218,145 +218,15 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-01-13 15:08:25 / 修改时间：19:57:55" itemprop="dateCreated datePublished" datetime="2023-01-13T15:08:25+08:00">2023-01-13</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Unity3D/" itemprop="url" rel="index"><span itemprop="name">Unity3D</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="1-场景"><a href="#1-场景" class="headerlink" title="1.场景"></a>1.场景</h1><p>不同场景含有不同物体 </p>
-<h3 id="场景类-Scene"><a href="#场景类-Scene" class="headerlink" title="场景类: Scene"></a>场景类: Scene</h3><ul>
-<li><p>场景跳转</p>
-<ul>
-<li>导入UnityEngine.SceneManagement </li>
-<li>SceneManager.LoadScene()通过索引或名称加载目标场景</li>
-</ul>
-</li>
-<li><p>获取当前场景 Scene s&#x3D;SceneManager.GetActiveScene()</p>
-</li>
-<li><p>场景是否已被加载 scene.isLoaded</p>
-</li>
-</ul>
-<h3 id="场景管理类-SceneManager"><a href="#场景管理类-SceneManager" class="headerlink" title="场景管理类 SceneManager"></a>场景管理类 SceneManager</h3><ul>
-<li>创建场景 CreateScene(场景名)</li>
-<li>卸载场景 UnloadScene()</li>
-<li>加载场景 LoadScene()</li>
-<li>异步加载场景 LoadSceneAsync()</li>
-</ul>
-<h1 id="2-异步加载场景"><a href="#2-异步加载场景" class="headerlink" title="2.异步加载场景"></a>2.异步加载场景</h1><p>创建一个协程方法,用来异步加载场景,返回值必须是IEnumerator</p>
-<ul>
-<li>StartCoroutine(loadScene()); 用来调用自己写的协程方法 loadScene</li>
-<li>获取加载进度</li>
-</ul>
-<p><img src="https://s2.loli.net/2023/01/13/JanedLxI2mXCu4c.png" alt="BY__32S6_F_GYDTN_EAJH_S.png"></p>
-<h1 id="3-Transform"><a href="#3-Transform" class="headerlink" title="3.Transform"></a>3.Transform</h1><ul>
-<li><p>通过Transform控制物体姿态</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TransFormTest</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Start is called before the first frame update</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取位置</span></span><br><span class="line">        Debug.Log(transform.position); <span class="comment">//绝对位置</span></span><br><span class="line">        Debug.Log(transform.localPosition); <span class="comment">//相对于父物体的位置</span></span><br><span class="line">        <span class="comment">//获取旋转</span></span><br><span class="line">        Debug.Log(transform.rotation);  <span class="comment">//四元数</span></span><br><span class="line">        Debug.Log(transform.localRotation);</span><br><span class="line">        Debug.Log(transform.eulerAngles);   <span class="comment">//欧拉角</span></span><br><span class="line">        Debug.Log(transform.localEulerAngles);</span><br><span class="line">        <span class="comment">//获取缩放</span></span><br><span class="line">        Debug.Log(transform.localScale);</span><br><span class="line">        <span class="comment">//向量</span></span><br><span class="line">        Debug.Log(transform.forward);</span><br><span class="line">        Debug.Log(transform.right); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update is called once per frame</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//一直朝向原点</span></span><br><span class="line">        transform.LookAt(Vector3.zero);</span><br><span class="line">        <span class="comment">//旋转</span></span><br><span class="line">        transform.Rotate(Vector3.up,<span class="number">1</span>); <span class="comment">//沿up方向,每一帧旋转1度</span></span><br><span class="line">        <span class="comment">//绕某个物体旋转</span></span><br><span class="line">        transform.RotateAround(Vector3.zero, Vector3.up, <span class="number">1</span>); <span class="comment">//沿原点up方向每一帧旋转1度</span></span><br><span class="line">        <span class="comment">//移动</span></span><br><span class="line">        transform.Translate(Vector3.forward*<span class="number">0.1f</span>); <span class="comment">//朝前方每一帧移动0.1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>通过Transform控制父子关系</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父子关系</span></span><br><span class="line">        <span class="comment">//获取父物体</span></span><br><span class="line">        Debug.Log(transform.parent.gameObject);</span><br><span class="line">        <span class="comment">//子物体个数</span></span><br><span class="line">        Debug.Log(transform.childCount);</span><br><span class="line">        <span class="comment">//解除所有子物体</span></span><br><span class="line">        transform.DetachChildren();</span><br><span class="line">        <span class="comment">//获取子物体</span></span><br><span class="line">        Transform tanns = transform.Find(<span class="string">&quot;Child&quot;</span>);</span><br><span class="line">        Transform tans = transform.GetChild(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">//判断是否是某一个物体的子物体</span></span><br><span class="line">        <span class="built_in">bool</span> res = transform.IsChildOf(transform);</span><br><span class="line">		<span class="comment">//设置父物体</span></span><br><span class="line">        tans.SetParent(transform);</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h1 id="4-键鼠监听"><a href="#4-键鼠监听" class="headerlink" title="4.键鼠监听"></a>4.键鼠监听</h1><p>对键鼠的监听应在每一帧进行,因此应放在Update中</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//按下鼠标 0左键,1右键,2滚轮</span></span><br><span class="line">        <span class="keyword">if</span> (Input.GetMouseButtonDown(<span class="number">0</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(<span class="string">&quot;按下鼠标左键&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//持续按下鼠标</span></span><br><span class="line">        <span class="keyword">if</span> (Input.GetMouseButton(<span class="number">0</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(<span class="string">&quot;持续按下鼠标左键&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//抬起鼠标</span></span><br><span class="line">        Input.GetMouseButtonUp(<span class="number">0</span>);</span><br><span class="line">        <span class="comment">//键盘按键</span></span><br><span class="line">        <span class="comment">//按下</span></span><br><span class="line">        Input.GetKeyDown(KeyCode.A); <span class="comment">//按下A</span></span><br><span class="line">        Input.GetKey(KeyCode.A); <span class="comment">//持续按下A</span></span><br><span class="line">        Input.GetKeyUp(KeyCode.A); <span class="comment">//松开A</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="5-虚拟轴"><a href="#5-虚拟轴" class="headerlink" title="5.虚拟轴"></a>5.虚拟轴</h1><p>用虚拟轴可以使用不同的方式来控制,令键盘和手柄都操作虚拟轴,使得游戏可以适配所有设备</p>
-<p>虚拟轴的变换为 -1 — 0 — 1 浮点数渐变而不是直接从-1 到 0 或 从0 到 1</p>
-<p>虚拟轴设置在设置-输入管理器中</p>
-<p>若虚拟轴只有一个按钮(肯定或否定),则构不成虚拟轴,作为虚拟按键</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取水平轴</span></span><br><span class="line">        <span class="built_in">float</span> horizontal = Input.GetAxis(<span class="string">&quot;Horizontal&quot;</span>);</span><br><span class="line">        <span class="comment">//获取虚拟按键</span></span><br><span class="line">        Input.GetButtonDown(<span class="string">&quot;Jump&quot;</span>); <span class="comment">//参数为虚拟按键名</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="6-触摸监听"><a href="#6-触摸监听" class="headerlink" title="6.触摸监听"></a>6.触摸监听</h1><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//开启多点触摸</span></span><br><span class="line">        Input.multiTouchEnabled = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update is called once per frame</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//判断单点触摸 判断多点触摸时返回多个Touch对象,一个对象一个触摸点</span></span><br><span class="line">        <span class="keyword">if</span> (Input.touchCount == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Touch touch = Input.touches[<span class="number">0</span>];</span><br><span class="line">            <span class="comment">//触摸位置</span></span><br><span class="line">            Debug.Log(touch.position);</span><br><span class="line">            <span class="comment">//触摸阶段</span></span><br><span class="line">            <span class="keyword">switch</span> (touch.phase)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> TouchPhase.Began:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> TouchPhase.Moved:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> TouchPhase.Stationary:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> TouchPhase.Ended:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> TouchPhase.Canceled:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="7-灯光"><a href="#7-灯光" class="headerlink" title="7.灯光"></a>7.灯光</h1><ul>
-<li>定向灯光,从无穷远的方向照射过来,平行光,只有灯光的角度会影响灯光效果,位置不会影响</li>
-<li>聚光,手电筒式的灯光</li>
-<li>点光源</li>
-<li>区域灯光 ,从一个平面发射出的平行光,仅支持烘焙灯光</li>
-<li>遮罩可以删除或添加某一图层的光照效果</li>
-<li>实时灯光 ,消耗性能大</li>
-<li>烘焙 ,提前设定好灯光效果,灯光照射信息不再改变,不消耗性能,删除灯光后渲染效果依旧存在<ul>
-<li>在物体名称后的三角下选择Contribute GI来设置被烘焙</li>
-<li>然后在   窗口—渲染 右下角生成照明</li>
-</ul>
-</li>
-</ul>
-<h1 id="8-摄像机"><a href="#8-摄像机" class="headerlink" title="8.摄像机"></a>8.摄像机</h1><ul>
-<li>透视摄像机</li>
-<li>正交摄像机 没有近大远小的透视效果</li>
-<li>相机的深度来设定相机的优先度,深度越大越优先显示</li>
-<li>改为仅深度后,深度较高的相机拍摄到的内容就会叠加到深度较低的相机上</li>
-<li>视野 即相机显示的范围大小</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/12/%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/12/%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">Unity3D基础</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-12 18:24:20" itemprop="dateCreated datePublished" datetime="2023-01-12T18:24:20+08:00">2023-01-12</time>
+              <time title="创建时间：2023-01-13 15:08:25" itemprop="dateCreated datePublished" datetime="2023-01-13T15:08:25+08:00">2023-01-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-13 12:00:46" itemprop="dateModified" datetime="2023-01-13T12:00:46+08:00">2023-01-13</time>
+                <time title="修改时间：2023-01-15 10:20:11" itemprop="dateModified" datetime="2023-01-15T10:20:11+08:00">2023-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -380,15 +250,112 @@
 
       
           <ol>
-<li>脚本生命周期方法				6.旋转</li>
-<li>多脚本执行顺序                    7.Debug</li>
-<li>标识                                       8.物体类</li>
-<li>预设体                                  9.游戏时间</li>
-<li>vector3                                 10.Application</li>
+<li>场景</li>
+<li>异步加载场景</li>
+<li>Transform</li>
+<li>键鼠监听</li>
+<li>虚拟轴</li>
+<li>触摸监听</li>
+<li>灯光</li>
+<li>摄像机</li>
+<li>声音</li>
+<li>视频</li>
 </ol>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/01/12/%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/#more" rel="contents">
+              <a class="btn" href="/2023/01/13/Unity3D%E8%84%9A%E6%9C%AC%E5%BA%94%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/12/Unity3D%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/01/12/Unity3D%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">Unity3D基础</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-01-12 18:24:20" itemprop="dateCreated datePublished" datetime="2023-01-12T18:24:20+08:00">2023-01-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-01-13 20:03:50" itemprop="dateModified" datetime="2023-01-13T20:03:50+08:00">2023-01-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Unity3D/" itemprop="url" rel="index"><span itemprop="name">Unity3D</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li>脚本生命周期方法				</li>
+<li>多脚本执行顺序                   </li>
+<li>标识                                       </li>
+<li>预设体                                  </li>
+<li>vector3</li>
+<li>旋转</li>
+<li>Debug</li>
+<li>物体类</li>
+<li>游戏时间</li>
+<li>Application</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/01/12/Unity3D%E5%9F%BA%E7%A1%80/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
