@@ -195,6 +195,528 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/03/MySQL%E7%BA%A6%E6%9D%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/01/03/MySQL%E7%BA%A6%E6%9D%9F/" class="post-title-link" itemprop="url">约束</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-01-03 11:20:42" itemprop="dateCreated datePublished" datetime="2023-01-03T11:20:42+08:00">2023-01-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-01-06 10:08:29" itemprop="dateModified" datetime="2023-01-06T10:08:29+08:00">2023-01-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h1><h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><ul>
+<li><p><code>primary key</code>主键</p>
+</li>
+<li><p><code>auto_increment</code>自动增长</p>
+</li>
+<li><p><code>not null</code>不为空</p>
+</li>
+<li><p><code>unique</code>不重复</p>
+</li>
+<li><p><code>check (条件列表)</code>检查约束,使符合某个条件</p>
+</li>
+<li><p><code>defualt 默认值</code> 默认约束</p>
+<p>约束关键字添加在数据类型后,多个约束使用空格分开</p>
+</li>
+</ul>
+<h2 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h2><p>使两张表建立联系,保证数据的一致性和完整性</p>
+<p>具有外键的表成为子表,子表关联的表称为父表(主表)</p>
+<ul>
+<li><p>添加外键</p>
+<ul>
+<li><p><code>alter table 表名 add constraint 外键名称 foreign key(外键字段名) references 主表(主表列表名)</code></p>
+</li>
+<li><pre><code class="sql">create table 表名(
+    字段名 数据类型,
+    ...
+    [constraint] [外键名称] foreign key(外键字段名) references 主表(主表列表名)
+);
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="删除更新外键"><a href="#删除更新外键" class="headerlink" title="删除更新外键"></a>删除更新外键</h2><ul>
+<li><code>no action</code> <code>restrict</code> 父表中删除或更新时,若子表有关联数据则不允许操作</li>
+<li><code>cascade</code> 父表中进行删除更新时,若有外键则对外键同步进行删除或更新</li>
+<li><code>set null</code>父表中进行删除或更新时,若有外键,则把外键设置为null</li>
+<li><code>set default</code>父表中进行删除或更新时,将外键设置为一个默认值</li>
+</ul>
+<p><code>alter table 表名 add constraint 外键名称 foreign key(外键字段) references 主表名(主表字段名) on update 关键字 on delete 关键字;</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/02/MySQL%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/01/02/MySQL%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">MySQL函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-01-02 23:16:17" itemprop="dateCreated datePublished" datetime="2023-01-02T23:16:17+08:00">2023-01-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="一-字符串函数"><a href="#一-字符串函数" class="headerlink" title="一.字符串函数"></a>一.字符串函数</h2><ul>
+<li><p><code>concat(s1,s2,...) </code>拼接字符串</p>
+</li>
+<li><p><code>lower(str)</code> 转换小写</p>
+</li>
+<li><p><code>upper(str)</code> 转换小写</p>
+</li>
+<li><p><code>lpad(str,n,pad)</code> 左填充,用字符串pad对str左边进行填充,达到n个字符串长度(总长度)</p>
+</li>
+<li><p><code>rpad(str,n,pad)</code> 左填充,用字符串pad对str右边进行填充,达到n个字符串长度(总长度)</p>
+</li>
+<li><p><code>trim(str)</code>去除头部和尾部的空格</p>
+</li>
+<li><p><code>substring(str,start,len)</code>返回从start起的len个长度的字符串</p>
+</li>
+</ul>
+<h2 id="二-数值函数"><a href="#二-数值函数" class="headerlink" title="二.数值函数"></a>二.数值函数</h2><ul>
+<li><p><code>ceil(x)</code> 向上取整</p>
+</li>
+<li><p><code>floor(x)</code> 向下取整</p>
+</li>
+<li><p><code>mod(x,y)</code> 返回x&#x2F;y的模</p>
+</li>
+<li><p><code>rand()</code>返回[0,1]之间的随机数</p>
+</li>
+<li><p><code>round(x,y)</code> 返回x四舍五入的值,保留y位小数</p>
+<p>生成一个六位数的随机验证码</p>
+<p><code>select lpad(round( rand()*1000000 , 0),6,&#39;0&#39;);</code></p>
+</li>
+</ul>
+<h2 id="三-日期函数"><a href="#三-日期函数" class="headerlink" title="三.日期函数"></a>三.日期函数</h2><ul>
+<li><p><code>curdate()</code>返回当前日期</p>
+</li>
+<li><p><code>curtime()</code>返回当前时间</p>
+</li>
+<li><p><code>now()</code>返回当前日期和时间</p>
+</li>
+<li><p><code>year(data)</code>获取指定date的年份</p>
+</li>
+<li><p><code>month(data)</code>获取指定data的月份</p>
+</li>
+<li><p><code>day(data)</code>获取指定data的日期</p>
+</li>
+<li><p><code>date_add(data,INTERVAL expr type)</code>返回date加上一个时间间隔expr后的时间值</p>
+<p><code>select date_add(now(),INTERVAL 70 DAY);</code> 现在时间加上70天</p>
+</li>
+<li><p><code>datediff(date1,date2)</code>返回date1和date2之间的天数</p>
+</li>
+</ul>
+<h2 id="四-流程函数"><a href="#四-流程函数" class="headerlink" title="四.流程函数"></a>四.流程函数</h2><ul>
+<li><code>if(value,t,f)</code> value为true,返回t反之返回f</li>
+<li><code>ifnull(v1,v2)</code> v1不为空返回v1,为空返回v2</li>
+<li><code>case when [v1] then [res1] ... else [default] end</code>若v1为true,返回res1,…否则返回default</li>
+<li><code>case [expr] when [v1] then [res1] ... else [default] end</code> 若expr等于v1,返回res1,….否则返回default</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/31/%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/12/31/%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">图形化编程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-31 17:06:30" itemprop="dateCreated datePublished" datetime="2022-12-31T17:06:30+08:00">2022-12-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-01-02 09:18:52" itemprop="dateModified" datetime="2023-01-02T09:18:52+08:00">2023-01-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="图形化编程"><a href="#图形化编程" class="headerlink" title="图形化编程"></a>图形化编程</h1><h2 id="java图形化包"><a href="#java图形化包" class="headerlink" title="java图形化包"></a>java图形化包</h2><ul>
+<li><p>java的图像包有java.awt  和javax.swing </p>
+</li>
+<li><p>组件: 按钮,输入框,窗体,图片,这些组件在各语言里都已经设计好了</p>
+</li>
+</ul>
+<p>​	<strong>java窗体类 JFrame,使用import导入需要使用的类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.swing.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Login</span>&#123;</span><br><span class="line">	<span class="type">JFrame</span> <span class="variable">jf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JFrame</span>();</span><br><span class="line">	jf.setSize(<span class="number">450</span>,<span class="number">550</span>);	</span><br><span class="line">	jf.setTitle(<span class="string">&quot;登录界面&quot;</span>);	</span><br><span class="line">    <span class="comment">//居中</span></span><br><span class="line">	jf.setLocationRelativeTo(<span class="literal">null</span>); </span><br><span class="line">	<span class="comment">//退出进程  查看该方法原代码查看整形参数的含义</span></span><br><span class="line">    jf.setDefaultCloseOperation(<span class="number">3</span>); </span><br><span class="line">    <span class="comment">//流式布局管理器</span></span><br><span class="line">    FlowLayout flow=<span class="keyword">new</span> <span class="title class_">FlowLayout</span>();</span><br><span class="line">    <span class="comment">//设置窗体类为流式布局</span></span><br><span class="line">    jf.setLayout(flow);</span><br><span class="line">    <span class="comment">//按钮</span></span><br><span class="line">    <span class="type">JButton</span> <span class="variable">jbu</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JButton</span>(<span class="string">&quot;登录&quot;</span>);</span><br><span class="line">    jf.add(jbu);</span><br><span class="line">    <span class="comment">//设置可见</span></span><br><span class="line">    jf.setVisible(<span class="literal">true</span>);</span><br><span class="line">    <span class="comment">//监听</span></span><br><span class="line">    <span class="type">ButtonListener</span> <span class="variable">listnener1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ButtonListener</span>();</span><br><span class="line">    jbu1.addActionListener(listnener1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>JFrame 窗体类</li>
+<li>FlowLayout 流式布局</li>
+<li>ImageIcon 图片读取</li>
+<li>JLabel  标签类,用于承载图片,文字等</li>
+<li>Dimension 布局类,除窗体外其他组件都需要使用该对象来设定布局</li>
+<li>JButton 按钮类</li>
+</ul>
+<h2 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h2><p>监听需新建一个类,继承自带的监视器类后重写其中的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ButtonListener</span> <span class="keyword">implements</span> <span class="title class_">ActionListener</span> &#123;</span><br><span class="line">    <span class="comment">//事件处理方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">actionPerformed</span><span class="params">(ActionEvent e)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;登录中...&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(Account.findAccount(Login.getUser(),Login.getPwd()))&#123;</span><br><span class="line">            showSuccess();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            showFailed();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法是当按钮被按下时执行的程序</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/31/MySQL2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/12/31/MySQL2/" class="post-title-link" itemprop="url">DML</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-31 10:36:21" itemprop="dateCreated datePublished" datetime="2022-12-31T10:36:21+08:00">2022-12-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-01-02 10:38:46" itemprop="dateModified" datetime="2023-01-02T10:38:46+08:00">2023-01-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h1><p><strong>DML用来对表中数据记录进行增删改操作</strong></p>
+<h2 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h2><ul>
+<li>给指定字段添加数据 <code>insert into 表名(字段名1,字段名2,...) values(值1,值2,...);</code></li>
+<li>给全部字段添加数据 <code>insert into 表名 values(值1,值2,...);</code></li>
+<li>批量添加数据<code>insert into 表名(字段名1,...) values(值1,...),(值1,...)...;</code></li>
+</ul>
+<p>注意:</p>
+<p>​	<em>值与字段名一一对应;</em></p>
+<p>​	<em>字符串和日期型数据应包含在引号中;</em></p>
+<p>​	<em>插入的数据应在字段规定的范围内;</em></p>
+<h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><ul>
+<li><p><code>update 表名 set 字段名1=值1,...... [where 条件];</code> 若无条件则修改所有字段</p>
+<pre><code>   如: `update employee set name = &#39;itheima&#39; where id = 1;`
+</code></pre>
+</li>
+</ul>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><ul>
+<li><code>dalete from 表名 [where 条件];</code></li>
+</ul>
+<p>  delete不能删除某个字段的值,应使用update把字段的值设为NULL</p>
+<h1 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h1><h2 id="查询语言"><a href="#查询语言" class="headerlink" title="查询语言"></a>查询语言</h2><ul>
+<li><p><strong>基本查询</strong></p>
+<ul>
+<li>查询多个字段 <code>select 字段1,字段2... from 表名;</code> or <code>select * from 表名;</code>查询所有字段</li>
+<li>设置别名 <code>select 字段1 [as 别名],...... from 表名;</code></li>
+<li>去除重复记录 <code>select distinct 字段列表 from 表名;</code></li>
+</ul>
+</li>
+<li><p><strong>条件查询</strong></p>
+<ul>
+<li><p><code>select 字段列表 from 表名 where 条件列表;</code>  </p>
+<p>like 占位符 模糊匹配(_匹配单个字符,%匹配任意个字符)</p>
+<p><code>select * from emp where name like &#39;__&#39;;</code>表示匹配两个字符的</p>
+<p><code>select * from emp where idcard like &#39;%X&#39;;</code> 匹配最后一个字符是X的</p>
+<p>is null  是空</p>
+<p>between … and … 某个范围内,闭区间</p>
+<p>in (…)	在in之后列表中的值,多选一</p>
+</li>
+</ul>
+</li>
+<li><p><strong>聚合函数</strong></p>
+<p>​	将一列数据作为一个整体,进行纵向计算</p>
+<p>​	常见聚合函数:  <code>cout</code> ,<code>max</code>,<code>min</code> ,<code>avg</code> ,<code>sum</code>,对有值的数据进行计算,null不参与计算</p>
+<ul>
+<li><code>select 聚合函数(字段列表) from 表名</code></li>
+</ul>
+</li>
+<li><p><strong>分组查询</strong></p>
+<ul>
+<li><p><code>select 字段列表 from 表名 [where 条件] group by 分组字段名 [having 分组后的条件]</code></p>
+<p>where不能对聚合函数进行判断,而having可以</p>
+<p><code>select gender,count(*) from emp group by gender</code>根据性别进行分组</p>
+</li>
+</ul>
+</li>
+<li><p><strong>排序查询</strong></p>
+<ul>
+<li><p><code>select 字段列表 from 表名 order by 字段1 , 排序方式1,...;</code></p>
+<p>asc: 升序 (默认)	desc: 降序	</p>
+<p>多字段排序时,字段1的值相同后按字段2进行排序</p>
+</li>
+</ul>
+</li>
+<li><p><strong>分页查询</strong></p>
+<ul>
+<li><p><code>select 字段列表 from 表名 limit 起始索引,查询记录数;</code></p>
+<p>起始索引从0开始,等于(查询页码-1)*每一页返回的记录数</p>
+<p>若查询第一页的数据,起始引索可以省略,直接简写为</p>
+<p>查询第一页 <code>select * from emp limit 10;</code></p>
+<p>查询第二页 <code>select * from emp limit 10 , 10;</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="DCL"><a href="#DCL" class="headerlink" title="DCL"></a>DCL</h1><p><strong>数据控制语言,用来管理数据库用户,控制数据库访问权限</strong></p>
+<ul>
+<li><p>查询用户</p>
+<ul>
+<li><code>use mysql;</code></li>
+<li>select * from user;</li>
+</ul>
+</li>
+<li><p>创建用户</p>
+<ul>
+<li><p><code>create user &#39;用户名&#39;@&#39;主机名&#39; identified by &#39;密码&#39;;</code></p>
+<p>主机名为 % 表示可以被任意主机访问</p>
+</li>
+</ul>
+</li>
+<li><p>修改用户密码</p>
+<ul>
+<li><code>alter user &#39;用户名&#39;@&#39;主机名&#39; identified with mysql_native_password by &#39;新密码&#39;;</code></li>
+</ul>
+</li>
+<li><p>删除用户</p>
+<ul>
+<li><code>drop user &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
+</ul>
+</li>
+<li><p>权限控制</p>
+<ul>
+<li><p><code>all</code> 所有权限 	<code>select</code>	查询数据	<code>insert</code>	插入数据	<code>update</code>	修改数据</p>
+<p><code>delete</code> 删除数据	<code>alter</code> 修改表	<code>drop</code> 删除数据库&#x2F;表&#x2F;视图	<code>create</code> 创建数据库</p>
+</li>
+</ul>
+</li>
+<li><p>查询权限</p>
+<ul>
+<li><code>show grants for &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
+</ul>
+</li>
+<li><p>授予权限</p>
+<ul>
+<li><code>grant 权限列表 on 数据库名.表名 to &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
+</ul>
+</li>
+<li><p>撤销权限</p>
+<ul>
+<li><code>revoke 权限列表 on 数据库名.表名 from &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/30/MySQL1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -866,87 +1388,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/19/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/19/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-19 21:05:45" itemprop="dateCreated datePublished" datetime="2022-10-19T21:05:45+08:00">2022-10-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-24 16:34:14" itemprop="dateModified" datetime="2022-10-24T16:34:14+08:00">2022-10-24</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1014,7 +1459,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

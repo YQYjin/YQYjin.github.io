@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="角色动画 按键控制 剪辑 曲线和帧事件 混合动画 动画分层 反向动力 导航网格 网格连接和动态障碍物 导航区域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity3D动画">
+<meta property="og:url" content="http://example.com/2023/01/15/Unity3D%E5%8A%A8%E7%94%BB/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="角色动画 按键控制 剪辑 曲线和帧事件 混合动画 动画分层 反向动力 导航网格 网格连接和动态障碍物 导航区域">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-15T14:23:31.535Z">
+<meta property="article:modified_time" content="2023-01-16T03:29:01.452Z">
+<meta property="article:author" content="YQYjin">
+<meta property="article:tag" content="游戏">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/01/15/Unity3D%E5%8A%A8%E7%94%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Unity3D动画 | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/15/Unity3D%E5%8A%A8%E7%94%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Unity3D动画
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-01-15 22:23:31" itemprop="dateCreated datePublished" datetime="2023-01-15T22:23:31+08:00">2023-01-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-01-16 11:29:01" itemprop="dateModified" datetime="2023-01-16T11:29:01+08:00">2023-01-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Unity3D/" itemprop="url" rel="index"><span itemprop="name">Unity3D</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol>
+<li>角色动画</li>
+<li>按键控制</li>
+<li>剪辑</li>
+<li>曲线和帧事件</li>
+<li>混合动画</li>
+<li>动画分层</li>
+<li>反向动力</li>
+<li>导航网格</li>
+<li>网格连接和动态障碍物</li>
+<li>导航区域</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="一-角色动画"><a href="#一-角色动画" class="headerlink" title="一.角色动画"></a>一.角色动画</h1><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1gQ4y1e7SS?p=48&vd_source=5a3868fe69388cd372b51d75baaaca98">组件控制</a></p>
+</li>
+<li><p>脚本控制</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (Input.GetKeyDown(KeyCode.F))</span><br><span class="line">        &#123;</span><br><span class="line">            GetComponent&lt;Animator&gt;().SetTrigger(<span class="string">&quot;条件名&quot;</span>);<span class="comment">//设置一次触发</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在过度中选择退出时间,就会等待上个动画播放完才执行下一个动画</p>
+</li>
+</ul>
+<h1 id="二-按键控制"><a href="#二-按键控制" class="headerlink" title="二.按键控制"></a>二.按键控制</h1><ul>
+<li><p>把过度持续时间设置为0或取消固定持续时间,就可以减少动画延时</p>
+</li>
+<li><p>脚本控制</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Animator animator;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        animator = GetComponent&lt;Animator&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">float</span> horizontal = Input.GetAxis(<span class="string">&quot;Horizontal&quot;</span>);</span><br><span class="line">        <span class="built_in">float</span> vertiacl = Input.GetAxis(<span class="string">&quot;Vertical&quot;</span>);</span><br><span class="line">        Vector3 dir = <span class="keyword">new</span> Vector3(horizontal, <span class="number">0</span>, vertiacl);</span><br><span class="line">        <span class="comment">//看向向量</span></span><br><span class="line">        transform.rotation = Quaternion.LookRotation(dir);</span><br><span class="line">        <span class="comment">//动作切换 当用户按下方向键,按下键后方向就不好为0来判断</span></span><br><span class="line">        <span class="keyword">if</span> (dir != Vector3.zero)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//移动</span></span><br><span class="line">            transform.rotation=Quaternion.LookRotation(dir);</span><br><span class="line">            transform.Translate(Vector3.forward * <span class="number">2</span> * Time.deltaTime);</span><br><span class="line">            animator.SetBool(<span class="string">&quot;run&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            animator.SetBool(<span class="string">&quot;run&quot;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="三-剪辑"><a href="#三-剪辑" class="headerlink" title="三.剪辑"></a>三.剪辑</h1><h2 id="Rig选项"><a href="#Rig选项" class="headerlink" title="Rig选项"></a>Rig选项</h2><ul>
+<li>泛型支持所有动画类型</li>
+<li>人形特指人物模型的动画</li>
+<li>旧版指 可以用Animation组件播放</li>
+</ul>
+<h2 id="检查器"><a href="#检查器" class="headerlink" title="检查器"></a>检查器</h2><ul>
+<li>在检查器中更改的设置必须点击最下方的应用</li>
+<li>在检查器中可以对动画进行一个剪辑,播放指定长度的动画</li>
+</ul>
+<h1 id="四-曲线和帧事件"><a href="#四-曲线和帧事件" class="headerlink" title="四.曲线和帧事件"></a>四.曲线和帧事件</h1><h2 id="曲线"><a href="#曲线" class="headerlink" title="曲线"></a>曲线</h2><ul>
+<li>曲线默认在整个动画期间全返回为0,更改曲线可以改变返回的值</li>
+<li>通过返回值可以判断动作执行的进度,根据进度可以做一些其他操作</li>
+<li>在动画器中添加 float 条件 ,以获取数值</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.Log(animator.GetFloat(<span class="string">&quot;条件名&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="帧事件"><a href="#帧事件" class="headerlink" title="帧事件"></a>帧事件</h2><ul>
+<li>可以设定在动画播放的某一个时刻,触发一个事件</li>
+<li>在检查器中选定某个帧,添加一个函数,如添加一个名为leftFoot的函数</li>
+<li>将脚本挂载到动画播放的游戏物体上,设定leftFoot,动画每到该帧执行一次</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">leftFoot</span>()</span>&#123;</span><br><span class="line">    <span class="comment">//doSomething</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="五-混合动画"><a href="#五-混合动画" class="headerlink" title="五.混合动画"></a>五.混合动画</h1><ul>
+<li>在动画控制器中 创建状态-从新混合树 就可以创建混合动画</li>
+<li>双击打开混合树,一般用1D通过一个参数来控制混合</li>
+<li>通过Parameter选择混合参数,参数需要在动画器中被创建Float类型</li>
+<li>在内部加号添加动画或再加一级混合树</li>
+<li>动画Threshold 数值代表动画混合阈值,与值相同时不混合,在两值之间进行不同程度的混合</li>
+<li>取消Automate Thresholds就可以更改 Thresholds数值</li>
+</ul>
+<h1 id="六-动画分层"><a href="#六-动画分层" class="headerlink" title="六.动画分层"></a>六.动画分层</h1><ul>
+<li>动画有三个状态 入口状态Entry 出口状态Exit 任何状态AnyState<ul>
+<li>任何状态创建一个过度,即所有状态下都可以过度到下一个状态</li>
+</ul>
+</li>
+<li>子状态机包含一系列动画,可以把多个动画组合起来形成一个大动画,使用和一般状态一样</li>
+<li>可以添加多个图层<ul>
+<li>在左侧齿轮改变权重,就可以形成类似融合动画的效果</li>
+<li>两图层权重相同,新创建的图层覆盖旧图层</li>
+<li>遮罩<ul>
+<li>在项目中创建遮罩,修改遮罩来更改权重应用的部分</li>
+<li>在遮罩中加载到图层中,可以单独使人体某一部分覆盖上级动画,使身体动画和手部动画不冲突</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>图层可以替代子状态机</li>
+</ul>
+<h1 id="七-反向动力学"><a href="#七-反向动力学" class="headerlink" title="七.反向动力学"></a>七.反向动力学</h1><ul>
+<li><p>可以使移动中令人物一直朝向某物体或身体某一部分指向某物体</p>
+</li>
+<li><p>在动画控制器中选中IK</p>
+</li>
+<li><p>脚本控制</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnAnimatorIK</span>(<span class="params"><span class="built_in">int</span> layerIndex</span>)</span>&#123; <span class="comment">//传入参数为图层引索</span></span><br><span class="line">    <span class="comment">//设置头部IK  先获取两个物体 animator 和 target </span></span><br><span class="line">    animator.SetLookAtWeight(<span class="number">1</span>);<span class="comment">//设置权重</span></span><br><span class="line">    animator.SetLookAtPosition(target.position); </span><br><span class="line">    <span class="comment">//设置右手IK权重 令身体部分也指向某个物体</span></span><br><span class="line">    animator.SetIkPositionWight(AvatarIKGoal.RightHand,<span class="number">1</span>); <span class="comment">//位置</span></span><br><span class="line">    animator.SetIKRoationWight(AvatarIKGoal.RightHand,<span class="number">1</span>);<span class="comment">//旋转</span></span><br><span class="line">    animator.SetIKPosition(AvatarIKGoal.RightHand,target.position);<span class="comment">//应用IK</span></span><br><span class="line">    animator.SetIKRotation(AvatarIKGoal.RIghtHand,target.rotation);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>商城中有其他IK插件,可能比官方提供的更好用</p>
+</li>
+</ul>
+<h1 id="八-导航网格"><a href="#八-导航网格" class="headerlink" title="八.导航网格"></a>八.导航网格</h1><h2 id="烘焙导航"><a href="#烘焙导航" class="headerlink" title="烘焙导航"></a>烘焙导航</h2><ul>
+<li>先选中所有导航涉及的游戏物体,在检查器中将其在id最右侧更改为 Navigation Static</li>
+<li>在窗体中打开 AI-导航</li>
+<li>烘焙最为重要,通过半径,高度,坡度和步高判断路径是否可以通过来生成导航网格</li>
+<li>点击烘焙后生成导航网格,人物可以在蓝色区域中移动</li>
+</ul>
+<h2 id="导航应用"><a href="#导航应用" class="headerlink" title="导航应用"></a>导航应用</h2><ul>
+<li><p>为需要导航的游戏物体添加 Nav Mesh Agent组件</p>
+</li>
+<li><p>导航代理,即使用不同参数生成的导航网格</p>
+</li>
+<li><p>在组件中设置导航选项</p>
+</li>
+<li><p>若多个物体通过一个狭窄的路口,优先级高的先通过</p>
+</li>
+<li><p>脚本控制移动</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine.AI;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PlayerControlTest</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> NavMeshAgent agent;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取代理组件</span></span><br><span class="line">        agent = GetComponent&lt;NavMeshAgent&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//移动到点击位置</span></span><br><span class="line">        <span class="keyword">if</span> (Input.GetMouseButtonDown(<span class="number">0</span>))&#123;</span><br><span class="line">            Ray ray= Camera.main.ScreenPointToRay(Input.mousePosition);</span><br><span class="line">            RaycastHit hit;</span><br><span class="line">            <span class="keyword">if</span>(Physics.Raycast(ray,<span class="keyword">out</span> hit))</span><br><span class="line">            &#123;</span><br><span class="line">                Vector3 point = hit.point;</span><br><span class="line">                <span class="comment">//设置目标点</span></span><br><span class="line">                agent.SetDestination(point);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="九-网格连接和动态障碍物"><a href="#九-网格连接和动态障碍物" class="headerlink" title="九.网格连接和动态障碍物"></a>九.网格连接和动态障碍物</h1><h2 id="网格连接"><a href="#网格连接" class="headerlink" title="网格连接"></a>网格连接</h2><ul>
+<li>导航烘焙选项中 生成分离网格链接</li>
+<li>选中要生成网格链接的对象,在对象选项中勾选Generate OffMeshLinks</li>
+<li>设置掉率高度和跳跃距离后重新烘焙就可以链接网格(跳跃距离是横向跳跃,步高是纵向跳跃)</li>
+<li>设置两个特殊点使两点间可以跳跃<ul>
+<li>使用两个立方体(或其他物体)放在两个特殊点</li>
+<li>添加组件 Off Mesh Link </li>
+<li>添加起始物体和结束物体</li>
+<li>自动更新位置,使网格链接随这两点位置变换</li>
+</ul>
+</li>
+</ul>
+<h2 id="动态障碍物"><a href="#动态障碍物" class="headerlink" title="动态障碍物"></a>动态障碍物</h2><ul>
+<li>选中要设置为动态障碍物的物体,取消Navigation Static,重新烘焙</li>
+<li>给动态障碍物添加 Nav Mesh Obstacle组件 <ul>
+<li>给动画障碍物添加切割,就会根据障碍物状态动态烘焙网格</li>
+<li>添加切割会增加性能消耗,非必要不使用</li>
+</ul>
+</li>
+</ul>
+<h1 id="十-导航区域"><a href="#十-导航区域" class="headerlink" title="十.导航区域"></a>十.导航区域</h1><ul>
+<li><p>不同区域有不同颜色,名称,权重</p>
+</li>
+<li><p>导航会优先选取总权重小的路线</p>
+</li>
+<li><p>创建一个物体来承载不同区域,选中对象,在导航中的对象下选择导航区域</p>
+</li>
+<li><p>在导航物体中的导航组件中改变区域遮罩,来改变那些区域可以走</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag"># 游戏</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/01/15/Unity3D%E8%BF%9B%E9%98%B6/" rel="prev" title="Unity3D进阶">
+      <i class="fa fa-chevron-left"></i> Unity3D进阶
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/16/Uinty3DUI/" rel="next" title="Uinty3DUI">
+      Uinty3DUI <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80-%E8%A7%92%E8%89%B2%E5%8A%A8%E7%94%BB"><span class="nav-number">1.</span> <span class="nav-text">一.角色动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C-%E6%8C%89%E9%94%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">二.按键控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89-%E5%89%AA%E8%BE%91"><span class="nav-number">3.</span> <span class="nav-text">三.剪辑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rig%E9%80%89%E9%A1%B9"><span class="nav-number">3.1.</span> <span class="nav-text">Rig选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E5%99%A8"><span class="nav-number">3.2.</span> <span class="nav-text">检查器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B-%E6%9B%B2%E7%BA%BF%E5%92%8C%E5%B8%A7%E4%BA%8B%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">四.曲线和帧事件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B2%E7%BA%BF"><span class="nav-number">4.1.</span> <span class="nav-text">曲线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%A7%E4%BA%8B%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">帧事件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94-%E6%B7%B7%E5%90%88%E5%8A%A8%E7%94%BB"><span class="nav-number">5.</span> <span class="nav-text">五.混合动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD-%E5%8A%A8%E7%94%BB%E5%88%86%E5%B1%82"><span class="nav-number">6.</span> <span class="nav-text">六.动画分层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83-%E5%8F%8D%E5%90%91%E5%8A%A8%E5%8A%9B%E5%AD%A6"><span class="nav-number">7.</span> <span class="nav-text">七.反向动力学</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB-%E5%AF%BC%E8%88%AA%E7%BD%91%E6%A0%BC"><span class="nav-number">8.</span> <span class="nav-text">八.导航网格</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%83%98%E7%84%99%E5%AF%BC%E8%88%AA"><span class="nav-number">8.1.</span> <span class="nav-text">烘焙导航</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E8%88%AA%E5%BA%94%E7%94%A8"><span class="nav-number">8.2.</span> <span class="nav-text">导航应用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D-%E7%BD%91%E6%A0%BC%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%8A%A8%E6%80%81%E9%9A%9C%E7%A2%8D%E7%89%A9"><span class="nav-number">9.</span> <span class="nav-text">九.网格连接和动态障碍物</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E6%A0%BC%E8%BF%9E%E6%8E%A5"><span class="nav-number">9.1.</span> <span class="nav-text">网格连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E9%9A%9C%E7%A2%8D%E7%89%A9"><span class="nav-number">9.2.</span> <span class="nav-text">动态障碍物</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81-%E5%AF%BC%E8%88%AA%E5%8C%BA%E5%9F%9F"><span class="nav-number">10.</span> <span class="nav-text">十.导航区域</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

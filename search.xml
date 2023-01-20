@@ -903,6 +903,7 @@
 <li>Viewport矩阵 限定了摄像机在游戏屏幕中的显示位置和大小,使屏幕中可以出现多个摄像机的画面</li>
 <li>目标显示 类似于信号源,可以设置摄像机显示在哪个窗口中</li>
 <li>目标纹理 会覆盖目标显示,将摄像机拍摄到的画面实时加载到一个纹理上,可以将<strong>摄像机画面在游戏物体上显示</strong></li>
+<li><em>Ctrl&#x2F;Cmd + Shift + F</em> 将选中的<em>摄像机</em>与Scene视图对齐</li>
 </ul>
 <h1 id="9-音频"><a href="#9-音频" class="headerlink" title="9.音频"></a>9.音频</h1><ul>
 <li>音乐</li>
@@ -1070,5 +1071,526 @@
       <tags>
         <tag>游戏</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Uinty3DUI</title>
+    <url>/2023/01/16/Uinty3DUI/</url>
+    <content><![CDATA[<ol>
+<li>画布</li>
+<li>锚点和轴心点</li>
+<li>文字</li>
+<li>按钮</li>
+<li>文本框</li>
+<li>选项</li>
+<li>滚动</li>
+<li>面板</li>
+<li>UI组件</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="一-画布"><a href="#一-画布" class="headerlink" title="一.画布"></a>一.画布</h1><ul>
+<li><p>右键新建 UI-画布,创建画布会自动创建一个事件系统</p>
+</li>
+<li><p>画布使用2D模式进行边界,画布比例和显示窗口的比例一致</p>
+</li>
+<li><p>UI中的内容必须以画布为父物体才能显示</p>
+</li>
+<li><p>渲染模式</p>
+<ul>
+<li>设置为覆盖模式,则UI画布一定会显示在游戏最上层</li>
+<li>设置为摄像机,则会按实际位置显示</li>
+<li>设置为世界空间后,UI画布就可以旋转缩放等操作</li>
+</ul>
+</li>
+<li><p>缩放</p>
+<ul>
+<li>恒定大小缩放和屏幕比例缩放</li>
+<li>按照参考分辨率的比例进行缩放</li>
+</ul>
+</li>
+</ul>
+<h1 id="二-锚点和轴心点"><a href="#二-锚点和轴心点" class="headerlink" title="二.锚点和轴心点"></a>二.锚点和轴心点</h1><h2 id="锚点"><a href="#锚点" class="headerlink" title="锚点"></a>锚点</h2><ul>
+<li>每个图像都有一个在父物体身上的锚点,即有四个箭头指向的点,图像的坐标是相对于锚点</li>
+<li>根据分辨率适配图像大小<ul>
+<li>将锚点拉分开,即锚点变成一个矩形,由左下坐标和右上坐标定位</li>
+<li>此时图片的大小,坐标就相对于锚框进行变换,当分辨率改变,锚框改变,图像也随之改变</li>
+<li>若锚框变成锚线,则锚线垂直方向不会进行适配,平行方向会进行适配</li>
+</ul>
+</li>
+<li>图像的位置由轴心确定,即小圆环,旋转和坐标都以该点确定</li>
+</ul>
+<h1 id="三-文本"><a href="#三-文本" class="headerlink" title="三.文本"></a>三.文本</h1><h2 id="旧版文本"><a href="#旧版文本" class="headerlink" title="旧版文本"></a>旧版文本</h2><ul>
+<li>在UI-旧版-文本 创建的即为旧文本,按钮,文本框等组件都基础文本实现</li>
+<li>勾选富文本后,可以使用html对一段文本中的片段改变样式</li>
+</ul>
+<h2 id="新版字体"><a href="#新版字体" class="headerlink" title="新版字体"></a>新版字体</h2><ul>
+<li>依赖TestMeshPro组件实现</li>
+<li>在UI-文本 创建</li>
+</ul>
+<h1 id="四-按钮"><a href="#四-按钮" class="headerlink" title="四.按钮"></a>四.按钮</h1><ul>
+<li><p>把按钮的文本子物体删除就不显示文字</p>
+</li>
+<li><p>在Image组件中更改按钮图像</p>
+</li>
+<li><p>Button组件</p>
+<ul>
+<li>Interactable 是否开启按钮</li>
+<li>导入的按钮图片需要设置为 Sprite(2D和UI) 才能作为按钮过度图片</li>
+</ul>
+</li>
+<li><p>导航 即将按钮连接起来,使用上下左右键可以切换选中的按钮</p>
+</li>
+<li><p>鼠标单击</p>
+<ul>
+<li>创建脚本,可以挂载到任意物体上</li>
+<li><code>public void ButtonClick()&#123;&#125;</code> 点击方法</li>
+<li>将脚本传入目标按钮,在鼠标单击中选中脚本和点击方法</li>
+</ul>
+</li>
+</ul>
+<h1 id="五-文本框"><a href="#五-文本框" class="headerlink" title="五.文本框"></a>五.文本框</h1><ul>
+<li>文本框中的文本是占位文本,输入文本后占位文本消失</li>
+<li>改变内容类型设定输入</li>
+<li>事件<ul>
+<li>值改变时,提交时,结束编辑时三个事件,使用方法和按钮一致</li>
+<li>引入 UnityEngine.UI,创建 InputField 对象,将脚本挂载到UI上并将输入框添加到脚本的InputFiled上,InputFiled对象就会实时获取输入框内容</li>
+</ul>
+</li>
+</ul>
+<h1 id="六-选项"><a href="#六-选项" class="headerlink" title="六.选项"></a>六.选项</h1><ul>
+<li>UI-切换 创建选项</li>
+<li>添加组件 Toggle Group 组件,将该组件关联到多个选项的Group中,就可以实现多选一等功能</li>
+<li>UI-下拉列表框 创建 下拉框<ul>
+<li>可以在组件中手动添加选项</li>
+<li>可以使用  <a href="https://www.bilibili.com/video/BV1gQ4y1e7SS?p=64&vd_source=5a3868fe69388cd372b51d75baaaca98">脚本添加</a></li>
+<li>可以为选项单独添加图像,分为标题图像和项图像</li>
+</ul>
+</li>
+</ul>
+<h1 id="七-滚动条"><a href="#七-滚动条" class="headerlink" title="七.滚动条"></a>七.滚动条</h1><ul>
+<li>UI-滑动条 <ul>
+<li>事件使用和按钮一致</li>
+</ul>
+</li>
+<li>UI-滚动条<ul>
+<li>滚动条一般和滑动视图联合使用</li>
+</ul>
+</li>
+<li>UI-滑动视图<ul>
+<li>用滑动视图显示较多的内容</li>
+<li>Content为要显示的全部内容 Viewport显示Content的部分内容</li>
+</ul>
+</li>
+</ul>
+<h1 id="八-面板"><a href="#八-面板" class="headerlink" title="八.面板"></a>八.面板</h1><ul>
+<li>UI-面板<ul>
+<li>把面板放在需要的位置</li>
+<li>将需要的组件放在面板中,此时仅改变面板的锚点就可以应用到面板中的所有组件</li>
+</ul>
+</li>
+</ul>
+<h1 id="九-UI组件"><a href="#九-UI组件" class="headerlink" title="九.UI组件"></a>九.UI组件</h1><ul>
+<li><p>遮罩</p>
+<ul>
+<li>添加Content Size Fitter 使文本框等组件随着游戏状态的变换来适配</li>
+</ul>
+</li>
+<li><p>控制间隔一致</p>
+<ul>
+<li>选中要间隔一致的物体的父物体</li>
+<li>添加Vertical Layout Group垂直布局,也可以添加水平布局,网格布局等</li>
+<li>网格布局的大小由单元格大小确定</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Unity3D</category>
+      </categories>
+      <tags>
+        <tag>游戏</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Unity3D动画</title>
+    <url>/2023/01/15/Unity3D%E5%8A%A8%E7%94%BB/</url>
+    <content><![CDATA[<ol>
+<li>角色动画</li>
+<li>按键控制</li>
+<li>剪辑</li>
+<li>曲线和帧事件</li>
+<li>混合动画</li>
+<li>动画分层</li>
+<li>反向动力</li>
+<li>导航网格</li>
+<li>网格连接和动态障碍物</li>
+<li>导航区域</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="一-角色动画"><a href="#一-角色动画" class="headerlink" title="一.角色动画"></a>一.角色动画</h1><ul>
+<li><p><a href="https://www.bilibili.com/video/BV1gQ4y1e7SS?p=48&vd_source=5a3868fe69388cd372b51d75baaaca98">组件控制</a></p>
+</li>
+<li><p>脚本控制</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (Input.GetKeyDown(KeyCode.F))</span><br><span class="line">        &#123;</span><br><span class="line">            GetComponent&lt;Animator&gt;().SetTrigger(<span class="string">&quot;条件名&quot;</span>);<span class="comment">//设置一次触发</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在过度中选择退出时间,就会等待上个动画播放完才执行下一个动画</p>
+</li>
+</ul>
+<h1 id="二-按键控制"><a href="#二-按键控制" class="headerlink" title="二.按键控制"></a>二.按键控制</h1><ul>
+<li><p>把过度持续时间设置为0或取消固定持续时间,就可以减少动画延时</p>
+</li>
+<li><p>脚本控制</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> Animator animator;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        animator = GetComponent&lt;Animator&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">float</span> horizontal = Input.GetAxis(<span class="string">&quot;Horizontal&quot;</span>);</span><br><span class="line">        <span class="built_in">float</span> vertiacl = Input.GetAxis(<span class="string">&quot;Vertical&quot;</span>);</span><br><span class="line">        Vector3 dir = <span class="keyword">new</span> Vector3(horizontal, <span class="number">0</span>, vertiacl);</span><br><span class="line">        <span class="comment">//看向向量</span></span><br><span class="line">        transform.rotation = Quaternion.LookRotation(dir);</span><br><span class="line">        <span class="comment">//动作切换 当用户按下方向键,按下键后方向就不好为0来判断</span></span><br><span class="line">        <span class="keyword">if</span> (dir != Vector3.zero)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//移动</span></span><br><span class="line">            transform.rotation=Quaternion.LookRotation(dir);</span><br><span class="line">            transform.Translate(Vector3.forward * <span class="number">2</span> * Time.deltaTime);</span><br><span class="line">            animator.SetBool(<span class="string">&quot;run&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            animator.SetBool(<span class="string">&quot;run&quot;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="三-剪辑"><a href="#三-剪辑" class="headerlink" title="三.剪辑"></a>三.剪辑</h1><h2 id="Rig选项"><a href="#Rig选项" class="headerlink" title="Rig选项"></a>Rig选项</h2><ul>
+<li>泛型支持所有动画类型</li>
+<li>人形特指人物模型的动画</li>
+<li>旧版指 可以用Animation组件播放</li>
+</ul>
+<h2 id="检查器"><a href="#检查器" class="headerlink" title="检查器"></a>检查器</h2><ul>
+<li>在检查器中更改的设置必须点击最下方的应用</li>
+<li>在检查器中可以对动画进行一个剪辑,播放指定长度的动画</li>
+</ul>
+<h1 id="四-曲线和帧事件"><a href="#四-曲线和帧事件" class="headerlink" title="四.曲线和帧事件"></a>四.曲线和帧事件</h1><h2 id="曲线"><a href="#曲线" class="headerlink" title="曲线"></a>曲线</h2><ul>
+<li>曲线默认在整个动画期间全返回为0,更改曲线可以改变返回的值</li>
+<li>通过返回值可以判断动作执行的进度,根据进度可以做一些其他操作</li>
+<li>在动画器中添加 float 条件 ,以获取数值</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Debug.Log(animator.GetFloat(<span class="string">&quot;条件名&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="帧事件"><a href="#帧事件" class="headerlink" title="帧事件"></a>帧事件</h2><ul>
+<li>可以设定在动画播放的某一个时刻,触发一个事件</li>
+<li>在检查器中选定某个帧,添加一个函数,如添加一个名为leftFoot的函数</li>
+<li>将脚本挂载到动画播放的游戏物体上,设定leftFoot,动画每到该帧执行一次</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">leftFoot</span>()</span>&#123;</span><br><span class="line">    <span class="comment">//doSomething</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="五-混合动画"><a href="#五-混合动画" class="headerlink" title="五.混合动画"></a>五.混合动画</h1><ul>
+<li>在动画控制器中 创建状态-从新混合树 就可以创建混合动画</li>
+<li>双击打开混合树,一般用1D通过一个参数来控制混合</li>
+<li>通过Parameter选择混合参数,参数需要在动画器中被创建Float类型</li>
+<li>在内部加号添加动画或再加一级混合树</li>
+<li>动画Threshold 数值代表动画混合阈值,与值相同时不混合,在两值之间进行不同程度的混合</li>
+<li>取消Automate Thresholds就可以更改 Thresholds数值</li>
+</ul>
+<h1 id="六-动画分层"><a href="#六-动画分层" class="headerlink" title="六.动画分层"></a>六.动画分层</h1><ul>
+<li>动画有三个状态 入口状态Entry 出口状态Exit 任何状态AnyState<ul>
+<li>任何状态创建一个过度,即所有状态下都可以过度到下一个状态</li>
+</ul>
+</li>
+<li>子状态机包含一系列动画,可以把多个动画组合起来形成一个大动画,使用和一般状态一样</li>
+<li>可以添加多个图层<ul>
+<li>在左侧齿轮改变权重,就可以形成类似融合动画的效果</li>
+<li>两图层权重相同,新创建的图层覆盖旧图层</li>
+<li>遮罩<ul>
+<li>在项目中创建遮罩,修改遮罩来更改权重应用的部分</li>
+<li>在遮罩中加载到图层中,可以单独使人体某一部分覆盖上级动画,使身体动画和手部动画不冲突</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>图层可以替代子状态机</li>
+</ul>
+<h1 id="七-反向动力学"><a href="#七-反向动力学" class="headerlink" title="七.反向动力学"></a>七.反向动力学</h1><ul>
+<li><p>可以使移动中令人物一直朝向某物体或身体某一部分指向某物体</p>
+</li>
+<li><p>在动画控制器中选中IK</p>
+</li>
+<li><p>脚本控制</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnAnimatorIK</span>(<span class="params"><span class="built_in">int</span> layerIndex</span>)</span>&#123; <span class="comment">//传入参数为图层引索</span></span><br><span class="line">    <span class="comment">//设置头部IK  先获取两个物体 animator 和 target </span></span><br><span class="line">    animator.SetLookAtWeight(<span class="number">1</span>);<span class="comment">//设置权重</span></span><br><span class="line">    animator.SetLookAtPosition(target.position); </span><br><span class="line">    <span class="comment">//设置右手IK权重 令身体部分也指向某个物体</span></span><br><span class="line">    animator.SetIkPositionWight(AvatarIKGoal.RightHand,<span class="number">1</span>); <span class="comment">//位置</span></span><br><span class="line">    animator.SetIKRoationWight(AvatarIKGoal.RightHand,<span class="number">1</span>);<span class="comment">//旋转</span></span><br><span class="line">    animator.SetIKPosition(AvatarIKGoal.RightHand,target.position);<span class="comment">//应用IK</span></span><br><span class="line">    animator.SetIKRotation(AvatarIKGoal.RIghtHand,target.rotation);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>商城中有其他IK插件,可能比官方提供的更好用</p>
+</li>
+</ul>
+<h1 id="八-导航网格"><a href="#八-导航网格" class="headerlink" title="八.导航网格"></a>八.导航网格</h1><h2 id="烘焙导航"><a href="#烘焙导航" class="headerlink" title="烘焙导航"></a>烘焙导航</h2><ul>
+<li>先选中所有导航涉及的游戏物体,在检查器中将其在id最右侧更改为 Navigation Static</li>
+<li>在窗体中打开 AI-导航</li>
+<li>烘焙最为重要,通过半径,高度,坡度和步高判断路径是否可以通过来生成导航网格</li>
+<li>点击烘焙后生成导航网格,人物可以在蓝色区域中移动</li>
+</ul>
+<h2 id="导航应用"><a href="#导航应用" class="headerlink" title="导航应用"></a>导航应用</h2><ul>
+<li><p>为需要导航的游戏物体添加 Nav Mesh Agent组件</p>
+</li>
+<li><p>导航代理,即使用不同参数生成的导航网格</p>
+</li>
+<li><p>在组件中设置导航选项</p>
+</li>
+<li><p>若多个物体通过一个狭窄的路口,优先级高的先通过</p>
+</li>
+<li><p>脚本控制移动</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine.AI;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PlayerControlTest</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> NavMeshAgent agent;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取代理组件</span></span><br><span class="line">        agent = GetComponent&lt;NavMeshAgent&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//移动到点击位置</span></span><br><span class="line">        <span class="keyword">if</span> (Input.GetMouseButtonDown(<span class="number">0</span>))&#123;</span><br><span class="line">            Ray ray= Camera.main.ScreenPointToRay(Input.mousePosition);</span><br><span class="line">            RaycastHit hit;</span><br><span class="line">            <span class="keyword">if</span>(Physics.Raycast(ray,<span class="keyword">out</span> hit))</span><br><span class="line">            &#123;</span><br><span class="line">                Vector3 point = hit.point;</span><br><span class="line">                <span class="comment">//设置目标点</span></span><br><span class="line">                agent.SetDestination(point);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="九-网格连接和动态障碍物"><a href="#九-网格连接和动态障碍物" class="headerlink" title="九.网格连接和动态障碍物"></a>九.网格连接和动态障碍物</h1><h2 id="网格连接"><a href="#网格连接" class="headerlink" title="网格连接"></a>网格连接</h2><ul>
+<li>导航烘焙选项中 生成分离网格链接</li>
+<li>选中要生成网格链接的对象,在对象选项中勾选Generate OffMeshLinks</li>
+<li>设置掉率高度和跳跃距离后重新烘焙就可以链接网格(跳跃距离是横向跳跃,步高是纵向跳跃)</li>
+<li>设置两个特殊点使两点间可以跳跃<ul>
+<li>使用两个立方体(或其他物体)放在两个特殊点</li>
+<li>添加组件 Off Mesh Link </li>
+<li>添加起始物体和结束物体</li>
+<li>自动更新位置,使网格链接随这两点位置变换</li>
+</ul>
+</li>
+</ul>
+<h2 id="动态障碍物"><a href="#动态障碍物" class="headerlink" title="动态障碍物"></a>动态障碍物</h2><ul>
+<li>选中要设置为动态障碍物的物体,取消Navigation Static,重新烘焙</li>
+<li>给动态障碍物添加 Nav Mesh Obstacle组件 <ul>
+<li>给动画障碍物添加切割,就会根据障碍物状态动态烘焙网格</li>
+<li>添加切割会增加性能消耗,非必要不使用</li>
+</ul>
+</li>
+</ul>
+<h1 id="十-导航区域"><a href="#十-导航区域" class="headerlink" title="十.导航区域"></a>十.导航区域</h1><ul>
+<li><p>不同区域有不同颜色,名称,权重</p>
+</li>
+<li><p>导航会优先选取总权重小的路线</p>
+</li>
+<li><p>创建一个物体来承载不同区域,选中对象,在导航中的对象下选择导航区域</p>
+</li>
+<li><p>在导航物体中的导航组件中改变区域遮罩,来改变那些区域可以走</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Unity3D</category>
+      </categories>
+      <tags>
+        <tag>游戏</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Unity3D进阶</title>
+    <url>/2023/01/15/Unity3D%E8%BF%9B%E9%98%B6/</url>
+    <content><![CDATA[<ol>
+<li>角色控制器</li>
+<li>重力</li>
+<li>碰撞监听</li>
+<li>触发</li>
+<li>物理关节</li>
+<li>物理材质</li>
+<li>射线检测</li>
+<li>粒子系统</li>
+<li>绘制</li>
+<li>游戏物体动画</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="一-角色控制器"><a href="#一-角色控制器" class="headerlink" title="一.角色控制器"></a>一.角色控制器</h1><h2 id="控制器方案"><a href="#控制器方案" class="headerlink" title="控制器方案"></a>控制器方案</h2><ul>
+<li>可以在商店中下载角色控制器</li>
+<li>可以使用Unity3D提供的角色控制器</li>
+<li>可以自己编写角色控制器</li>
+</ul>
+<h2 id="控制器的使用"><a href="#控制器的使用" class="headerlink" title="控制器的使用"></a>控制器的使用</h2><ul>
+<li>给游戏物体添加 <code>Character Controller</code> 组件</li>
+<li>WASD会获取一个水平轴和一个垂直轴数值 </li>
+<li>使用向量的方向来控制移动方法,向量的大小控制移动速度</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PlayerControlTest</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> CharacterController player;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        player=GetComponent&lt;CharacterController&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取虚拟轴数据</span></span><br><span class="line">        <span class="built_in">float</span> horizontal = Input.GetAxis(<span class="string">&quot;Horizontal&quot;</span>);</span><br><span class="line">        <span class="built_in">float</span> vertical = Input.GetAxis(<span class="string">&quot;Vertical&quot;</span>);</span><br><span class="line">        <span class="comment">//创建称一个方向向量</span></span><br><span class="line">        Vector3 dir = <span class="keyword">new</span> Vector3(horizontal, <span class="number">0</span>, vertical);</span><br><span class="line">        player.SimpleMove(dir * <span class="number">2</span>);<span class="comment">//该移动方法受重力影响  且移动速度为2倍,用于控制移动速度</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="二-重力"><a href="#二-重力" class="headerlink" title="二.重力"></a>二.重力</h1><ul>
+<li><p>添加 <code>Rigidbody</code> 组件,就会使物体受到重力影响</p>
+</li>
+<li><p><code>Is Kinematic</code> 打开后,该物体就不受物理系统影响了,无法被撞开或下落等</p>
+</li>
+<li><p>若要判断高速物体的碰撞判断,应该选用连续的碰撞检测,而不是离散的,离散会每隔一段时间检测一次可能会检测不到</p>
+</li>
+</ul>
+<h1 id="三-碰撞监听"><a href="#三-碰撞监听" class="headerlink" title="三.碰撞监听"></a>三.碰撞监听</h1><h2 id="产生碰撞"><a href="#产生碰撞" class="headerlink" title="产生碰撞"></a>产生碰撞</h2><ul>
+<li>每个游戏物体上的Collider组件就是碰撞检测器组件</li>
+<li>有碰撞器和刚体组件才能产生碰撞</li>
+<li>可以改变碰撞判定范围</li>
+</ul>
+<h2 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h2><ul>
+<li>将脚本挂载到碰撞两物体的任意一个物体上就可以检测碰撞</li>
+<li>传入的参数是碰撞到的物体的信息</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CollisionTest</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//监听发生碰撞</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnCollisionEnter</span>(<span class="params">Collision collision</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//持续发生碰撞</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnCollisionStay</span>(<span class="params">Collision collision</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//监听结束碰撞</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnCollisionExit</span>(<span class="params">Collision collision</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="四-触发"><a href="#四-触发" class="headerlink" title="四.触发"></a>四.触发</h1><ul>
+<li>碰撞和触发的产生条件一致,但一方的碰撞器必须设置为是触发器</li>
+<li>当设置为触发器后,就不会发生碰撞,会穿过触发器</li>
+<li>把触发器的Mesh Renderer 取消,使其不显示</li>
+<li>通过触发器就可以判断游戏物体是否处于或经过某一区域,然后进行一系列操作</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnTriggerEnter</span>(<span class="params">Collider other</span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnTriggerStay</span>(<span class="params">Collider other</span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnTriggerExit</span>(<span class="params">Collider other</span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="五-物理关节"><a href="#五-物理关节" class="headerlink" title="五.物理关节"></a>五.物理关节</h1><p>在Physics中的Hinge Joint组件,即铰链关节</p>
+<ul>
+<li>铰链关键使物体沿铰链轴固定,可以用于门的物理效果等</li>
+<li>通过Anchor调整关节中心点,通过轴调整朝向</li>
+<li>也可以给关节一个目标速度和力,打开Use Motor就可以使门自动旋转</li>
+</ul>
+<p>Spring Joint 弹簧关节</p>
+<ul>
+<li>可以给两个物体间添加一个弹簧</li>
+</ul>
+<p>Fixed Joint 固定关节</p>
+<ul>
+<li>相等于给两个物体之间添加一个固定的杆</li>
+<li>可以设置一个阈值,当力大于阈值时关节断开</li>
+</ul>
+<h1 id="六-物理材质"><a href="#六-物理材质" class="headerlink" title="六.物理材质"></a>六.物理材质</h1><p>改变物体表面的物理性质,如摩擦因数等参数</p>
+<ul>
+<li><p>在文件目录中创建 物理材质(注意不是材质)</p>
+</li>
+<li><p>在Mesh Collider组件中 添加 材质</p>
+</li>
+<li><p>在物理材质中调整材质参数</p>
+</li>
+</ul>
+<h1 id="七-射线检测"><a href="#七-射线检测" class="headerlink" title="七. 射线检测"></a>七. 射线检测</h1><p>点击平面上一点后令物体移动到该点,即从摄像机向点击方向射出一条射线,判断射线碰触到的第一个物体的点</p>
+<ul>
+<li>一般将射线检测脚本挂载到 要进行动作的游戏物体上</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//创建射线的两种方法</span></span><br><span class="line">        Ray ray = <span class="keyword">new</span> Ray(Vector3.zero, Vector3.up);</span><br><span class="line">        </span><br><span class="line">        Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//按下鼠标发射射线</span></span><br><span class="line">        Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);</span><br><span class="line">        <span class="comment">//声明一个碰撞信息类</span></span><br><span class="line">        RaycastHit hit;</span><br><span class="line">        <span class="comment">//碰撞检测</span></span><br><span class="line">        <span class="built_in">bool</span> res = Physics.Raycast(cameraRay, <span class="keyword">out</span> hit);</span><br><span class="line">        <span class="comment">//out是c#的一个输出方法,若产生碰撞,则hit就会有碰撞信息</span></span><br><span class="line">        <span class="keyword">if</span> (res == <span class="literal">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(hit.point);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//多物体检测</span></span><br><span class="line">        RaycastHit[] hits = Physics.RaycastAll(cameraRay);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="八-粒子系统"><a href="#八-粒子系统" class="headerlink" title="八. 粒子系统"></a>八. <a href="https://www.bilibili.com/video/BV1gQ4y1e7SS?p=44&spm_id_from=pageDriver&vd_source=5a3868fe69388cd372b51d75baaaca98">粒子系统</a></h1><p>粒子系统组件 <code>Particle System</code></p>
+<p>在粒子系统组件中更改粒子设置</p>
+<h1 id="九-绘制"><a href="#九-绘制" class="headerlink" title="九. 绘制"></a>九. 绘制</h1><h2 id="线段"><a href="#线段" class="headerlink" title="线段"></a>线段</h2><ul>
+<li><p>创建一个空白的物体,添加Line Renderer 组件 用于绘制线段</p>
+</li>
+<li><p>绘制后线的方向不受物体方向影响,受组件里的位置影响</p>
+</li>
+<li><p>Materials 中选择材质</p>
+</li>
+<li><p>在组件中添加点来绘制</p>
+</li>
+<li><p>点循环可以使头尾相连</p>
+</li>
+<li><p>用场景工具直接使用鼠标绘制</p>
+</li>
+<li><p>通过脚本设置线段位置</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">   &#123;</span><br><span class="line">       LineRenderer lineRenderer = GetComponent&lt;LineRenderer&gt;();</span><br><span class="line">       lineRenderer.positionCount = <span class="number">3</span>; <span class="comment">//设置有几个点</span></span><br><span class="line">       <span class="comment">//设置三个位置</span></span><br><span class="line">       lineRenderer.SetPosition(<span class="number">0</span>,Vector3.zero);</span><br><span class="line">       lineRenderer.SetPosition(<span class="number">0</span>, Vector3.one);</span><br><span class="line">       lineRenderer.SetPosition(<span class="number">0</span>, Vector3.down);</span><br><span class="line">       <span class="comment">//开始颜色 等等</span></span><br><span class="line">       lineRenderer.startColor = Color.white;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="拖尾"><a href="#拖尾" class="headerlink" title="拖尾"></a>拖尾</h2><ul>
+<li>Trail Renderer 组件</li>
+<li>时间 设定 拖尾的持续时间 </li>
+<li>最小顶点距离 即 移动多少距离后生成拖尾</li>
+</ul>
+<h1 id="十-游戏物体动画"><a href="#十-游戏物体动画" class="headerlink" title="十.游戏物体动画"></a>十.游戏物体动画</h1><h2 id="旧版动画组件-Animation"><a href="#旧版动画组件-Animation" class="headerlink" title="旧版动画组件 Animation"></a>旧版动画组件 Animation</h2><ul>
+<li><p>动画内容Clip,也可以添加多个动画</p>
+</li>
+<li><p>Culling Tpye 选择 Based On Renderers 后看到才做动画,看不到就停止</p>
+</li>
+<li><p>窗口-动画-动画 打开动画制作面板,然后选中要制作动画的物体 <a href="https://www.bilibili.com/video/BV1gQ4y1e7SS?p=46&vd_source=5a3868fe69388cd372b51d75baaaca98">详细教程</a></p>
+</li>
+<li><p>脚本控制</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(Input.GetMouseButtonDown(<span class="number">0</span>))&#123;</span><br><span class="line">    GetComponent&lt;Animation&gt;().Play(<span class="string">&quot;要播放的动画名&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="新版动画组件-Animator"><a href="#新版动画组件-Animator" class="headerlink" title="新版动画组件 Animator"></a>新版动画组件 Animator</h2><ul>
+<li><p>挂载Animator 组件 在项目中创建动画器控制器加载到Animator上</p>
+</li>
+<li><p>所有动画挂载到控制器中执行</p>
+</li>
+<li><p>在控制器中对动画进行进一步控制</p>
+</li>
+<li><p>脚本控制</p>
+<p>  if(Input.GetMouseButtonDown(0)){<br>  GetComponent<Animator>().Play(“要播放的动画名”);<br>  }</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Unity3D</category>
+      </categories>
+      <tags>
+        <tag>游戏</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法竞赛-1</title>
+    <url>/2023/01/17/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[<h1 id="基础数据结构"><a href="#基础数据结构" class="headerlink" title="基础数据结构"></a>基础数据结构</h1><ul>
+<li>单调队列&#x2F;栈<ul>
+<li>即普通的队列或栈,但在进行 <code>入</code> 操作时通过弹出尾部元素来使队列或栈保持单调性</li>
+<li>用于滑动窗口,DP优化等</li>
+</ul>
+</li>
+<li>哈夫曼树<ul>
+<li>一种二叉树,进行对具有权重的两两对象操作时求权重和最小或最优前缀码等</li>
+</ul>
+</li>
+<li>优先队列<ul>
+<li><code>priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt;&gt;</code> 小根堆  <code>less&lt;int&gt;</code>  大根堆</li>
+<li>可以用于构造哈夫曼树</li>
+</ul>
+</li>
+</ul>
+<h1 id="基本算法"><a href="#基本算法" class="headerlink" title="基本算法"></a>基本算法</h1><h2 id="问题规模"><a href="#问题规模" class="headerlink" title="问题规模"></a>问题规模</h2><p>在1秒时间内可用的算法时间时间复杂度</p>
+<table>
+<thead>
+<tr>
+<th>问题规模n</th>
+<th>logn</th>
+<th>n</th>
+<th>nlogn</th>
+<th>n^2</th>
+<th>2^n</th>
+<th>n!</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>n&lt;&#x3D;11</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>n&lt;&#x3D;25</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td>n&lt;&#x3D;5000</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td>n&lt;&#x3D;1e6</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td>n&lt;&#x3D;1e7</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td>n&lt;&#x3D;1e8</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+</tbody></table>
+<h2 id="尺取法-双指针-快慢指针"><a href="#尺取法-双指针-快慢指针" class="headerlink" title="尺取法(双指针,快慢指针)"></a>尺取法(双指针,快慢指针)</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>尺取法可以优化二重循环,将O(n^2)优化为O(n)</p>
+ <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=n<span class="number">-1</span>;j&gt;=<span class="number">0</span>;--j)&#123;</span><br><span class="line">        <span class="comment">//dosometing</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 优化为----------&gt;</span></span><br><span class="line"><span class="type">int</span> i=<span class="number">0</span>,j=n<span class="number">-1</span>;</span><br><span class="line"><span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">    <span class="comment">//dosomething</span></span><br><span class="line">    i++;</span><br><span class="line">    j--;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
   </entry>
 </search>

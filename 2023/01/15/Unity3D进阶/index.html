@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="角色控制器 重力 碰撞监听 触发 物理关节 物理材质 射线检测 粒子系统 绘制 游戏物体动画">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity3D进阶">
+<meta property="og:url" content="http://example.com/2023/01/15/Unity3D%E8%BF%9B%E9%98%B6/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="角色控制器 重力 碰撞监听 触发 物理关节 物理材质 射线检测 粒子系统 绘制 游戏物体动画">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-15T02:33:21.578Z">
+<meta property="article:modified_time" content="2023-01-15T13:16:28.584Z">
+<meta property="article:author" content="YQYjin">
+<meta property="article:tag" content="游戏">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/01/15/Unity3D%E8%BF%9B%E9%98%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Unity3D进阶 | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/15/Unity3D%E8%BF%9B%E9%98%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Unity3D进阶
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-01-15 10:33:21 / 修改时间：21:16:28" itemprop="dateCreated datePublished" datetime="2023-01-15T10:33:21+08:00">2023-01-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Unity3D/" itemprop="url" rel="index"><span itemprop="name">Unity3D</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol>
+<li>角色控制器</li>
+<li>重力</li>
+<li>碰撞监听</li>
+<li>触发</li>
+<li>物理关节</li>
+<li>物理材质</li>
+<li>射线检测</li>
+<li>粒子系统</li>
+<li>绘制</li>
+<li>游戏物体动画</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="一-角色控制器"><a href="#一-角色控制器" class="headerlink" title="一.角色控制器"></a>一.角色控制器</h1><h2 id="控制器方案"><a href="#控制器方案" class="headerlink" title="控制器方案"></a>控制器方案</h2><ul>
+<li>可以在商店中下载角色控制器</li>
+<li>可以使用Unity3D提供的角色控制器</li>
+<li>可以自己编写角色控制器</li>
+</ul>
+<h2 id="控制器的使用"><a href="#控制器的使用" class="headerlink" title="控制器的使用"></a>控制器的使用</h2><ul>
+<li>给游戏物体添加 <code>Character Controller</code> 组件</li>
+<li>WASD会获取一个水平轴和一个垂直轴数值 </li>
+<li>使用向量的方向来控制移动方法,向量的大小控制移动速度</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PlayerControlTest</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> CharacterController player;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        player=GetComponent&lt;CharacterController&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取虚拟轴数据</span></span><br><span class="line">        <span class="built_in">float</span> horizontal = Input.GetAxis(<span class="string">&quot;Horizontal&quot;</span>);</span><br><span class="line">        <span class="built_in">float</span> vertical = Input.GetAxis(<span class="string">&quot;Vertical&quot;</span>);</span><br><span class="line">        <span class="comment">//创建称一个方向向量</span></span><br><span class="line">        Vector3 dir = <span class="keyword">new</span> Vector3(horizontal, <span class="number">0</span>, vertical);</span><br><span class="line">        player.SimpleMove(dir * <span class="number">2</span>);<span class="comment">//该移动方法受重力影响  且移动速度为2倍,用于控制移动速度</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="二-重力"><a href="#二-重力" class="headerlink" title="二.重力"></a>二.重力</h1><ul>
+<li><p>添加 <code>Rigidbody</code> 组件,就会使物体受到重力影响</p>
+</li>
+<li><p><code>Is Kinematic</code> 打开后,该物体就不受物理系统影响了,无法被撞开或下落等</p>
+</li>
+<li><p>若要判断高速物体的碰撞判断,应该选用连续的碰撞检测,而不是离散的,离散会每隔一段时间检测一次可能会检测不到</p>
+</li>
+</ul>
+<h1 id="三-碰撞监听"><a href="#三-碰撞监听" class="headerlink" title="三.碰撞监听"></a>三.碰撞监听</h1><h2 id="产生碰撞"><a href="#产生碰撞" class="headerlink" title="产生碰撞"></a>产生碰撞</h2><ul>
+<li>每个游戏物体上的Collider组件就是碰撞检测器组件</li>
+<li>有碰撞器和刚体组件才能产生碰撞</li>
+<li>可以改变碰撞判定范围</li>
+</ul>
+<h2 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h2><ul>
+<li>将脚本挂载到碰撞两物体的任意一个物体上就可以检测碰撞</li>
+<li>传入的参数是碰撞到的物体的信息</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CollisionTest</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//监听发生碰撞</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnCollisionEnter</span>(<span class="params">Collision collision</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//持续发生碰撞</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnCollisionStay</span>(<span class="params">Collision collision</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//监听结束碰撞</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnCollisionExit</span>(<span class="params">Collision collision</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="四-触发"><a href="#四-触发" class="headerlink" title="四.触发"></a>四.触发</h1><ul>
+<li>碰撞和触发的产生条件一致,但一方的碰撞器必须设置为是触发器</li>
+<li>当设置为触发器后,就不会发生碰撞,会穿过触发器</li>
+<li>把触发器的Mesh Renderer 取消,使其不显示</li>
+<li>通过触发器就可以判断游戏物体是否处于或经过某一区域,然后进行一系列操作</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnTriggerEnter</span>(<span class="params">Collider other</span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnTriggerStay</span>(<span class="params">Collider other</span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnTriggerExit</span>(<span class="params">Collider other</span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="五-物理关节"><a href="#五-物理关节" class="headerlink" title="五.物理关节"></a>五.物理关节</h1><p>在Physics中的Hinge Joint组件,即铰链关节</p>
+<ul>
+<li>铰链关键使物体沿铰链轴固定,可以用于门的物理效果等</li>
+<li>通过Anchor调整关节中心点,通过轴调整朝向</li>
+<li>也可以给关节一个目标速度和力,打开Use Motor就可以使门自动旋转</li>
+</ul>
+<p>Spring Joint 弹簧关节</p>
+<ul>
+<li>可以给两个物体间添加一个弹簧</li>
+</ul>
+<p>Fixed Joint 固定关节</p>
+<ul>
+<li>相等于给两个物体之间添加一个固定的杆</li>
+<li>可以设置一个阈值,当力大于阈值时关节断开</li>
+</ul>
+<h1 id="六-物理材质"><a href="#六-物理材质" class="headerlink" title="六.物理材质"></a>六.物理材质</h1><p>改变物体表面的物理性质,如摩擦因数等参数</p>
+<ul>
+<li><p>在文件目录中创建 物理材质(注意不是材质)</p>
+</li>
+<li><p>在Mesh Collider组件中 添加 材质</p>
+</li>
+<li><p>在物理材质中调整材质参数</p>
+</li>
+</ul>
+<h1 id="七-射线检测"><a href="#七-射线检测" class="headerlink" title="七. 射线检测"></a>七. 射线检测</h1><p>点击平面上一点后令物体移动到该点,即从摄像机向点击方向射出一条射线,判断射线碰触到的第一个物体的点</p>
+<ul>
+<li>一般将射线检测脚本挂载到 要进行动作的游戏物体上</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//创建射线的两种方法</span></span><br><span class="line">        Ray ray = <span class="keyword">new</span> Ray(Vector3.zero, Vector3.up);</span><br><span class="line">        </span><br><span class="line">        Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//按下鼠标发射射线</span></span><br><span class="line">        Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);</span><br><span class="line">        <span class="comment">//声明一个碰撞信息类</span></span><br><span class="line">        RaycastHit hit;</span><br><span class="line">        <span class="comment">//碰撞检测</span></span><br><span class="line">        <span class="built_in">bool</span> res = Physics.Raycast(cameraRay, <span class="keyword">out</span> hit);</span><br><span class="line">        <span class="comment">//out是c#的一个输出方法,若产生碰撞,则hit就会有碰撞信息</span></span><br><span class="line">        <span class="keyword">if</span> (res == <span class="literal">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(hit.point);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//多物体检测</span></span><br><span class="line">        RaycastHit[] hits = Physics.RaycastAll(cameraRay);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="八-粒子系统"><a href="#八-粒子系统" class="headerlink" title="八. 粒子系统"></a>八. <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1gQ4y1e7SS?p=44&spm_id_from=pageDriver&vd_source=5a3868fe69388cd372b51d75baaaca98">粒子系统</a></h1><p>粒子系统组件 <code>Particle System</code></p>
+<p>在粒子系统组件中更改粒子设置</p>
+<h1 id="九-绘制"><a href="#九-绘制" class="headerlink" title="九. 绘制"></a>九. 绘制</h1><h2 id="线段"><a href="#线段" class="headerlink" title="线段"></a>线段</h2><ul>
+<li><p>创建一个空白的物体,添加Line Renderer 组件 用于绘制线段</p>
+</li>
+<li><p>绘制后线的方向不受物体方向影响,受组件里的位置影响</p>
+</li>
+<li><p>Materials 中选择材质</p>
+</li>
+<li><p>在组件中添加点来绘制</p>
+</li>
+<li><p>点循环可以使头尾相连</p>
+</li>
+<li><p>用场景工具直接使用鼠标绘制</p>
+</li>
+<li><p>通过脚本设置线段位置</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">   &#123;</span><br><span class="line">       LineRenderer lineRenderer = GetComponent&lt;LineRenderer&gt;();</span><br><span class="line">       lineRenderer.positionCount = <span class="number">3</span>; <span class="comment">//设置有几个点</span></span><br><span class="line">       <span class="comment">//设置三个位置</span></span><br><span class="line">       lineRenderer.SetPosition(<span class="number">0</span>,Vector3.zero);</span><br><span class="line">       lineRenderer.SetPosition(<span class="number">0</span>, Vector3.one);</span><br><span class="line">       lineRenderer.SetPosition(<span class="number">0</span>, Vector3.down);</span><br><span class="line">       <span class="comment">//开始颜色 等等</span></span><br><span class="line">       lineRenderer.startColor = Color.white;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="拖尾"><a href="#拖尾" class="headerlink" title="拖尾"></a>拖尾</h2><ul>
+<li>Trail Renderer 组件</li>
+<li>时间 设定 拖尾的持续时间 </li>
+<li>最小顶点距离 即 移动多少距离后生成拖尾</li>
+</ul>
+<h1 id="十-游戏物体动画"><a href="#十-游戏物体动画" class="headerlink" title="十.游戏物体动画"></a>十.游戏物体动画</h1><h2 id="旧版动画组件-Animation"><a href="#旧版动画组件-Animation" class="headerlink" title="旧版动画组件 Animation"></a>旧版动画组件 Animation</h2><ul>
+<li><p>动画内容Clip,也可以添加多个动画</p>
+</li>
+<li><p>Culling Tpye 选择 Based On Renderers 后看到才做动画,看不到就停止</p>
+</li>
+<li><p>窗口-动画-动画 打开动画制作面板,然后选中要制作动画的物体 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1gQ4y1e7SS?p=46&vd_source=5a3868fe69388cd372b51d75baaaca98">详细教程</a></p>
+</li>
+<li><p>脚本控制</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Input.GetMouseButtonDown(<span class="number">0</span>))&#123;</span><br><span class="line">    GetComponent&lt;Animation&gt;().Play(<span class="string">&quot;要播放的动画名&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="新版动画组件-Animator"><a href="#新版动画组件-Animator" class="headerlink" title="新版动画组件 Animator"></a>新版动画组件 Animator</h2><ul>
+<li><p>挂载Animator 组件 在项目中创建动画器控制器加载到Animator上</p>
+</li>
+<li><p>所有动画挂载到控制器中执行</p>
+</li>
+<li><p>在控制器中对动画进行进一步控制</p>
+</li>
+<li><p>脚本控制</p>
+<p>  if(Input.GetMouseButtonDown(0)){<br>  GetComponent<Animator>().Play(“要播放的动画名”);<br>  }</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag"># 游戏</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/01/13/Unity3D%E8%84%9A%E6%9C%AC%E5%BA%94%E7%94%A8/" rel="prev" title="Unity3D脚本应用">
+      <i class="fa fa-chevron-left"></i> Unity3D脚本应用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/15/Unity3D%E5%8A%A8%E7%94%BB/" rel="next" title="Unity3D动画">
+      Unity3D动画 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80-%E8%A7%92%E8%89%B2%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">一.角色控制器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%E6%96%B9%E6%A1%88"><span class="nav-number">1.1.</span> <span class="nav-text">控制器方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">控制器的使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C-%E9%87%8D%E5%8A%9B"><span class="nav-number">2.</span> <span class="nav-text">二.重力</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89-%E7%A2%B0%E6%92%9E%E7%9B%91%E5%90%AC"><span class="nav-number">3.</span> <span class="nav-text">三.碰撞监听</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A7%E7%94%9F%E7%A2%B0%E6%92%9E"><span class="nav-number">3.1.</span> <span class="nav-text">产生碰撞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%91%E5%90%AC"><span class="nav-number">3.2.</span> <span class="nav-text">监听</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B-%E8%A7%A6%E5%8F%91"><span class="nav-number">4.</span> <span class="nav-text">四.触发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94-%E7%89%A9%E7%90%86%E5%85%B3%E8%8A%82"><span class="nav-number">5.</span> <span class="nav-text">五.物理关节</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD-%E7%89%A9%E7%90%86%E6%9D%90%E8%B4%A8"><span class="nav-number">6.</span> <span class="nav-text">六.物理材质</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83-%E5%B0%84%E7%BA%BF%E6%A3%80%E6%B5%8B"><span class="nav-number">7.</span> <span class="nav-text">七. 射线检测</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F"><span class="nav-number">8.</span> <span class="nav-text">八. 粒子系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D-%E7%BB%98%E5%88%B6"><span class="nav-number">9.</span> <span class="nav-text">九. 绘制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E6%AE%B5"><span class="nav-number">9.1.</span> <span class="nav-text">线段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%96%E5%B0%BE"><span class="nav-number">9.2.</span> <span class="nav-text">拖尾</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81-%E6%B8%B8%E6%88%8F%E7%89%A9%E4%BD%93%E5%8A%A8%E7%94%BB"><span class="nav-number">10.</span> <span class="nav-text">十.游戏物体动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A7%E7%89%88%E5%8A%A8%E7%94%BB%E7%BB%84%E4%BB%B6-Animation"><span class="nav-number">10.1.</span> <span class="nav-text">旧版动画组件 Animation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%89%88%E5%8A%A8%E7%94%BB%E7%BB%84%E4%BB%B6-Animator"><span class="nav-number">10.2.</span> <span class="nav-text">新版动画组件 Animator</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
