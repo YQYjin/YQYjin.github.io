@@ -195,6 +195,535 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/27/%E4%BA%8C%E7%BB%B4%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/27/%E4%BA%8C%E7%BB%B4%E7%A0%81/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-27 19:44:49" itemprop="dateCreated datePublished" datetime="2023-02-27T19:44:49+08:00">2023-02-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="二维码："><a href="#二维码：" class="headerlink" title="二维码："></a>二维码：</h2><ul>
+<li><p>包含了字符信息 </p>
+</li>
+<li><p>两色二维码 ： </p>
+<ul>
+<li>对应着二进制</li>
+</ul>
+</li>
+<li><p>char: 16bit</p>
+<ul>
+<li>Java char : 16bit <ul>
+<li>兼容 ASCII 码 - 128个 0-128</li>
+<li>通用语言的字符 中日韩 拉丁 …</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>比如说： </p>
+<ul>
+<li>我要将 以下字符转为全二进制码 <ul>
+<li><a target="_blank" rel="noopener" href="http://chat.openai.com/">http://chat.openai.com</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zyf0226;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</span><br><span class="line"><span class="keyword">import</span> javax.swing.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Code</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">getImagePix</span><span class="params">(String path)</span>&#123;</span><br><span class="line">        <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span> (path);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">BufferedImage</span> <span class="variable">image</span> <span class="operator">=</span> ImageIO.read (file);</span><br><span class="line">            <span class="type">int</span> <span class="variable">w</span> <span class="operator">=</span> image.getWidth ();</span><br><span class="line">            <span class="type">int</span> <span class="variable">h</span> <span class="operator">=</span> image.getHeight ();</span><br><span class="line">            <span class="type">String</span> <span class="variable">codeStr</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; w; i += <span class="number">30</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; h; j += <span class="number">30</span>)&#123;</span><br><span class="line">                    <span class="type">int</span> <span class="variable">gray</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>; k &lt; <span class="number">30</span>; k++)&#123;</span><br><span class="line">                        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>; l &lt; <span class="number">30</span>; l++)&#123;</span><br><span class="line">                            <span class="type">int</span> <span class="variable">rgb</span> <span class="operator">=</span> image.getRGB (i + k, j + l);</span><br><span class="line">                            <span class="type">int</span> <span class="variable">red</span> <span class="operator">=</span> (rgb &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                            <span class="type">int</span> <span class="variable">green</span> <span class="operator">=</span> (rgb &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                            <span class="type">int</span> <span class="variable">blue</span> <span class="operator">=</span> (rgb &gt;&gt; <span class="number">0</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                            gray += (red + green + blue) / <span class="number">3</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    gray /= <span class="number">900</span>;</span><br><span class="line">                    <span class="keyword">if</span>(gray &lt; <span class="number">128</span>)&#123;</span><br><span class="line">                        codeStr += <span class="string">&quot;0&quot;</span>;</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        codeStr += <span class="string">&quot;1&quot;</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span> (e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">chat</span> <span class="operator">=</span> <span class="string">&quot;http://chat.openai.com&quot;</span>;</span><br><span class="line">        String[] codeArr = <span class="keyword">new</span> <span class="title class_">String</span>[chat.length ()];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; chat.length (); i++)&#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> chat.charAt (i);</span><br><span class="line">            <span class="type">String</span> <span class="variable">chatbinstr</span> <span class="operator">=</span> Integer.toBinaryString (c);</span><br><span class="line"><span class="comment">//            System.out.println (chatbinstr);</span></span><br><span class="line">            <span class="comment">// 补码8bit</span></span><br><span class="line">            <span class="keyword">while</span>(chatbinstr.length () &lt; <span class="number">8</span>)&#123;</span><br><span class="line">                chatbinstr = <span class="string">&quot;0&quot;</span> + chatbinstr;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println (chatbinstr);</span><br><span class="line">            codeArr[i] = chatbinstr;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">ShowQRCode</span> (codeArr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ShowQRCode</span> <span class="keyword">extends</span> <span class="title class_">JFrame</span>&#123;</span><br><span class="line">    String[] codeArr;</span><br><span class="line"></span><br><span class="line">    ShowQRCode(String[] codeArr)&#123;</span><br><span class="line">        <span class="built_in">this</span>.codeArr = codeArr;</span><br><span class="line">        setSize (<span class="number">800</span>, <span class="number">800</span>);</span><br><span class="line">        setVisible (<span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paint</span><span class="params">(Graphics g)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>.paint (g);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; codeArr.length; i++)&#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">codeStr</span> <span class="operator">=</span> codeArr[i];</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; codeStr.length (); j++)&#123;</span><br><span class="line">                <span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> codeStr.charAt (j);</span><br><span class="line">                <span class="keyword">if</span>(c == <span class="string">&#x27;0&#x27;</span>)&#123;</span><br><span class="line">                    g.setColor (Color.WHITE);</span><br><span class="line">                &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">                    g.setColor (Color.BLACK);</span><br><span class="line">                &#125;</span><br><span class="line">                g.fillRect (<span class="number">100</span> + j * <span class="number">30</span>, <span class="number">100</span> + i * <span class="number">30</span>, <span class="number">30</span>, <span class="number">30</span>);</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/27/%E9%9A%8F%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/27/%E9%9A%8F%E8%AE%B0/" class="post-title-link" itemprop="url">随记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-27 15:11:12" itemprop="dateCreated datePublished" datetime="2023-02-27T15:11:12+08:00">2023-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-02-26 23:23:09" itemprop="dateModified" datetime="2023-02-26T23:23:09+08:00">2023-02-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="最大公约数和最大公倍数"><a href="#最大公约数和最大公倍数" class="headerlink" title="最大公约数和最大公倍数"></a>最大公约数和最大公倍数</h1><p>a,b两个数</p>
+<ul>
+<li>求最大公约数:</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(x%y!=<span class="number">0</span>):</span><br><span class="line">    z=x%y</span><br><span class="line">    x=y</span><br><span class="line">    y=z</span><br><span class="line"><span class="built_in">print</span>(z)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>最小公倍数 : a * b &#x3D; a,b的最小公倍数* a,b的最大公约数</li>
+<li>故 最小公倍数&#x3D; (a*b)&#x2F;z</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/27/%E5%8D%B7%E7%A7%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/27/%E5%8D%B7%E7%A7%AF/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-27 15:11:12" itemprop="dateCreated datePublished" datetime="2023-02-27T15:11:12+08:00">2023-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-02-24 16:06:17" itemprop="dateModified" datetime="2023-02-24T16:06:17+08:00">2023-02-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="卷积-："><a href="#卷积-：" class="headerlink" title="卷积 ："></a>卷积 ：</h2><ul>
+<li>卷积核：</li>
+<li>{-1,-1,-1}</li>
+<li>{-1,9,-1}</li>
+<li>{-1,-1,-1}</li>
+<li>特征放大：<ul>
+<li>矩阵中符合卷积核的特征，经过卷积之后就会放大数值</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> BufferedImage <span class="title function_">drawImage</span><span class="params">(<span class="type">int</span>[][] imagePix)</span>&#123;</span><br><span class="line">       <span class="comment">// 准备一个卷积核心</span></span><br><span class="line">       <span class="type">int</span>[][] ks = &#123;</span><br><span class="line">               &#123;-<span class="number">1</span>, <span class="number">1</span>, -<span class="number">1</span>&#125;,</span><br><span class="line">               &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</span><br><span class="line">               &#123;-<span class="number">1</span>, <span class="number">1</span>, -<span class="number">1</span>&#125;</span><br><span class="line">       &#125;;</span><br><span class="line">       <span class="type">int</span>[][] npixs = <span class="keyword">new</span> <span class="title class_">int</span>[imagePix.length][imagePix[<span class="number">0</span>].length];</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; imagePix.length - ks.length; i++)&#123;</span><br><span class="line">           <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; imagePix[i].length - ks[<span class="number">0</span>].length; j++)&#123;</span><br><span class="line"></span><br><span class="line">               <span class="type">int</span> <span class="variable">nRed</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">               <span class="type">int</span> <span class="variable">nGreen</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">               <span class="type">int</span> <span class="variable">nBlue</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">               <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>; k &lt; ks.length; k++)&#123;</span><br><span class="line">                   <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>; l &lt; ks[k].length; l++)&#123;</span><br><span class="line">                       <span class="type">int</span> <span class="variable">i1</span> <span class="operator">=</span> ks[k][l];</span><br><span class="line">                       <span class="type">int</span> <span class="variable">pix</span> <span class="operator">=</span> imagePix[i + k][j + l];</span><br><span class="line">                       <span class="type">int</span> <span class="variable">red</span> <span class="operator">=</span> (pix &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                       <span class="type">int</span> <span class="variable">green</span> <span class="operator">=</span> (pix &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                       <span class="type">int</span> <span class="variable">blue</span> <span class="operator">=</span> (pix &gt;&gt; <span class="number">0</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                       nRed += red * i1;</span><br><span class="line">                       nGreen += green * i1;</span><br><span class="line">                       nBlue += blue * i1;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="comment">// 边界判断</span></span><br><span class="line">               <span class="keyword">if</span>(nRed &lt; <span class="number">0</span>) nRed = <span class="number">0</span>;</span><br><span class="line">               <span class="keyword">if</span>(nRed &gt; <span class="number">255</span>) nRed = <span class="number">255</span>;</span><br><span class="line">               <span class="keyword">if</span>(nGreen &lt; <span class="number">0</span>) nGreen = <span class="number">0</span>;</span><br><span class="line">               <span class="keyword">if</span>(nGreen &gt; <span class="number">255</span>) nGreen = <span class="number">255</span>;</span><br><span class="line">               <span class="keyword">if</span>(nBlue &lt; <span class="number">0</span>) nBlue = <span class="number">0</span>;</span><br><span class="line">               <span class="keyword">if</span>(nBlue &gt; <span class="number">255</span>) nBlue = <span class="number">255</span>;</span><br><span class="line">               <span class="type">int</span> <span class="variable">npix</span> <span class="operator">=</span> <span class="number">255</span> &lt;&lt; <span class="number">24</span> | nRed &lt;&lt; <span class="number">16</span> | nGreen &lt;&lt; <span class="number">8</span> | nBlue;</span><br><span class="line">               npixs[i + ks.length / <span class="number">2</span>][j + ks[<span class="number">0</span>].length / <span class="number">2</span>] = npix;</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> drawSrcImage (npixs);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>以图搜图：<ul>
+<li>图片很多，并且尺寸不一</li>
+<li>将图片都转为一个缩小对应尺寸的 灰度图<ul>
+<li>8<em>8 &#x2F;32</em>32的灰度图</li>
+<li>灰度二值化 只有黑白</li>
+<li>黑为1 白为0 &#x3D; 根据图片得到一个 01编码</li>
+<li>每个图片都有对应的一个编码</li>
+</ul>
+</li>
+<li>将需要搜索的图片 经过以上处理</li>
+<li>与训练集中的图片编码进行比对 汉明距离(比较字符串的算法 -一个字符串转为另一个字符串最小需要替换的字符数)</li>
+<li>汉明距离越小的表示图片越接近</li>
+<li>感知hash算法 Phash</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/22/java%E5%9B%BE%E7%89%87%E5%A2%9E%E5%BC%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/22/java%E5%9B%BE%E7%89%87%E5%A2%9E%E5%BC%BA/" class="post-title-link" itemprop="url">java图片增强</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-22 22:17:15" itemprop="dateCreated datePublished" datetime="2023-02-22T22:17:15+08:00">2023-02-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-02-24 11:24:25" itemprop="dateModified" datetime="2023-02-24T11:24:25+08:00">2023-02-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JAVA-IO"><a href="#JAVA-IO" class="headerlink" title="JAVA IO"></a>JAVA IO</h1><h2 id="图像的读取和保存-GUI"><a href="#图像的读取和保存-GUI" class="headerlink" title="图像的读取和保存(GUI)"></a>图像的读取和保存(GUI)</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (str.equals(<span class="string">&quot;打开&quot;</span>)) &#123;</span><br><span class="line">            <span class="type">JFileChooser</span> <span class="variable">chooser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JFileChooser</span>();</span><br><span class="line">            <span class="type">FileNameExtensionFilter</span> <span class="variable">filter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileNameExtensionFilter</span>(</span><br><span class="line">                    <span class="string">&quot;JPG &amp; GIF &amp; PNG Images&quot;</span>, <span class="string">&quot;png&quot;</span>, <span class="string">&quot;jpeg&quot;</span>, <span class="string">&quot;jpg&quot;</span>, <span class="string">&quot;gif&quot;</span></span><br><span class="line">            );</span><br><span class="line">            chooser.setFileFilter(filter);</span><br><span class="line">            <span class="type">int</span> <span class="variable">returnValue</span> <span class="operator">=</span> chooser.showOpenDialog(<span class="literal">null</span>);</span><br><span class="line">            <span class="keyword">if</span> (returnValue == JFileChooser.APPROVE_OPTION) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;You chose to open this file: &quot;</span> +</span><br><span class="line">                        chooser.getSelectedFile().getName());</span><br><span class="line">                imgPix = tools.getPixel(chooser.getSelectedFile().getPath());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (str.equals(<span class="string">&quot;保存&quot;</span>)) &#123;</span><br><span class="line">            <span class="type">JFileChooser</span> <span class="variable">chooser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JFileChooser</span>();</span><br><span class="line">            <span class="type">FileNameExtensionFilter</span> <span class="variable">filter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileNameExtensionFilter</span>(<span class="string">&quot;JPG &amp; GIF &amp; PNG Images&quot;</span>, <span class="string">&quot;png&quot;</span>, <span class="string">&quot;jpeg&quot;</span>, <span class="string">&quot;jpg&quot;</span>, <span class="string">&quot;gif&quot;</span>);</span><br><span class="line">            chooser.setFileFilter(filter);</span><br><span class="line">            <span class="type">int</span> returnValue=chooser.showSaveDialog(<span class="literal">null</span> );</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                ImageIO.write(imgList.get(imgList.size()-<span class="number">1</span>),<span class="string">&quot;PNG&quot;</span>,chooser.getSelectedFile() );</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>都使用 JFileChooser类进行操作,读取时使用chooser.getSelectedFile() 获取文件,保存时使用 ImagetIO.write() 进行保存,</p>
+<p>保存时的参数分别为(BufferedImage对象,文件类型,文件路径)</p>
+<h1 id="JAVA-滑杆"><a href="#JAVA-滑杆" class="headerlink" title="JAVA 滑杆"></a>JAVA 滑杆</h1><h1 id="JAVA-选项卡"><a href="#JAVA-选项卡" class="headerlink" title="JAVA 选项卡"></a>JAVA 选项卡</h1><h2 id="选项卡的使用"><a href="#选项卡的使用" class="headerlink" title="选项卡的使用"></a>选项卡的使用</h2><ul>
+<li>建立JTabbedPane对象,作为选项卡,选项卡的选项都要添加到该对象中</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">JTabbedPane tabbledPane=<span class="keyword">new</span> <span class="title class_">JTabbedPane</span>(JTabbedPane.TOP);</span><br><span class="line">        imgListener.setTabblePanel(tabbledPane);</span><br><span class="line">        tabbledPane.setPreferredSize(<span class="keyword">new</span> <span class="title class_">Dimension</span>(<span class="built_in">this</span>.getWidth()-<span class="number">180</span>,<span class="number">30</span>));</span><br><span class="line">        tabbledPane.setLocation(<span class="number">90</span>,<span class="number">0</span>);</span><br><span class="line">        tabbledPane.addChangeListener(tabbleListener);</span><br><span class="line">        tabbleListener.setShowImgPanel(imgPanel);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对选项卡添加选项</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">JLabel</span> <span class="variable">nameLabel</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JLabel</span>();</span><br><span class="line">        nameLabel.setName(path);</span><br><span class="line">        tabblePanel.add(name,nameLabel);</span><br><span class="line">        <span class="comment">//将选项卡设置到最新添加的</span></span><br><span class="line">        tabblePanel.setSelectedIndex(tabblePanel.getComponentCount()-<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>JLabel作为选项对象,<code>tabblePanel.add(name,nameLabel);</code> 参数分别为: 显示出来的选项名称,选项对象</p>
+<h2 id="设置选中的选项"><a href="#设置选中的选项" class="headerlink" title="设置选中的选项"></a>设置选中的选项</h2><p><code>tabblePanel.setSelectedIndex(tabblePanel.getComponentCount()-1);</code></p>
+<ul>
+<li>通过index 选中选项,<code>tabblePanel.getComponentCount()-1</code> 即最后一个选项的引索</li>
+</ul>
+<h2 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h2><p>对选项卡进行监听要实现 ChangeListener 接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stateChanged</span><span class="params">(ChangeEvent e)</span> &#123;</span><br><span class="line">        <span class="type">JTabbedPane</span> <span class="variable">pane</span> <span class="operator">=</span> (JTabbedPane) e.getSource();</span><br><span class="line">        JLabel label= (JLabel) pane.getSelectedComponent();</span><br><span class="line"></span><br><span class="line">        String path=label.getName();</span><br><span class="line">        System.out.println(path);</span><br><span class="line">        imgList.add(openImg(path));</span><br><span class="line">        imgListener.setImgPix(path);</span><br><span class="line"></span><br><span class="line">        panel.repaint();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h1 id="JAVA-菜单"><a href="#JAVA-菜单" class="headerlink" title="JAVA 菜单"></a>JAVA 菜单</h1><h2 id="菜单条"><a href="#菜单条" class="headerlink" title="菜单条"></a>菜单条</h2><p>JMenuBar — 菜单条类</p>
+<ul>
+<li>JMenuBar是菜单的基础,只能添加到JFram组件的顶端中,承载菜单组件,一个JFram组件只能添加一个菜单条</li>
+<li><code>this.setJMenuBar(new JMenuBar);</code></li>
+</ul>
+<p>JMenu — 菜单类</p>
+<ul>
+<li>JMenu 是菜单条中的一个个选项,添加到菜单条中 </li>
+<li><code>menuBar.add(menu);</code></li>
+</ul>
+<p>JMenuItem — 菜单项类 </p>
+<ul>
+<li>JMenuItem 是菜单点开后的菜单选项,添加到菜单中</li>
+<li>分割条: <code>menu.addSeparator();</code></li>
+</ul>
+<h1 id="JAVA-窗体操作"><a href="#JAVA-窗体操作" class="headerlink" title="JAVA 窗体操作"></a>JAVA 窗体操作</h1><ul>
+<li>退出程序 <code>System.exit(0);</code></li>
+<li>退出窗口<code> (JFrame)frame.dispose();</code></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/06/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/06/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">基础算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-06 17:23:51" itemprop="dateCreated datePublished" datetime="2023-02-06T17:23:51+08:00">2023-02-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-02-13 21:29:09" itemprop="dateModified" datetime="2023-02-13T21:29:09+08:00">2023-02-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="基础算法"><a href="#基础算法" class="headerlink" title="基础算法"></a>基础算法</h1><h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>查找 [0,n)之间的 x或<strong>x的后缀</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">binSearch</span><span class="params">(<span class="type">int</span> a[], <span class="type">int</span> n, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> left = <span class="number">0</span>; <span class="type">int</span> right = n - <span class="number">1</span>;</span><br><span class="line">	<span class="type">int</span> mid;</span><br><span class="line">	<span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">		mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">		<span class="comment">// mid=left+(right-left)/2  防止right和left相加后溢出</span></span><br><span class="line">        <span class="comment">// mid=left+(right-left)&gt;&gt;2 综合最优</span></span><br><span class="line">		<span class="keyword">if</span> (a[mid] &gt; x) right = mid;</span><br><span class="line">		<span class="comment">//if(a[mid]&gt;=x) right=mid;</span></span><br><span class="line">		<span class="comment">// eles left=mid+1;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码中 left&#x3D;mid+1 不能写作 left&#x3D;mid,默认向下取整,若left&#x3D;2,right&#x3D;3则导致 left&#x3D;mid时 陷入死循环</li>
+<li>不同问题下mid的取值<ul>
+<li>语言中 mid默认向下取整,称为”左中位数”,适应于求 x或x的后缀</li>
+<li>向上取整时,称为”右中位数”,使用于 求x或x的前驱 此时 <code>left=mid; right=mid-1;</code></li>
+</ul>
+</li>
+<li>应谨慎使用直接  除2(x&#x2F;2)操作,因为默认朝 0 方向取整<ul>
+<li>为运算 &gt;&gt; 向下取整而 right-left 保证了不小于0</li>
+</ul>
+</li>
+</ul>
+<h3 id="STL二分"><a href="#STL二分" class="headerlink" title="STL二分"></a>STL二分</h3><ul>
+<li>lower_bound()  upper_bound()</li>
+</ul>
+<h3 id="最大值最小化-最小值最大化"><a href="#最大值最小化-最小值最大化" class="headerlink" title="最大值最小化(最小值最大化)"></a>最大值最小化(最小值最大化)</h3><p>- </p>
+<h3 id="实数二分"><a href="#实数二分" class="headerlink" title="实数二分"></a>实数二分</h3><p>实数二分不需要考虑取整问题,编码比整数二分简单</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">double</span> eps = <span class="number">1e-7</span>; <span class="comment">//控制精度</span></span><br><span class="line">	<span class="type">int</span> left, right,x;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span> (right - left &gt; eps) &#123;</span><br><span class="line">		<span class="type">double</span> mid = left + (right - left) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">check</span>(mid)) right = mid;</span><br><span class="line">		<span class="keyword">else</span> left=mid</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用for循环控制精度和while控制精度都存在问题</p>
+<ul>
+<li>for循环次数不能太大或太小,一般100次比while要大得多,但若for中需要的时间过长会导致超时,需要根据实际调整循环次数</li>
+<li>对于while循环 eps太小会超时,太大会导致精度小,也需要仔细考虑</li>
+</ul>
+<h3 id="P1824"><a href="#P1824" class="headerlink" title="P1824"></a>P1824</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, c,x[<span class="number">1000000</span>];</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">check</span><span class="params">(<span class="type">int</span> mid)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> count = <span class="number">1</span>,pre=<span class="number">0</span>;	<span class="comment">//第一头牛放在第一个位置</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (x[i] - x[pre] &gt;= mid) &#123;</span><br><span class="line">			count += <span class="number">1</span>;</span><br><span class="line">			pre = i;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> count &gt;= c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> mid;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; c;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; x[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">sort</span>(x, x + n);</span><br><span class="line">	<span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> left = <span class="number">0</span>, right = x[n - <span class="number">1</span>];</span><br><span class="line">	<span class="keyword">while</span> (right &gt; left) &#123;</span><br><span class="line">		mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">check</span>(mid)) &#123;</span><br><span class="line">			ans = mid; <span class="comment">//记录结果</span></span><br><span class="line">			left = mid + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> right = mid;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; ans;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三分法"><a href="#三分法" class="headerlink" title="三分法"></a>三分法</h2><p>用 mid1和mid2 进行三分,可以用于求单峰或单谷函数的极值</p>
+<p>N次函数求值: <code>for(int i=0;i&lt;=n;++i) s=s*x+a[i]  </code></p>
+<p>a[i]代表从高到低各项的系数</p>
+<h3 id="整数三分"><a href="#整数三分" class="headerlink" title="整数三分"></a>整数三分</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(right-left&gt;<span class="number">2</span>)&#123;</span><br><span class="line">    mid1=left+(right-left)/<span class="number">3</span>;</span><br><span class="line">    mid2=right-(right-left)/<span class="number">3</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">check</span>(mid1)&gt;<span class="built_in">check</span>(mid2)) </span><br><span class="line">        ...</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​     </p>
+<h1 id="倍增法"><a href="#倍增法" class="headerlink" title="倍增法"></a>倍增法</h1><p>倍增法需要提前计算好跳板,这要求数据是静态不变的,若数据动态变化,跳板需要重新计算,倍增法也就失去意义了</p>
+<h2 id="洛谷P4155"><a href="#洛谷P4155" class="headerlink" title="洛谷P4155"></a>洛谷P4155</h2><ul>
+<li>定义go[s][i]表示从第s个区间出发,走2^i个最优区间到达的区间,s和go[s][i]之间的区间也都是最优区间</li>
+<li>跳板的递推计算 : go[s][i]&#x3D;go[ go[s][i-1] ] [i-1]<ul>
+<li>首先从s起跳,跳到2^i-1位置,再从 2^i-1位置跳到 2^i位置,一共跳了2^i-1 + 2^i-1 步,即2^i步</li>
+</ul>
+</li>
+<li>初始条件 go[s][0] 是使用贪心算法计算出的第一个最优位置,之后的跳板以此为基础计算</li>
+</ul>
+<h2 id="ST算法"><a href="#ST算法" class="headerlink" title="ST算法"></a>ST算法</h2><p>求解区间最值查询,基于 大区间的最值 等于多个小区间的最值的最值</p>
+<p>分为以下步骤:</p>
+<ol>
+<li>把整个区间划分为很多个小区间,提前计算各小区间的最值</li>
+<li>对任意区间查最值,找到覆盖它的小区间,计算小区间最值的最值</li>
+</ol>
+<h3 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h3><ul>
+<li><p>使用倍增法分组,第一组 小区间长度为1,第二组小区间长度为2…以此类推</p>
+</li>
+<li><p>即长度为n的数列有公有 log2 n组 </p>
+</li>
+<li><p>其中,每组的最值可以由前一组的最值递推而来</p>
+</li>
+<li><p>定义 dp[s][k]表示左端点为s,区间长度为 2^k长度的区间最值 </p>
+<ul>
+<li>dp[s][k]&#x3D;min(dp[s][k-1],dp[s+(1&lt;&lt;k-1)][k-1] )</li>
+</ul>
+</li>
+</ul>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><ul>
+<li>查询任意区间最值只需要找到两个覆盖该区间的小区间,求该小区间的最值的最值</li>
+<li>区间[L,R] 的长度len&#x3D; L-R+1,令x为小于len的2的最大倍数,如len&#x3D;19,则x&#x3D;16,k&#x3D;4;</li>
+<li>res&#x3D;min(dp[L][k],dp[R-(1&lt;&lt;k)+1][k])</li>
+</ul>
+<h3 id="例题-P2880"><a href="#例题-P2880" class="headerlink" title="例题 P2880"></a>例题 P2880</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">5e4</span> + <span class="number">1</span>;</span><br><span class="line"><span class="type">int</span> num[N],lr[<span class="number">180001</span>][<span class="number">2</span>];</span><br><span class="line"><span class="type">int</span> dpMax[N][<span class="number">22</span>], dpMin[N][<span class="number">22</span>];</span><br><span class="line"><span class="type">int</span> n, q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//长度为1的小组</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		dpMax[i][<span class="number">0</span>] = num[i];</span><br><span class="line">		dpMin[i][<span class="number">0</span>] = num[i];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i&lt;=<span class="built_in">log2</span>(n); ++i) &#123;	<span class="comment">//倍增</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>;j+( <span class="number">1</span> &lt;&lt; i) &lt;= n+<span class="number">1</span>; ++j) &#123; <span class="comment">//即j+2^i-1 &lt;=n ,从1开始长度为2的区间应是 [1,2],但1+2=3，故减一</span></span><br><span class="line">			dpMax[j][i] = <span class="built_in">max</span>(dpMax[j][i - <span class="number">1</span>], dpMax[j + (<span class="number">1</span> &lt;&lt; (i - <span class="number">1</span>))][i - <span class="number">1</span>]);</span><br><span class="line">			dpMin[j][i] = <span class="built_in">min</span>(dpMin[j][i - <span class="number">1</span>], dpMin[j + (<span class="number">1</span> &lt;&lt; (i - <span class="number">1</span>))][i - <span class="number">1</span>]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getRes</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> k;</span><br><span class="line">	<span class="type">int</span> len = r - l + <span class="number">1</span>;</span><br><span class="line">	k = <span class="built_in">log2</span>(len);</span><br><span class="line">	<span class="type">int</span> max_ = <span class="built_in">max</span>(dpMax[l][k], dpMax[r - (<span class="number">1</span> &lt;&lt; k) + <span class="number">1</span>][k]);</span><br><span class="line">	<span class="type">int</span> min_ = <span class="built_in">min</span>(dpMin[l][k], dpMin[r - (<span class="number">1</span> &lt;&lt; k) + <span class="number">1</span>][k]);</span><br><span class="line">	<span class="keyword">return</span> max_ - min_;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; q;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; num[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= q; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; lr[i][<span class="number">0</span>] &gt;&gt; lr[i][<span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">init</span>();</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= q; ++i) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="built_in">getRes</span>(lr[i][<span class="number">0</span>], lr[i][<span class="number">1</span>]) &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="差分法"><a href="#差分法" class="headerlink" title="差分法"></a>差分法</h1><h2 id="一维差分"><a href="#一维差分" class="headerlink" title="一维差分"></a>一维差分</h2><p>差分应用于区间修改和查询问题,把给定数据集A分成多个区间,对不同区间进行多次操作,如对区间内数据进行加减操作,求操作后的数据集</p>
+<p>若使用暴力法,时间复杂度为O(mn),使用差分法可以优化至O(m+n)</p>
+<ul>
+<li>使用两个数组: 原数组a[],差分数组 D[]</li>
+<li>差分数组D[]的定义是 D[i]&#x3D;a[i]-a[i-1],可以推出 a[i]&#x3D;D[1]+D[2]+…+D[i],即原数组是差分数组的前缀和数组 <em><strong>差分是前缀和的逆运算</strong></em></li>
+<li>对数组a[] 的 [L,R]区间加上一个数x<ul>
+<li>D[L] +&#x3D;	x</li>
+<li>D[R+1] -&#x3D; x</li>
+</ul>
+</li>
+<li>这样使[L,R]之间的前缀和增加了x(即 a[L,R]增加了x),其他范围不受影响</li>
+<li>结果数组为 a[i]&#x3D;a[i-1]+D[i] (a[i-1]即D[1]+…+D[i-1])</li>
+</ul>
+<h3 id="hdu1556"><a href="#hdu1556" class="headerlink" title="hdu1556"></a>hdu1556</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">int</span> a[<span class="number">100005</span>]=&#123;<span class="number">0</span>&#125;,d[<span class="number">100005</span>]=&#123;<span class="number">0</span>&#125;	;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n,l,r;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; l &gt;&gt; r;</span><br><span class="line">		d[l] += <span class="number">1</span>;</span><br><span class="line">		d[r + <span class="number">1</span>] -= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		a[i] = d[i] + a[i - <span class="number">1</span>];</span><br><span class="line">		cout &lt;&lt; a[i];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/17/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -706,438 +1235,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/12/Unity3D%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/12/Unity3D%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">Unity3D基础</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-12 18:24:20" itemprop="dateCreated datePublished" datetime="2023-01-12T18:24:20+08:00">2023-01-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-13 20:03:50" itemprop="dateModified" datetime="2023-01-13T20:03:50+08:00">2023-01-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Unity3D/" itemprop="url" rel="index"><span itemprop="name">Unity3D</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ol>
-<li>脚本生命周期方法				</li>
-<li>多脚本执行顺序                   </li>
-<li>标识                                       </li>
-<li>预设体                                  </li>
-<li>vector3</li>
-<li>旋转</li>
-<li>Debug</li>
-<li>物体类</li>
-<li>游戏时间</li>
-<li>Application</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/12/Unity3D%E5%9F%BA%E7%A1%80/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/11/Edu-141/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/11/Edu-141/" class="post-title-link" itemprop="url">Edu 141</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-11 18:50:47" itemprop="dateCreated datePublished" datetime="2023-01-11T18:50:47+08:00">2023-01-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-12 10:47:26" itemprop="dateModified" datetime="2023-01-12T10:47:26+08:00">2023-01-12</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="A-Mike-it-Beautiful"><a href="#A-Mike-it-Beautiful" class="headerlink" title="A Mike it Beautiful"></a>A Mike it Beautiful</h1>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/10/hello-2023/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/10/hello-2023/" class="post-title-link" itemprop="url">hello 2023</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-01-10 09:28:16 / 修改时间：15:14:11" itemprop="dateCreated datePublished" datetime="2023-01-10T09:28:16+08:00">2023-01-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="C-Least-Prefix-Sum"><a href="#C-Least-Prefix-Sum" class="headerlink" title="C     Least Prefix Sum"></a>C     Least Prefix Sum</h1><h2 id="原题"><a href="#原题" class="headerlink" title="原题:"></a>原题:</h2><p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1779/problem/C"><strong>Least Prefix Sum</strong></a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/10/hello-2023/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/07/%E4%BA%94%E5%AD%90%E6%A3%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/07/%E4%BA%94%E5%AD%90%E6%A3%8B/" class="post-title-link" itemprop="url">五子棋</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-07 21:45:27" itemprop="dateCreated datePublished" datetime="2023-01-07T21:45:27+08:00">2023-01-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-08 10:00:25" itemprop="dateModified" datetime="2023-01-08T10:00:25+08:00">2023-01-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="java实现五子棋"><a href="#java实现五子棋" class="headerlink" title="java实现五子棋"></a>java实现五子棋</h1><h2 id="一-结构"><a href="#一-结构" class="headerlink" title="一.结构"></a>一.结构</h2><p>通过图形化编程,实现在15*15的棋盘上进行五子棋游戏,含有悔棋,录制和逐步回放功能,实现以上各功能的类和接口如下</p>
-<ol>
-<li>GoBangUI  </li>
-<li>GoListener</li>
-<li>GoData</li>
-<li>StartButtonListener</li>
-<li>RepetanceButtonListener</li>
-<li>EndButtonListener</li>
-<li>PlayBackListener</li>
-<li>PlayBackUI</li>
-<li>NextListener</li>
-<li>LastListener</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/07/%E4%BA%94%E5%AD%90%E6%A3%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/03/%E6%8E%A5%E5%8F%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/03/%E6%8E%A5%E5%8F%A3/" class="post-title-link" itemprop="url">接口</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-01-03 19:12:44 / 修改时间：19:13:16" itemprop="dateCreated datePublished" datetime="2023-01-03T19:12:44+08:00">2023-01-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><p>格式: <code>interface 接口名 &#123;&#125;</code></p>
-<ul>
-<li>接口中的变量默认以 statci final 修饰,必须初始化赋值</li>
-<li>接口中可以定义抽象方法,静态方法和默认方法</li>
-</ul>
-<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><ol>
-<li>创建一个类 实现 接口(继承接口) ,一个类可以实现多个接口但只能继承一个类</li>
-<li>类中必须重写接口中的所有抽象方法</li>
-<li>类中可以直接使用 接口中的变量,静态方法和默认方法</li>
-</ol>
-<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">open</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Door</span>&#123;</span><br><span class="line">    Lock lock;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">openDoor</span><span class="params">()</span>&#123;</span><br><span class="line">        lock.open();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">closeDoor</span><span class="params">()</span>&#123;</span><br><span class="line">        lock.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//实现 接口Lock</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">leyLock</span> <span class="keyword">implements</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">open</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;key 正确,开门&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;key 正确,关门&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">calss Mange&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        Door door= <span class="keyword">new</span> <span class="title class_">Door</span>();</span><br><span class="line">        keyLock keylock=<span class="keyword">new</span> <span class="title class_">keyLock</span>();</span><br><span class="line">        door.lock() = keylock; <span class="comment">//传入接口</span></span><br><span class="line">        </span><br><span class="line">        door.open();</span><br><span class="line">        door.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>若要对锁进行升级或修改,对实现锁这个接口的类进行修改或再次创建一个类对锁进行实现,然后传入接口就可以了,避免了对门和锁的源码进行修改</p>
-<h2 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h2><ul>
-<li><p>抽象类： </p>
-<ul>
-<li>定义抽象方法</li>
-<li>定义普通方法</li>
-</ul>
-</li>
-<li><p>接口 &gt; 抽象类 &gt; 类： </p>
-</li>
-<li><p>设计 &gt; 半成品 &gt; 成品 </p>
-</li>
-<li><p>依赖不能导致： </p>
-<ul>
-<li>抽象类可以继承非抽象类,但不要这么做</li>
-</ul>
-</li>
-<li><p>只要是抽象的都不可以实例化对象</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1209,20 +1306,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

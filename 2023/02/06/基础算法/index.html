@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基础算法二分法查找 [0,n)之间的 x或x的后缀 12345678910111213int binSearch(int a[], int n, int x) &amp;#123;	int left &#x3D; 0; int right &#x3D; n - 1;	int mid;	while (left &lt; right) &amp;#123;		mid &#x3D; (left + right) &#x2F; 2;		&#x2F;&#x2F; mid&#x3D;left+">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础算法">
+<meta property="og:url" content="http://example.com/2023/02/06/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="基础算法二分法查找 [0,n)之间的 x或x的后缀 12345678910111213int binSearch(int a[], int n, int x) &amp;#123;	int left &#x3D; 0; int right &#x3D; n - 1;	int mid;	while (left &lt; right) &amp;#123;		mid &#x3D; (left + right) &#x2F; 2;		&#x2F;&#x2F; mid&#x3D;left+">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-02-06T09:23:51.187Z">
+<meta property="article:modified_time" content="2023-02-13T13:29:09.713Z">
+<meta property="article:author" content="YQYjin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/02/06/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>基础算法 | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/06/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基础算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-06 17:23:51" itemprop="dateCreated datePublished" datetime="2023-02-06T17:23:51+08:00">2023-02-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-02-13 21:29:09" itemprop="dateModified" datetime="2023-02-13T21:29:09+08:00">2023-02-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="基础算法"><a href="#基础算法" class="headerlink" title="基础算法"></a>基础算法</h1><h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>查找 [0,n)之间的 x或<strong>x的后缀</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">binSearch</span><span class="params">(<span class="type">int</span> a[], <span class="type">int</span> n, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> left = <span class="number">0</span>; <span class="type">int</span> right = n - <span class="number">1</span>;</span><br><span class="line">	<span class="type">int</span> mid;</span><br><span class="line">	<span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">		mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">		<span class="comment">// mid=left+(right-left)/2  防止right和left相加后溢出</span></span><br><span class="line">        <span class="comment">// mid=left+(right-left)&gt;&gt;2 综合最优</span></span><br><span class="line">		<span class="keyword">if</span> (a[mid] &gt; x) right = mid;</span><br><span class="line">		<span class="comment">//if(a[mid]&gt;=x) right=mid;</span></span><br><span class="line">		<span class="comment">// eles left=mid+1;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码中 left&#x3D;mid+1 不能写作 left&#x3D;mid,默认向下取整,若left&#x3D;2,right&#x3D;3则导致 left&#x3D;mid时 陷入死循环</li>
+<li>不同问题下mid的取值<ul>
+<li>语言中 mid默认向下取整,称为”左中位数”,适应于求 x或x的后缀</li>
+<li>向上取整时,称为”右中位数”,使用于 求x或x的前驱 此时 <code>left=mid; right=mid-1;</code></li>
+</ul>
+</li>
+<li>应谨慎使用直接  除2(x&#x2F;2)操作,因为默认朝 0 方向取整<ul>
+<li>为运算 &gt;&gt; 向下取整而 right-left 保证了不小于0</li>
+</ul>
+</li>
+</ul>
+<h3 id="STL二分"><a href="#STL二分" class="headerlink" title="STL二分"></a>STL二分</h3><ul>
+<li>lower_bound()  upper_bound()</li>
+</ul>
+<h3 id="最大值最小化-最小值最大化"><a href="#最大值最小化-最小值最大化" class="headerlink" title="最大值最小化(最小值最大化)"></a>最大值最小化(最小值最大化)</h3><p>- </p>
+<h3 id="实数二分"><a href="#实数二分" class="headerlink" title="实数二分"></a>实数二分</h3><p>实数二分不需要考虑取整问题,编码比整数二分简单</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">double</span> eps = <span class="number">1e-7</span>; <span class="comment">//控制精度</span></span><br><span class="line">	<span class="type">int</span> left, right,x;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span> (right - left &gt; eps) &#123;</span><br><span class="line">		<span class="type">double</span> mid = left + (right - left) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">check</span>(mid)) right = mid;</span><br><span class="line">		<span class="keyword">else</span> left=mid</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用for循环控制精度和while控制精度都存在问题</p>
+<ul>
+<li>for循环次数不能太大或太小,一般100次比while要大得多,但若for中需要的时间过长会导致超时,需要根据实际调整循环次数</li>
+<li>对于while循环 eps太小会超时,太大会导致精度小,也需要仔细考虑</li>
+</ul>
+<h3 id="P1824"><a href="#P1824" class="headerlink" title="P1824"></a>P1824</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, c,x[<span class="number">1000000</span>];</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">check</span><span class="params">(<span class="type">int</span> mid)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> count = <span class="number">1</span>,pre=<span class="number">0</span>;	<span class="comment">//第一头牛放在第一个位置</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (x[i] - x[pre] &gt;= mid) &#123;</span><br><span class="line">			count += <span class="number">1</span>;</span><br><span class="line">			pre = i;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> count &gt;= c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> mid;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; c;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; x[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">sort</span>(x, x + n);</span><br><span class="line">	<span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> left = <span class="number">0</span>, right = x[n - <span class="number">1</span>];</span><br><span class="line">	<span class="keyword">while</span> (right &gt; left) &#123;</span><br><span class="line">		mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">check</span>(mid)) &#123;</span><br><span class="line">			ans = mid; <span class="comment">//记录结果</span></span><br><span class="line">			left = mid + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> right = mid;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; ans;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三分法"><a href="#三分法" class="headerlink" title="三分法"></a>三分法</h2><p>用 mid1和mid2 进行三分,可以用于求单峰或单谷函数的极值</p>
+<p>N次函数求值: <code>for(int i=0;i&lt;=n;++i) s=s*x+a[i]  </code></p>
+<p>a[i]代表从高到低各项的系数</p>
+<h3 id="整数三分"><a href="#整数三分" class="headerlink" title="整数三分"></a>整数三分</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(right-left&gt;<span class="number">2</span>)&#123;</span><br><span class="line">    mid1=left+(right-left)/<span class="number">3</span>;</span><br><span class="line">    mid2=right-(right-left)/<span class="number">3</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">check</span>(mid1)&gt;<span class="built_in">check</span>(mid2)) </span><br><span class="line">        ...</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​     </p>
+<h1 id="倍增法"><a href="#倍增法" class="headerlink" title="倍增法"></a>倍增法</h1><p>倍增法需要提前计算好跳板,这要求数据是静态不变的,若数据动态变化,跳板需要重新计算,倍增法也就失去意义了</p>
+<h2 id="洛谷P4155"><a href="#洛谷P4155" class="headerlink" title="洛谷P4155"></a>洛谷P4155</h2><ul>
+<li>定义go[s][i]表示从第s个区间出发,走2^i个最优区间到达的区间,s和go[s][i]之间的区间也都是最优区间</li>
+<li>跳板的递推计算 : go[s][i]&#x3D;go[ go[s][i-1] ] [i-1]<ul>
+<li>首先从s起跳,跳到2^i-1位置,再从 2^i-1位置跳到 2^i位置,一共跳了2^i-1 + 2^i-1 步,即2^i步</li>
+</ul>
+</li>
+<li>初始条件 go[s][0] 是使用贪心算法计算出的第一个最优位置,之后的跳板以此为基础计算</li>
+</ul>
+<h2 id="ST算法"><a href="#ST算法" class="headerlink" title="ST算法"></a>ST算法</h2><p>求解区间最值查询,基于 大区间的最值 等于多个小区间的最值的最值</p>
+<p>分为以下步骤:</p>
+<ol>
+<li>把整个区间划分为很多个小区间,提前计算各小区间的最值</li>
+<li>对任意区间查最值,找到覆盖它的小区间,计算小区间最值的最值</li>
+</ol>
+<h3 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h3><ul>
+<li><p>使用倍增法分组,第一组 小区间长度为1,第二组小区间长度为2…以此类推</p>
+</li>
+<li><p>即长度为n的数列有公有 log2 n组 </p>
+</li>
+<li><p>其中,每组的最值可以由前一组的最值递推而来</p>
+</li>
+<li><p>定义 dp[s][k]表示左端点为s,区间长度为 2^k长度的区间最值 </p>
+<ul>
+<li>dp[s][k]&#x3D;min(dp[s][k-1],dp[s+(1&lt;&lt;k-1)][k-1] )</li>
+</ul>
+</li>
+</ul>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><ul>
+<li>查询任意区间最值只需要找到两个覆盖该区间的小区间,求该小区间的最值的最值</li>
+<li>区间[L,R] 的长度len&#x3D; L-R+1,令x为小于len的2的最大倍数,如len&#x3D;19,则x&#x3D;16,k&#x3D;4;</li>
+<li>res&#x3D;min(dp[L][k],dp[R-(1&lt;&lt;k)+1][k])</li>
+</ul>
+<h3 id="例题-P2880"><a href="#例题-P2880" class="headerlink" title="例题 P2880"></a>例题 P2880</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">5e4</span> + <span class="number">1</span>;</span><br><span class="line"><span class="type">int</span> num[N],lr[<span class="number">180001</span>][<span class="number">2</span>];</span><br><span class="line"><span class="type">int</span> dpMax[N][<span class="number">22</span>], dpMin[N][<span class="number">22</span>];</span><br><span class="line"><span class="type">int</span> n, q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//长度为1的小组</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		dpMax[i][<span class="number">0</span>] = num[i];</span><br><span class="line">		dpMin[i][<span class="number">0</span>] = num[i];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i&lt;=<span class="built_in">log2</span>(n); ++i) &#123;	<span class="comment">//倍增</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>;j+( <span class="number">1</span> &lt;&lt; i) &lt;= n+<span class="number">1</span>; ++j) &#123; <span class="comment">//即j+2^i-1 &lt;=n ,从1开始长度为2的区间应是 [1,2],但1+2=3，故减一</span></span><br><span class="line">			dpMax[j][i] = <span class="built_in">max</span>(dpMax[j][i - <span class="number">1</span>], dpMax[j + (<span class="number">1</span> &lt;&lt; (i - <span class="number">1</span>))][i - <span class="number">1</span>]);</span><br><span class="line">			dpMin[j][i] = <span class="built_in">min</span>(dpMin[j][i - <span class="number">1</span>], dpMin[j + (<span class="number">1</span> &lt;&lt; (i - <span class="number">1</span>))][i - <span class="number">1</span>]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getRes</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> k;</span><br><span class="line">	<span class="type">int</span> len = r - l + <span class="number">1</span>;</span><br><span class="line">	k = <span class="built_in">log2</span>(len);</span><br><span class="line">	<span class="type">int</span> max_ = <span class="built_in">max</span>(dpMax[l][k], dpMax[r - (<span class="number">1</span> &lt;&lt; k) + <span class="number">1</span>][k]);</span><br><span class="line">	<span class="type">int</span> min_ = <span class="built_in">min</span>(dpMin[l][k], dpMin[r - (<span class="number">1</span> &lt;&lt; k) + <span class="number">1</span>][k]);</span><br><span class="line">	<span class="keyword">return</span> max_ - min_;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; q;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; num[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= q; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; lr[i][<span class="number">0</span>] &gt;&gt; lr[i][<span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">init</span>();</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= q; ++i) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="built_in">getRes</span>(lr[i][<span class="number">0</span>], lr[i][<span class="number">1</span>]) &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="差分法"><a href="#差分法" class="headerlink" title="差分法"></a>差分法</h1><h2 id="一维差分"><a href="#一维差分" class="headerlink" title="一维差分"></a>一维差分</h2><p>差分应用于区间修改和查询问题,把给定数据集A分成多个区间,对不同区间进行多次操作,如对区间内数据进行加减操作,求操作后的数据集</p>
+<p>若使用暴力法,时间复杂度为O(mn),使用差分法可以优化至O(m+n)</p>
+<ul>
+<li>使用两个数组: 原数组a[],差分数组 D[]</li>
+<li>差分数组D[]的定义是 D[i]&#x3D;a[i]-a[i-1],可以推出 a[i]&#x3D;D[1]+D[2]+…+D[i],即原数组是差分数组的前缀和数组 <em><strong>差分是前缀和的逆运算</strong></em></li>
+<li>对数组a[] 的 [L,R]区间加上一个数x<ul>
+<li>D[L] +&#x3D;	x</li>
+<li>D[R+1] -&#x3D; x</li>
+</ul>
+</li>
+<li>这样使[L,R]之间的前缀和增加了x(即 a[L,R]增加了x),其他范围不受影响</li>
+<li>结果数组为 a[i]&#x3D;a[i-1]+D[i] (a[i-1]即D[1]+…+D[i-1])</li>
+</ul>
+<h3 id="hdu1556"><a href="#hdu1556" class="headerlink" title="hdu1556"></a>hdu1556</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">int</span> a[<span class="number">100005</span>]=&#123;<span class="number">0</span>&#125;,d[<span class="number">100005</span>]=&#123;<span class="number">0</span>&#125;	;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n,l,r;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; l &gt;&gt; r;</span><br><span class="line">		d[l] += <span class="number">1</span>;</span><br><span class="line">		d[r + <span class="number">1</span>] -= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		a[i] = d[i] + a[i - <span class="number">1</span>];</span><br><span class="line">		cout &lt;&lt; a[i];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/01/17/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="prev" title="算法竞赛-1">
+      <i class="fa fa-chevron-left"></i> 算法竞赛-1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/02/22/java%E5%9B%BE%E7%89%87%E5%A2%9E%E5%BC%BA/" rel="next" title="java图片增强">
+      java图片增强 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">基础算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%88%86%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">二分法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#STL%E4%BA%8C%E5%88%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">STL二分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E5%80%BC%E6%9C%80%E5%B0%8F%E5%8C%96-%E6%9C%80%E5%B0%8F%E5%80%BC%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="nav-number">1.1.2.</span> <span class="nav-text">最大值最小化(最小值最大化)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E6%95%B0%E4%BA%8C%E5%88%86"><span class="nav-number">1.1.3.</span> <span class="nav-text">实数二分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#P1824"><span class="nav-number">1.1.4.</span> <span class="nav-text">P1824</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%88%86%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">三分法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E4%B8%89%E5%88%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">整数三分</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%80%8D%E5%A2%9E%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">倍增法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B4%9B%E8%B0%B7P4155"><span class="nav-number">2.1.</span> <span class="nav-text">洛谷P4155</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ST%E7%AE%97%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">ST算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84"><span class="nav-number">2.2.1.</span> <span class="nav-text">分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2"><span class="nav-number">2.2.2.</span> <span class="nav-text">查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E9%A2%98-P2880"><span class="nav-number">2.2.3.</span> <span class="nav-text">例题 P2880</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B7%AE%E5%88%86%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">差分法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E7%BB%B4%E5%B7%AE%E5%88%86"><span class="nav-number">3.1.</span> <span class="nav-text">一维差分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hdu1556"><span class="nav-number">3.1.1.</span> <span class="nav-text">hdu1556</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
