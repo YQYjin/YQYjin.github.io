@@ -20,8 +20,10 @@
   </entry>
   <entry>
     <title>NEXT主题使用说明</title>
-    <url>/2022/10/24/NEXT%E4%B8%BB%E9%A2%98%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</url>
-    <content><![CDATA[<h1 id="MarkDown"><a href="#MarkDown" class="headerlink" title="MarkDown"></a><center>MarkDown</center></h1><h2 id="基本信息配置"><a href="#基本信息配置" class="headerlink" title="基本信息配置"></a>基本信息配置</h2><p>Markdown最上方<code>---</code>分割区域Next预定义参数</p>
+    <url>/2022/12/29/NEXT%E4%B8%BB%E9%A2%98%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</url>
+    <content><![CDATA[<h1 id="MarkDown"><a href="#MarkDown" class="headerlink" title="MarkDown"></a><center>MarkDown</center></h1><span id="more"></span>
+
+<h2 id="基本信息配置"><a href="#基本信息配置" class="headerlink" title="基本信息配置"></a>基本信息配置</h2><p>Markdown最上方<code>---</code>分割区域Next预定义参数</p>
 <table>
 <thead>
 <tr>
@@ -101,8 +103,10 @@
   </entry>
   <entry>
     <title>模拟与高精度</title>
-    <url>/2022/10/26/%E6%A8%A1%E6%8B%9F%E4%B8%8E%E9%AB%98%E7%B2%BE%E5%BA%A6/</url>
-    <content><![CDATA[<h1 id="A-B-Problem"><a href="#A-B-Problem" class="headerlink" title="A*B Problem"></a><center>A*B Problem</center></h1><p>题目：输入A，B，求A*B的值</p>
+    <url>/2022/12/29/%E6%A8%A1%E6%8B%9F%E4%B8%8E%E9%AB%98%E7%B2%BE%E5%BA%A6/</url>
+    <content><![CDATA[<h1 id="A-B-Problem"><a href="#A-B-Problem" class="headerlink" title="A*B Problem"></a><center>A*B Problem</center></h1><span id="more"></span>
+
+<p>题目：输入A，B，求A*B的值</p>
 <p>若A的长度为n，B的长度为m，则A*B的长度&lt;&#x3D;n+m,由此确定结果数组的长度。模拟进行A*B运算，B由低到高每一位与A的每一位相乘，由于I，j从0开始，故可以用i+j确定每位相乘的结果是结果数组的第几位。</p>
 <p>进行运算前先把输入的A，B逆序以便于计算</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span>* numA = <span class="keyword">new</span> <span class="type">int</span>[a.<span class="built_in">length</span>()];</span><br><span class="line">	<span class="type">int</span>* numB = <span class="keyword">new</span> <span class="type">int</span>[b.<span class="built_in">length</span>()];</span><br><span class="line">	<span class="type">int</span>* res = <span class="keyword">new</span> <span class="type">int</span>[a.<span class="built_in">length</span>() + b.<span class="built_in">length</span>()];</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; a.<span class="built_in">length</span>() + b.<span class="built_in">length</span>(); ++i) &#123;</span><br><span class="line">		res[i] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; a.<span class="built_in">length</span>(); ++i) &#123;	<span class="comment">//倒序把字符串转换为数字数组</span></span><br><span class="line">		numA[i] = a[a.<span class="built_in">length</span>() - i - <span class="number">1</span>]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; b.<span class="built_in">length</span>(); ++i)&#123;</span><br><span class="line">		numB[i] = b[b.<span class="built_in">length</span>() - i - <span class="number">1</span>]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> i, j;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; a.<span class="built_in">length</span>(); ++i) &#123;</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; b.<span class="built_in">length</span>(); ++j) &#123;</span><br><span class="line">			res[i + j] += numA[i] * numB[j];</span><br><span class="line">			<span class="keyword">if</span> (res[i+j]&gt;<span class="number">9</span>) res[i + j+<span class="number">1</span>] += res[i + j]/<span class="number">10</span>;</span><br><span class="line">			res[i + j] = res[i + j] % <span class="number">10</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">bool</span> flag = <span class="literal">false</span>;	<span class="comment">//是否已去除前面的0</span></span><br><span class="line">	<span class="keyword">for</span> (i = a.<span class="built_in">length</span>() + b.<span class="built_in">length</span>()<span class="number">-1</span>; i &gt;= <span class="number">0</span>; --i) &#123;	<span class="comment">//输出</span></span><br><span class="line">		<span class="keyword">if</span> (res[i])	flag = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">if</span> (flag)	cout &lt;&lt; res[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (!flag) cout &lt;&lt; <span class="number">0</span> &lt;&lt; endl;	<span class="comment">//如果全是0，输出一个0</span></span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">delete</span>[] numA;</span><br><span class="line">	<span class="keyword">delete</span>[] numB;</span><br><span class="line">	<span class="keyword">delete</span>[] res;</span><br></pre></td></tr></table></figure>
@@ -124,8 +128,10 @@
   </entry>
   <entry>
     <title>二叉树</title>
-    <url>/2022/11/06/%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
-    <content><![CDATA[<h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a><center>二叉树</center></h1><h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a><center>遍历</center></h2><p>前序遍历 <code>根-左-右</code>		中序遍历 <code>左-根-右</code>		后序遍历 <code>左-右-根</code></p>
+    <url>/2022/12/29/%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
+    <content><![CDATA[<h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a><center>二叉树</center></h1><span id="more"></span>
+
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a><center>遍历</center></h2><p>前序遍历 <code>根-左-右</code>		中序遍历 <code>左-根-右</code>		后序遍历 <code>左-右-根</code></p>
 <p><img src="https://s2.loli.net/2022/11/06/FrwMeBjslUpYDuH.png" alt="二叉树图.png"></p>
 <p>前序遍历A-B-D-F-G-H-I-E-C</p>
 <p>中序遍历F-D-H-G-I-B-E-A-C</p>
@@ -154,8 +160,10 @@
   </entry>
   <entry>
     <title>类与对象</title>
-    <url>/2022/12/27/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/</url>
-    <content><![CDATA[<h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><h2 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h2><ul>
+    <url>/2022/12/29/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/</url>
+    <content><![CDATA[<h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><span id="more"></span>
+
+<h2 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h2><ul>
 <li><p>对象：具体的事物</p>
 </li>
 <li><p>类：概念，模板，抽象的描述</p>
@@ -217,7 +225,9 @@
   <entry>
     <title>继承</title>
     <url>/2022/12/29/%E7%BB%A7%E6%89%BF/</url>
-    <content><![CDATA[<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><ul>
+    <content><![CDATA[<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><span id="more"></span>
+
+<ul>
 <li>继承格式 ： class 类名 extends 父类名 {}</li>
 <li>访问修饰符：<ul>
 <li>public 该项目所有文件</li>
@@ -250,9 +260,11 @@
       </tags>
   </entry>
   <entry>
-    <title>MySQL-DDL</title>
+    <title>SQL简介</title>
     <url>/2022/12/30/MySQL1/</url>
-    <content><![CDATA[<h1 id="一、启动"><a href="#一、启动" class="headerlink" title="一、启动"></a>一、启动</h1><ul>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="一、启动"><a href="#一、启动" class="headerlink" title="一、启动"></a>一、启动</h1><ul>
 <li>使用MySQL终端输入密码后启动</li>
 <li>使用CMD，输入 <code>mysql -u 用户名 -p</code>后启动</li>
 </ul>
@@ -260,7 +272,7 @@
 <li>关系型数据库：建立在关系模型的基础上，由多张相互连接的二维表组成的数据库</li>
 <li>非关系型数据库：</li>
 </ul>
-<span id="more"></span>
+<!--more-->
 
 <h1 id="三、SQL"><a href="#三、SQL" class="headerlink" title="三、SQL"></a>三、SQL</h1><h2 id="1-通用语法及分类"><a href="#1-通用语法及分类" class="headerlink" title="1.通用语法及分类"></a>1.通用语法及分类</h2><ul>
 <li><p>通用语法</p>
@@ -479,7 +491,9 @@
   <entry>
     <title>图形化编程</title>
     <url>/2022/12/31/%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="图形化编程"><a href="#图形化编程" class="headerlink" title="图形化编程"></a>图形化编程</h1><h2 id="java图形化包"><a href="#java图形化包" class="headerlink" title="java图形化包"></a>java图形化包</h2><ul>
+    <content><![CDATA[<h1 id="图形化编程"><a href="#图形化编程" class="headerlink" title="图形化编程"></a>图形化编程</h1><span id="more"></span>
+
+<h2 id="java图形化包"><a href="#java图形化包" class="headerlink" title="java图形化包"></a>java图形化包</h2><ul>
 <li><p>java的图像包有java.awt  和javax.swing </p>
 </li>
 <li><p>组件: 按钮,输入框,窗体,图片,这些组件在各语言里都已经设计好了</p>
@@ -511,7 +525,9 @@
   <entry>
     <title>MySQL函数</title>
     <url>/2023/01/02/MySQL%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="一-字符串函数"><a href="#一-字符串函数" class="headerlink" title="一.字符串函数"></a>一.字符串函数</h2><ul>
+    <content><![CDATA[<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><span id="more"></span>
+
+<h2 id="一-字符串函数"><a href="#一-字符串函数" class="headerlink" title="一.字符串函数"></a>一.字符串函数</h2><ul>
 <li><p><code>concat(s1,s2,...) </code>拼接字符串</p>
 </li>
 <li><p><code>lower(str)</code> 转换小写</p>
@@ -577,7 +593,9 @@
   <entry>
     <title>接口</title>
     <url>/2023/01/03/%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><p>格式: <code>interface 接口名 &#123;&#125;</code></p>
+    <content><![CDATA[<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><span id="more"></span>
+
+<p>格式: <code>interface 接口名 &#123;&#125;</code></p>
 <ul>
 <li>接口中的变量默认以 statci final 修饰,必须初始化赋值</li>
 <li>接口中可以定义抽象方法,静态方法和默认方法</li>
@@ -620,7 +638,9 @@
   <entry>
     <title>约束</title>
     <url>/2023/01/03/MySQL%E7%BA%A6%E6%9D%9F/</url>
-    <content><![CDATA[<h1 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h1><h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><ul>
+    <content><![CDATA[<h1 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h1><h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><span id="more"></span>
+
+<ul>
 <li><p><code>primary key</code>主键</p>
 </li>
 <li><p><code>auto_increment</code>自动增长</p>
@@ -670,7 +690,9 @@
   <entry>
     <title>五子棋</title>
     <url>/2023/01/07/%E4%BA%94%E5%AD%90%E6%A3%8B/</url>
-    <content><![CDATA[<h1 id="java实现五子棋"><a href="#java实现五子棋" class="headerlink" title="java实现五子棋"></a>java实现五子棋</h1><h2 id="一-结构"><a href="#一-结构" class="headerlink" title="一.结构"></a>一.结构</h2><p>通过图形化编程,实现在15*15的棋盘上进行五子棋游戏,含有悔棋,录制和逐步回放功能,实现以上各功能的类和接口如下</p>
+    <content><![CDATA[<h1 id="java实现五子棋"><a href="#java实现五子棋" class="headerlink" title="java实现五子棋"></a>java实现五子棋</h1><span id="more"></span>
+
+<h2 id="一-结构"><a href="#一-结构" class="headerlink" title="一.结构"></a>一.结构</h2><p>通过图形化编程,实现在15*15的棋盘上进行五子棋游戏,含有悔棋,录制和逐步回放功能,实现以上各功能的类和接口如下</p>
 <ol>
 <li>GoBangUI  </li>
 <li>GoListener</li>
@@ -683,7 +705,7 @@
 <li>NextListener</li>
 <li>LastListener</li>
 </ol>
-<span id="more"></span>
+<!--more-->
 
 <h2 id="二-功能实现"><a href="#二-功能实现" class="headerlink" title="二.功能实现"></a>二.功能实现</h2><h3 id="1-GoBangUI"><a href="#1-GoBangUI" class="headerlink" title="1.GoBangUI"></a>1.GoBangUI</h3><p> 构建游戏窗口,容纳棋盘,棋子和各按钮,继承<code>JFrame</code>类</p>
 <p>在构造函数中绘制棋盘,使用空布局设定”开始游戏”按钮,”悔棋”按钮,”结束游戏”按钮和”回放”按钮的位置,并为各按钮设置监听器</p>
@@ -929,7 +951,8 @@
   <entry>
     <title>Edu 141</title>
     <url>/2023/01/11/Edu-141/</url>
-    <content><![CDATA[<h1 id="A-Mike-it-Beautiful"><a href="#A-Mike-it-Beautiful" class="headerlink" title="A Mike it Beautiful"></a>A Mike it Beautiful</h1>]]></content>
+    <content><![CDATA[<h1 id="A-Mike-it-Beautiful"><a href="#A-Mike-it-Beautiful" class="headerlink" title="A Mike it Beautiful"></a>A Mike it Beautiful</h1><span id="more"></span>
+]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -1492,7 +1515,9 @@
   <entry>
     <title>算法竞赛-1</title>
     <url>/2023/01/17/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
-    <content><![CDATA[<h1 id="基础数据结构"><a href="#基础数据结构" class="headerlink" title="基础数据结构"></a>基础数据结构</h1><ul>
+    <content><![CDATA[<h1 id="基础数据结构"><a href="#基础数据结构" class="headerlink" title="基础数据结构"></a>基础数据结构</h1><span id="more"></span>
+
+<ul>
 <li>单调队列&#x2F;栈<ul>
 <li>即普通的队列或栈,但在进行 <code>入</code> 操作时通过弹出尾部元素来使队列或栈保持单调性</li>
 <li>用于滑动窗口,DP优化等</li>
@@ -1588,7 +1613,9 @@
   <entry>
     <title>java图片增强</title>
     <url>/2023/02/22/java%E5%9B%BE%E7%89%87%E5%A2%9E%E5%BC%BA/</url>
-    <content><![CDATA[<h1 id="JAVA-IO"><a href="#JAVA-IO" class="headerlink" title="JAVA IO"></a>JAVA IO</h1><h2 id="图像的读取和保存-GUI"><a href="#图像的读取和保存-GUI" class="headerlink" title="图像的读取和保存(GUI)"></a>图像的读取和保存(GUI)</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (str.equals(<span class="string">&quot;打开&quot;</span>)) &#123;</span><br><span class="line">            <span class="type">JFileChooser</span> <span class="variable">chooser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JFileChooser</span>();</span><br><span class="line">            <span class="type">FileNameExtensionFilter</span> <span class="variable">filter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileNameExtensionFilter</span>(</span><br><span class="line">                    <span class="string">&quot;JPG &amp; GIF &amp; PNG Images&quot;</span>, <span class="string">&quot;png&quot;</span>, <span class="string">&quot;jpeg&quot;</span>, <span class="string">&quot;jpg&quot;</span>, <span class="string">&quot;gif&quot;</span></span><br><span class="line">            );</span><br><span class="line">            chooser.setFileFilter(filter);</span><br><span class="line">            <span class="type">int</span> <span class="variable">returnValue</span> <span class="operator">=</span> chooser.showOpenDialog(<span class="literal">null</span>);</span><br><span class="line">            <span class="keyword">if</span> (returnValue == JFileChooser.APPROVE_OPTION) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;You chose to open this file: &quot;</span> +</span><br><span class="line">                        chooser.getSelectedFile().getName());</span><br><span class="line">                imgPix = tools.getPixel(chooser.getSelectedFile().getPath());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (str.equals(<span class="string">&quot;保存&quot;</span>)) &#123;</span><br><span class="line">            <span class="type">JFileChooser</span> <span class="variable">chooser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JFileChooser</span>();</span><br><span class="line">            <span class="type">FileNameExtensionFilter</span> <span class="variable">filter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileNameExtensionFilter</span>(<span class="string">&quot;JPG &amp; GIF &amp; PNG Images&quot;</span>, <span class="string">&quot;png&quot;</span>, <span class="string">&quot;jpeg&quot;</span>, <span class="string">&quot;jpg&quot;</span>, <span class="string">&quot;gif&quot;</span>);</span><br><span class="line">            chooser.setFileFilter(filter);</span><br><span class="line">            <span class="type">int</span> returnValue=chooser.showSaveDialog(<span class="literal">null</span> );</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                ImageIO.write(imgList.get(imgList.size()-<span class="number">1</span>),<span class="string">&quot;PNG&quot;</span>,chooser.getSelectedFile() );</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h1 id="JAVA-IO"><a href="#JAVA-IO" class="headerlink" title="JAVA IO"></a>JAVA IO</h1><span id="more"></span>
+
+<h2 id="图像的读取和保存-GUI"><a href="#图像的读取和保存-GUI" class="headerlink" title="图像的读取和保存(GUI)"></a>图像的读取和保存(GUI)</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (str.equals(<span class="string">&quot;打开&quot;</span>)) &#123;</span><br><span class="line">            <span class="type">JFileChooser</span> <span class="variable">chooser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JFileChooser</span>();</span><br><span class="line">            <span class="type">FileNameExtensionFilter</span> <span class="variable">filter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileNameExtensionFilter</span>(</span><br><span class="line">                    <span class="string">&quot;JPG &amp; GIF &amp; PNG Images&quot;</span>, <span class="string">&quot;png&quot;</span>, <span class="string">&quot;jpeg&quot;</span>, <span class="string">&quot;jpg&quot;</span>, <span class="string">&quot;gif&quot;</span></span><br><span class="line">            );</span><br><span class="line">            chooser.setFileFilter(filter);</span><br><span class="line">            <span class="type">int</span> <span class="variable">returnValue</span> <span class="operator">=</span> chooser.showOpenDialog(<span class="literal">null</span>);</span><br><span class="line">            <span class="keyword">if</span> (returnValue == JFileChooser.APPROVE_OPTION) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;You chose to open this file: &quot;</span> +</span><br><span class="line">                        chooser.getSelectedFile().getName());</span><br><span class="line">                imgPix = tools.getPixel(chooser.getSelectedFile().getPath());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (str.equals(<span class="string">&quot;保存&quot;</span>)) &#123;</span><br><span class="line">            <span class="type">JFileChooser</span> <span class="variable">chooser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JFileChooser</span>();</span><br><span class="line">            <span class="type">FileNameExtensionFilter</span> <span class="variable">filter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileNameExtensionFilter</span>(<span class="string">&quot;JPG &amp; GIF &amp; PNG Images&quot;</span>, <span class="string">&quot;png&quot;</span>, <span class="string">&quot;jpeg&quot;</span>, <span class="string">&quot;jpg&quot;</span>, <span class="string">&quot;gif&quot;</span>);</span><br><span class="line">            chooser.setFileFilter(filter);</span><br><span class="line">            <span class="type">int</span> returnValue=chooser.showSaveDialog(<span class="literal">null</span> );</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                ImageIO.write(imgList.get(imgList.size()-<span class="number">1</span>),<span class="string">&quot;PNG&quot;</span>,chooser.getSelectedFile() );</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 
 <p>都使用 JFileChooser类进行操作,读取时使用chooser.getSelectedFile() 获取文件,保存时使用 ImagetIO.write() 进行保存,</p>
 <p>保存时的参数分别为(BufferedImage对象,文件类型,文件路径)</p>
@@ -1642,72 +1669,6 @@
       <tags>
         <tag>工程</tag>
       </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2023/02/27/%E4%BA%8C%E7%BB%B4%E7%A0%81/</url>
-    <content><![CDATA[<h2 id="二维码："><a href="#二维码：" class="headerlink" title="二维码："></a>二维码：</h2><ul>
-<li><p>包含了字符信息 </p>
-</li>
-<li><p>两色二维码 ： </p>
-<ul>
-<li>对应着二进制</li>
-</ul>
-</li>
-<li><p>char: 16bit</p>
-<ul>
-<li>Java char : 16bit <ul>
-<li>兼容 ASCII 码 - 128个 0-128</li>
-<li>通用语言的字符 中日韩 拉丁 …</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>比如说： </p>
-<ul>
-<li>我要将 以下字符转为全二进制码 <ul>
-<li><a href="http://chat.openai.com/">http://chat.openai.com</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zyf0226;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</span><br><span class="line"><span class="keyword">import</span> javax.swing.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Code</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">getImagePix</span><span class="params">(String path)</span>&#123;</span><br><span class="line">        <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span> (path);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">BufferedImage</span> <span class="variable">image</span> <span class="operator">=</span> ImageIO.read (file);</span><br><span class="line">            <span class="type">int</span> <span class="variable">w</span> <span class="operator">=</span> image.getWidth ();</span><br><span class="line">            <span class="type">int</span> <span class="variable">h</span> <span class="operator">=</span> image.getHeight ();</span><br><span class="line">            <span class="type">String</span> <span class="variable">codeStr</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; w; i += <span class="number">30</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; h; j += <span class="number">30</span>)&#123;</span><br><span class="line">                    <span class="type">int</span> <span class="variable">gray</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>; k &lt; <span class="number">30</span>; k++)&#123;</span><br><span class="line">                        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>; l &lt; <span class="number">30</span>; l++)&#123;</span><br><span class="line">                            <span class="type">int</span> <span class="variable">rgb</span> <span class="operator">=</span> image.getRGB (i + k, j + l);</span><br><span class="line">                            <span class="type">int</span> <span class="variable">red</span> <span class="operator">=</span> (rgb &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                            <span class="type">int</span> <span class="variable">green</span> <span class="operator">=</span> (rgb &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                            <span class="type">int</span> <span class="variable">blue</span> <span class="operator">=</span> (rgb &gt;&gt; <span class="number">0</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                            gray += (red + green + blue) / <span class="number">3</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    gray /= <span class="number">900</span>;</span><br><span class="line">                    <span class="keyword">if</span>(gray &lt; <span class="number">128</span>)&#123;</span><br><span class="line">                        codeStr += <span class="string">&quot;0&quot;</span>;</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        codeStr += <span class="string">&quot;1&quot;</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span> (e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">chat</span> <span class="operator">=</span> <span class="string">&quot;http://chat.openai.com&quot;</span>;</span><br><span class="line">        String[] codeArr = <span class="keyword">new</span> <span class="title class_">String</span>[chat.length ()];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; chat.length (); i++)&#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> chat.charAt (i);</span><br><span class="line">            <span class="type">String</span> <span class="variable">chatbinstr</span> <span class="operator">=</span> Integer.toBinaryString (c);</span><br><span class="line"><span class="comment">//            System.out.println (chatbinstr);</span></span><br><span class="line">            <span class="comment">// 补码8bit</span></span><br><span class="line">            <span class="keyword">while</span>(chatbinstr.length () &lt; <span class="number">8</span>)&#123;</span><br><span class="line">                chatbinstr = <span class="string">&quot;0&quot;</span> + chatbinstr;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println (chatbinstr);</span><br><span class="line">            codeArr[i] = chatbinstr;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">ShowQRCode</span> (codeArr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ShowQRCode</span> <span class="keyword">extends</span> <span class="title class_">JFrame</span>&#123;</span><br><span class="line">    String[] codeArr;</span><br><span class="line"></span><br><span class="line">    ShowQRCode(String[] codeArr)&#123;</span><br><span class="line">        <span class="built_in">this</span>.codeArr = codeArr;</span><br><span class="line">        setSize (<span class="number">800</span>, <span class="number">800</span>);</span><br><span class="line">        setVisible (<span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">paint</span><span class="params">(Graphics g)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>.paint (g);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; codeArr.length; i++)&#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">codeStr</span> <span class="operator">=</span> codeArr[i];</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; codeStr.length (); j++)&#123;</span><br><span class="line">                <span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> codeStr.charAt (j);</span><br><span class="line">                <span class="keyword">if</span>(c == <span class="string">&#x27;0&#x27;</span>)&#123;</span><br><span class="line">                    g.setColor (Color.WHITE);</span><br><span class="line">                &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">                    g.setColor (Color.BLACK);</span><br><span class="line">                &#125;</span><br><span class="line">                g.fillRect (<span class="number">100</span> + j * <span class="number">30</span>, <span class="number">100</span> + i * <span class="number">30</span>, <span class="number">30</span>, <span class="number">30</span>);</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2023/02/27/%E5%8D%B7%E7%A7%AF/</url>
-    <content><![CDATA[<h2 id="卷积-："><a href="#卷积-：" class="headerlink" title="卷积 ："></a>卷积 ：</h2><ul>
-<li>卷积核：</li>
-<li>{-1,-1,-1}</li>
-<li>{-1,9,-1}</li>
-<li>{-1,-1,-1}</li>
-<li>特征放大：<ul>
-<li>矩阵中符合卷积核的特征，经过卷积之后就会放大数值</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> BufferedImage <span class="title function_">drawImage</span><span class="params">(<span class="type">int</span>[][] imagePix)</span>&#123;</span><br><span class="line">       <span class="comment">// 准备一个卷积核心</span></span><br><span class="line">       <span class="type">int</span>[][] ks = &#123;</span><br><span class="line">               &#123;-<span class="number">1</span>, <span class="number">1</span>, -<span class="number">1</span>&#125;,</span><br><span class="line">               &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</span><br><span class="line">               &#123;-<span class="number">1</span>, <span class="number">1</span>, -<span class="number">1</span>&#125;</span><br><span class="line">       &#125;;</span><br><span class="line">       <span class="type">int</span>[][] npixs = <span class="keyword">new</span> <span class="title class_">int</span>[imagePix.length][imagePix[<span class="number">0</span>].length];</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; imagePix.length - ks.length; i++)&#123;</span><br><span class="line">           <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; imagePix[i].length - ks[<span class="number">0</span>].length; j++)&#123;</span><br><span class="line"></span><br><span class="line">               <span class="type">int</span> <span class="variable">nRed</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">               <span class="type">int</span> <span class="variable">nGreen</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">               <span class="type">int</span> <span class="variable">nBlue</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">               <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>; k &lt; ks.length; k++)&#123;</span><br><span class="line">                   <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>; l &lt; ks[k].length; l++)&#123;</span><br><span class="line">                       <span class="type">int</span> <span class="variable">i1</span> <span class="operator">=</span> ks[k][l];</span><br><span class="line">                       <span class="type">int</span> <span class="variable">pix</span> <span class="operator">=</span> imagePix[i + k][j + l];</span><br><span class="line">                       <span class="type">int</span> <span class="variable">red</span> <span class="operator">=</span> (pix &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                       <span class="type">int</span> <span class="variable">green</span> <span class="operator">=</span> (pix &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                       <span class="type">int</span> <span class="variable">blue</span> <span class="operator">=</span> (pix &gt;&gt; <span class="number">0</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">                       nRed += red * i1;</span><br><span class="line">                       nGreen += green * i1;</span><br><span class="line">                       nBlue += blue * i1;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="comment">// 边界判断</span></span><br><span class="line">               <span class="keyword">if</span>(nRed &lt; <span class="number">0</span>) nRed = <span class="number">0</span>;</span><br><span class="line">               <span class="keyword">if</span>(nRed &gt; <span class="number">255</span>) nRed = <span class="number">255</span>;</span><br><span class="line">               <span class="keyword">if</span>(nGreen &lt; <span class="number">0</span>) nGreen = <span class="number">0</span>;</span><br><span class="line">               <span class="keyword">if</span>(nGreen &gt; <span class="number">255</span>) nGreen = <span class="number">255</span>;</span><br><span class="line">               <span class="keyword">if</span>(nBlue &lt; <span class="number">0</span>) nBlue = <span class="number">0</span>;</span><br><span class="line">               <span class="keyword">if</span>(nBlue &gt; <span class="number">255</span>) nBlue = <span class="number">255</span>;</span><br><span class="line">               <span class="type">int</span> <span class="variable">npix</span> <span class="operator">=</span> <span class="number">255</span> &lt;&lt; <span class="number">24</span> | nRed &lt;&lt; <span class="number">16</span> | nGreen &lt;&lt; <span class="number">8</span> | nBlue;</span><br><span class="line">               npixs[i + ks.length / <span class="number">2</span>][j + ks[<span class="number">0</span>].length / <span class="number">2</span>] = npix;</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> drawSrcImage (npixs);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>以图搜图：<ul>
-<li>图片很多，并且尺寸不一</li>
-<li>将图片都转为一个缩小对应尺寸的 灰度图<ul>
-<li>8<em>8 &#x2F;32</em>32的灰度图</li>
-<li>灰度二值化 只有黑白</li>
-<li>黑为1 白为0 &#x3D; 根据图片得到一个 01编码</li>
-<li>每个图片都有对应的一个编码</li>
-</ul>
-</li>
-<li>将需要搜索的图片 经过以上处理</li>
-<li>与训练集中的图片编码进行比对 汉明距离(比较字符串的算法 -一个字符串转为另一个字符串最小需要替换的字符数)</li>
-<li>汉明距离越小的表示图片越接近</li>
-<li>感知hash算法 Phash</li>
-</ul>
-</li>
-</ul>
-]]></content>
   </entry>
   <entry>
     <title>基础算法</title>
@@ -1855,7 +1816,9 @@
   <entry>
     <title>随记</title>
     <url>/2023/02/27/%E9%9A%8F%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="最大公约数和最大公倍数"><a href="#最大公约数和最大公倍数" class="headerlink" title="最大公约数和最大公倍数"></a>最大公约数和最大公倍数</h1><p>a,b两个数</p>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="最大公约数和最大公倍数"><a href="#最大公约数和最大公倍数" class="headerlink" title="最大公约数和最大公倍数"></a>最大公约数和最大公倍数</h1><p>a,b两个数</p>
 <ul>
 <li>求最大公约数:</li>
 </ul>
@@ -1870,7 +1833,9 @@
   <entry>
     <title>JAVA并发</title>
     <url>/2023/03/03/java%E5%B9%B6%E5%8F%91/</url>
-    <content><![CDATA[<h1 id="进程-x2F-线程"><a href="#进程-x2F-线程" class="headerlink" title="进程&#x2F;线程"></a>进程&#x2F;线程</h1><p>​	一个进程有多个线程,线程是CPU执行的基础单位(最小单位),线程不能独立运行,必须依赖进程,所有线程共享进程的资源</p>
+    <content><![CDATA[<h1 id="进程-x2F-线程"><a href="#进程-x2F-线程" class="headerlink" title="进程&#x2F;线程"></a>进程&#x2F;线程</h1><span id="more"></span>
+
+<p>​	一个进程有多个线程,线程是CPU执行的基础单位(最小单位),线程不能独立运行,必须依赖进程,所有线程共享进程的资源</p>
 <p>​	并发量是效率,在一段时间内完成的量,并行量是指在某一时刻可以同时进行几项任务</p>
 <h2 id="线程的使用"><a href="#线程的使用" class="headerlink" title="线程的使用"></a>线程的使用</h2><ul>
 <li><p>自定义一个线程类,继承<code>Thread</code></p>
