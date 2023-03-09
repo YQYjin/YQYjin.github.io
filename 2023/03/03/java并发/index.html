@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="DMLDML用来对表中数据记录进行增删改操作 添加 给指定字段添加数据 insert into 表名(字段名1,字段名2,...) values(值1,值2,...); 给全部字段添加数据 insert into 表名 values(值1,值2,...); 批量添加数据insert into 表名(字段名1,...) values(值1,...),(值1,...)...;  注意: ​	值与字段名">
+  <meta name="description" content="进程&#x2F;线程​	一个进程有多个线程,线程是CPU执行的基础单位(最小单位),线程不能独立运行,必须依赖进程,所有线程共享进程的资源 ​	并发量是效率,在一段时间内完成的量,并行量是指在某一时刻可以同时进行几项任务 线程的使用 自定义一个线程类,继承Thread  在类中重载run()方法  run()方法在线程启动后自动执行 run()方法执行完毕后线程自动销毁    1234567891">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DML">
-<meta property="og:url" content="http://example.com/2022/12/31/MySQL2/index.html">
+<meta property="og:title" content="JAVA并发">
+<meta property="og:url" content="http://example.com/2023/03/03/java%E5%B9%B6%E5%8F%91/index.html">
 <meta property="og:site_name" content="月 夜 梦 灵">
-<meta property="og:description" content="DMLDML用来对表中数据记录进行增删改操作 添加 给指定字段添加数据 insert into 表名(字段名1,字段名2,...) values(值1,值2,...); 给全部字段添加数据 insert into 表名 values(值1,值2,...); 批量添加数据insert into 表名(字段名1,...) values(值1,...),(值1,...)...;  注意: ​	值与字段名">
+<meta property="og:description" content="进程&#x2F;线程​	一个进程有多个线程,线程是CPU执行的基础单位(最小单位),线程不能独立运行,必须依赖进程,所有线程共享进程的资源 ​	并发量是效率,在一段时间内完成的量,并行量是指在某一时刻可以同时进行几项任务 线程的使用 自定义一个线程类,继承Thread  在类中重载run()方法  run()方法在线程启动后自动执行 run()方法执行完毕后线程自动销毁    1234567891">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-12-31T02:36:21.141Z">
-<meta property="article:modified_time" content="2023-01-02T02:38:46.433Z">
+<meta property="article:published_time" content="2023-03-03T08:22:38.521Z">
+<meta property="article:modified_time" content="2023-03-08T13:06:38.484Z">
 <meta property="article:author" content="YQYjin">
-<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="进阶">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2022/12/31/MySQL2/">
+<link rel="canonical" href="http://example.com/2023/03/03/java%E5%B9%B6%E5%8F%91/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>DML | 月 夜 梦 灵</title>
+  <title>JAVA并发 | 月 夜 梦 灵</title>
   
 
 
@@ -199,7 +199,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/31/MySQL2/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/03/java%E5%B9%B6%E5%8F%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -212,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          DML
+          JAVA并发
         </h1>
 
         <div class="post-meta">
@@ -222,14 +222,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-12-31 10:36:21" itemprop="dateCreated datePublished" datetime="2022-12-31T10:36:21+08:00">2022-12-31</time>
+              <time title="创建时间：2023-03-03 16:22:38" itemprop="dateCreated datePublished" datetime="2023-03-03T16:22:38+08:00">2023-03-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-02 10:38:46" itemprop="dateModified" datetime="2023-01-02T10:38:46+08:00">2023-01-02</time>
+                <time title="修改时间：2023-03-08 21:06:38" itemprop="dateModified" datetime="2023-03-08T21:06:38+08:00">2023-03-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +237,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
                 </span>
             </span>
 
@@ -252,126 +252,60 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h1><p><strong>DML用来对表中数据记录进行增删改操作</strong></p>
-<h2 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h2><ul>
-<li>给指定字段添加数据 <code>insert into 表名(字段名1,字段名2,...) values(值1,值2,...);</code></li>
-<li>给全部字段添加数据 <code>insert into 表名 values(值1,值2,...);</code></li>
-<li>批量添加数据<code>insert into 表名(字段名1,...) values(值1,...),(值1,...)...;</code></li>
-</ul>
-<p>注意:</p>
-<p>​	<em>值与字段名一一对应;</em></p>
-<p>​	<em>字符串和日期型数据应包含在引号中;</em></p>
-<p>​	<em>插入的数据应在字段规定的范围内;</em></p>
-<h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><ul>
-<li><p><code>update 表名 set 字段名1=值1,...... [where 条件];</code> 若无条件则修改所有字段</p>
-<pre><code>   如: `update employee set name = &#39;itheima&#39; where id = 1;`
-</code></pre>
+        <h1 id="进程-x2F-线程"><a href="#进程-x2F-线程" class="headerlink" title="进程&#x2F;线程"></a>进程&#x2F;线程</h1><p>​	一个进程有多个线程,线程是CPU执行的基础单位(最小单位),线程不能独立运行,必须依赖进程,所有线程共享进程的资源</p>
+<p>​	并发量是效率,在一段时间内完成的量,并行量是指在某一时刻可以同时进行几项任务</p>
+<h2 id="线程的使用"><a href="#线程的使用" class="headerlink" title="线程的使用"></a>线程的使用</h2><ul>
+<li><p>自定义一个线程类,继承<code>Thread</code></p>
 </li>
-</ul>
-<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><ul>
-<li><code>dalete from 表名 [where 条件];</code></li>
-</ul>
-<p>  delete不能删除某个字段的值,应使用update把字段的值设为NULL</p>
-<h1 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h1><h2 id="查询语言"><a href="#查询语言" class="headerlink" title="查询语言"></a>查询语言</h2><ul>
-<li><p><strong>基本查询</strong></p>
+<li><p>在类中重载run()方法</p>
 <ul>
-<li>查询多个字段 <code>select 字段1,字段2... from 表名;</code> or <code>select * from 表名;</code>查询所有字段</li>
-<li>设置别名 <code>select 字段1 [as 别名],...... from 表名;</code></li>
-<li>去除重复记录 <code>select distinct 字段列表 from 表名;</code></li>
+<li>run()方法在线程启动后自动执行</li>
+<li>run()方法执行完毕后线程自动销毁</li>
 </ul>
 </li>
-<li><p><strong>条件查询</strong></p>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BallThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Graphics graphics;</span><br><span class="line">    <span class="comment">//实现线程</span></span><br><span class="line">    <span class="comment">//重新run方法:启动线程后自动执行</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//绘制小球</span></span><br><span class="line">        <span class="comment">//graphics.fillOval(100,100,100,100);</span></span><br><span class="line">        <span class="comment">//让小球循环画</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">400</span>;i++) &#123;</span><br><span class="line">            graphics.fillOval(<span class="number">100</span>,<span class="number">100</span>+i,<span class="number">100</span>,<span class="number">100</span>);</span><br><span class="line">            <span class="comment">//延时</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">50</span>);   <span class="comment">//添加线程延迟,单位毫秒</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ex) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(ex);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li><p><code>select 字段列表 from 表名 where 条件列表;</code>  </p>
-<p>like 占位符 模糊匹配(_匹配单个字符,%匹配任意个字符)</p>
-<p><code>select * from emp where name like &#39;__&#39;;</code>表示匹配两个字符的</p>
-<p><code>select * from emp where idcard like &#39;%X&#39;;</code> 匹配最后一个字符是X的</p>
-<p>is null  是空</p>
-<p>between … and … 某个范围内,闭区间</p>
-<p>in (…)	在in之后列表中的值,多选一</p>
+<li>通过<code>Thread.sleep(int millis)</code>来设置线程的延时(停顿),单位为毫秒</li>
+<li>通过父类方法 <code>start()</code> 启动线程</li>
+</ul>
+<h1 id="线程生命周期"><a href="#线程生命周期" class="headerlink" title="线程生命周期"></a>线程生命周期</h1><ul>
+<li><p>NEW</p>
+<p>尚未启动的线程处于此状态</p>
+</li>
+<li><p>RUNNABLE</p>
 </li>
 </ul>
-</li>
-<li><p><strong>聚合函数</strong></p>
-<p>​	将一列数据作为一个整体,进行纵向计算</p>
-<p>​	常见聚合函数:  <code>cout</code> ,<code>max</code>,<code>min</code> ,<code>avg</code> ,<code>sum</code>,对有值的数据进行计算,null不参与计算</p>
+<p>​		在Java虚拟机中执行的线程处于此状态</p>
 <ul>
-<li><code>select 聚合函数(字段列表) from 表名</code></li>
-</ul>
+<li><p>BLOCKED</p>
+<p>被阻塞等待监视器锁定的线程处于此状态</p>
 </li>
-<li><p><strong>分组查询</strong></p>
-<ul>
-<li><p><code>select 字段列表 from 表名 [where 条件] group by 分组字段名 [having 分组后的条件]</code></p>
-<p>where不能对聚合函数进行判断,而having可以</p>
-<p><code>select gender,count(*) from emp group by gender</code>根据性别进行分组</p>
+<li><p>WAITING</p>
+<p>正在等待另一个线程执行特定动作的线程处于此状态</p>
 </li>
-</ul>
+<li><p>TIMED_WAITING</p>
+<p>正在等待另一个线程执行动作达到指定等待时间的线程处于此状态(超时等待)</p>
 </li>
-<li><p><strong>排序查询</strong></p>
-<ul>
-<li><p><code>select 字段列表 from 表名 order by 字段1 , 排序方式1,...;</code></p>
-<p>asc: 升序 (默认)	desc: 降序	</p>
-<p>多字段排序时,字段1的值相同后按字段2进行排序</p>
+<li><p>TERMINATED</p>
+<p>已经退出的线程处于此状态</p>
 </li>
 </ul>
+<h2 id="等待和阻塞"><a href="#等待和阻塞" class="headerlink" title="等待和阻塞"></a>等待和阻塞</h2><ul>
+<li><p>等待是线程还没有被CPU调度,没有获得处理机资源的时间片,即使CPU空闲也不会被调用;</p>
 </li>
-<li><p><strong>分页查询</strong></p>
-<ul>
-<li><p><code>select 字段列表 from 表名 limit 起始索引,查询记录数;</code></p>
-<p>起始索引从0开始,等于(查询页码-1)*每一页返回的记录数</p>
-<p>若查询第一页的数据,起始引索可以省略,直接简写为</p>
-<p>查询第一页 <code>select * from emp limit 10;</code></p>
-<p>查询第二页 <code>select * from emp limit 10 , 10;</code></p>
+<li><p>阻塞是线程无法获取到其执行需要的资源,如CPU没有空闲资源</p>
 </li>
 </ul>
-</li>
+<h2 id="使用构造方法初始化线程"><a href="#使用构造方法初始化线程" class="headerlink" title="使用构造方法初始化线程"></a>使用构造方法初始化线程</h2><ul>
+<li>构造方法只执行一次,防止出现重复线程等问题</li>
+<li>在构造方法中创建线程并启动,可以防止创建多个进程</li>
 </ul>
-<h1 id="DCL"><a href="#DCL" class="headerlink" title="DCL"></a>DCL</h1><p><strong>数据控制语言,用来管理数据库用户,控制数据库访问权限</strong></p>
-<ul>
-<li><p>查询用户</p>
-<ul>
-<li><code>use mysql;</code></li>
-<li>select * from user;</li>
-</ul>
+<h1 id="键盘监听器"><a href="#键盘监听器" class="headerlink" title="键盘监听器"></a>键盘监听器</h1><ul>
+<li><p>窗口需要获取焦点才能使用键盘监听器</p>
 </li>
-<li><p>创建用户</p>
-<ul>
-<li><p><code>create user &#39;用户名&#39;@&#39;主机名&#39; identified by &#39;密码&#39;;</code></p>
-<p>主机名为 % 表示可以被任意主机访问</p>
-</li>
-</ul>
-</li>
-<li><p>修改用户密码</p>
-<ul>
-<li><code>alter user &#39;用户名&#39;@&#39;主机名&#39; identified with mysql_native_password by &#39;新密码&#39;;</code></li>
-</ul>
-</li>
-<li><p>删除用户</p>
-<ul>
-<li><code>drop user &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
-</ul>
-</li>
-<li><p>权限控制</p>
-<ul>
-<li><p><code>all</code> 所有权限 	<code>select</code>	查询数据	<code>insert</code>	插入数据	<code>update</code>	修改数据</p>
-<p><code>delete</code> 删除数据	<code>alter</code> 修改表	<code>drop</code> 删除数据库&#x2F;表&#x2F;视图	<code>create</code> 创建数据库</p>
-</li>
-</ul>
-</li>
-<li><p>查询权限</p>
-<ul>
-<li><code>show grants for &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
-</ul>
-</li>
-<li><p>授予权限</p>
-<ul>
-<li><code>grant 权限列表 on 数据库名.表名 to &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
-</ul>
-</li>
-<li><p>撤销权限</p>
-<ul>
-<li><code>revoke 权限列表 on 数据库名.表名 from &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
-</ul>
+<li><p>获取按下的键盘按键,(控制方向移动等)</p>
 </li>
 </ul>
 
@@ -383,7 +317,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/%E8%BF%9B%E9%98%B6/" rel="tag"># 进阶</a>
           </div>
 
         
@@ -392,13 +326,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/12/30/MySQL1/" rel="prev" title="MySQL-DDL">
-      <i class="fa fa-chevron-left"></i> MySQL-DDL
+    <a href="/2023/02/27/%E4%BA%8C%E7%BB%B4%E7%A0%81/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/12/31/%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%BC%96%E7%A8%8B/" rel="next" title="图形化编程">
-      图形化编程 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -457,7 +388,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DML"><span class="nav-number">1.</span> <span class="nav-text">DML</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0"><span class="nav-number">1.1.</span> <span class="nav-text">添加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9"><span class="nav-number">1.2.</span> <span class="nav-text">修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4"><span class="nav-number">1.3.</span> <span class="nav-text">删除</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DQL"><span class="nav-number">2.</span> <span class="nav-text">DQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80"><span class="nav-number">2.1.</span> <span class="nav-text">查询语言</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DCL"><span class="nav-number">3.</span> <span class="nav-text">DCL</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B-x2F-%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">进程&#x2F;线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">线程的使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">2.</span> <span class="nav-text">线程生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%89%E5%BE%85%E5%92%8C%E9%98%BB%E5%A1%9E"><span class="nav-number">2.1.</span> <span class="nav-text">等待和阻塞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E5%88%9D%E5%A7%8B%E5%8C%96%E7%BA%BF%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">使用构造方法初始化线程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%AE%E7%9B%98%E7%9B%91%E5%90%AC%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">键盘监听器</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -486,7 +417,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

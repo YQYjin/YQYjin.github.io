@@ -260,6 +260,8 @@
 <li>关系型数据库：建立在关系模型的基础上，由多张相互连接的二维表组成的数据库</li>
 <li>非关系型数据库：</li>
 </ul>
+<span id="more"></span>
+
 <h1 id="三、SQL"><a href="#三、SQL" class="headerlink" title="三、SQL"></a>三、SQL</h1><h2 id="1-通用语法及分类"><a href="#1-通用语法及分类" class="headerlink" title="1.通用语法及分类"></a>1.通用语法及分类</h2><ul>
 <li><p>通用语法</p>
 <ol>
@@ -282,7 +284,7 @@
 </ol>
 </li>
 </ul>
-<h2 id="2-DDL"><a href="#2-DDL" class="headerlink" title="2.DDL"></a>2.DDL</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
+<h1 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h1><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
 <li>查询<ul>
 <li>查询全部数据库 <code>show databases;</code></li>
 <li>查询当前数据库<code>select database();</code></li>
@@ -343,18 +345,7 @@
 </ul>
 </li>
 </ul>
-]]></content>
-      <categories>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>DML</title>
-    <url>/2022/12/31/MySQL2/</url>
-    <content><![CDATA[<h1 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h1><p><strong>DML用来对表中数据记录进行增删改操作</strong></p>
+<h1 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h1><p><strong>DML用来对表中数据记录进行增删改操作</strong></p>
 <h2 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h2><ul>
 <li>给指定字段添加数据 <code>insert into 表名(字段名1,字段名2,...) values(值1,值2,...);</code></li>
 <li>给全部字段添加数据 <code>insert into 表名 values(值1,值2,...);</code></li>
@@ -371,9 +362,10 @@
 </li>
 </ul>
 <h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><ul>
-<li><code>dalete from 表名 [where 条件];</code></li>
+<li><p><code>dalete from 表名 [where 条件];</code>  </p>
+<p>delete不能删除某个字段的值,应使用update把字段的值设为NULL</p>
+</li>
 </ul>
-<p>  delete不能删除某个字段的值,应使用update把字段的值设为NULL</p>
 <h1 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h1><h2 id="查询语言"><a href="#查询语言" class="headerlink" title="查询语言"></a>查询语言</h2><ul>
 <li><p><strong>基本查询</strong></p>
 <ul>
@@ -1720,7 +1712,9 @@
   <entry>
     <title>基础算法</title>
     <url>/2023/02/06/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="基础算法"><a href="#基础算法" class="headerlink" title="基础算法"></a>基础算法</h1><h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>查找 [0,n)之间的 x或<strong>x的后缀</strong></p>
+    <content><![CDATA[<h1 id="基础算法"><a href="#基础算法" class="headerlink" title="基础算法"></a>基础算法</h1><span id="more"></span>
+
+<h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>查找 [0,n)之间的 x或<strong>x的后缀</strong></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">binSearch</span><span class="params">(<span class="type">int</span> a[], <span class="type">int</span> n, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> left = <span class="number">0</span>; <span class="type">int</span> right = n - <span class="number">1</span>;</span><br><span class="line">	<span class="type">int</span> mid;</span><br><span class="line">	<span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">		mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">		<span class="comment">// mid=left+(right-left)/2  防止right和left相加后溢出</span></span><br><span class="line">        <span class="comment">// mid=left+(right-left)&gt;&gt;2 综合最优</span></span><br><span class="line">		<span class="keyword">if</span> (a[mid] &gt; x) right = mid;</span><br><span class="line">		<span class="comment">//if(a[mid]&gt;=x) right=mid;</span></span><br><span class="line">		<span class="comment">// eles left=mid+1;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -1803,8 +1797,56 @@
 <li>这样使[L,R]之间的前缀和增加了x(即 a[L,R]增加了x),其他范围不受影响</li>
 <li>结果数组为 a[i]&#x3D;a[i-1]+D[i] (a[i-1]即D[1]+…+D[i-1])</li>
 </ul>
-<h3 id="hdu1556"><a href="#hdu1556" class="headerlink" title="hdu1556"></a>hdu1556</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">int</span> a[<span class="number">100005</span>]=&#123;<span class="number">0</span>&#125;,d[<span class="number">100005</span>]=&#123;<span class="number">0</span>&#125;	;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n,l,r;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; l &gt;&gt; r;</span><br><span class="line">		d[l] += <span class="number">1</span>;</span><br><span class="line">		d[r + <span class="number">1</span>] -= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		a[i] = d[i] + a[i - <span class="number">1</span>];</span><br><span class="line">		cout &lt;&lt; a[i];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="hdu1556"><a href="#hdu1556" class="headerlink" title="hdu1556"></a>hdu1556</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">int</span> a[<span class="number">100005</span>]=&#123;<span class="number">0</span>&#125;,d[<span class="number">100005</span>]=&#123;<span class="number">0</span>&#125;	;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n,l,r;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; l &gt;&gt; r;</span><br><span class="line">		d[l] += <span class="number">1</span>;</span><br><span class="line">		d[r + <span class="number">1</span>] -= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		a[i] = d[i] + a[i - <span class="number">1</span>];	<span class="comment">//可以将a[]换为d[] 来节省一半的空间</span></span><br><span class="line">		cout &lt;&lt; a[i];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>一维差分数字对区间修改很高效，但对单点查询不高效</li>
+</ul>
+<h2 id="二维差分-上册第70页"><a href="#二维差分-上册第70页" class="headerlink" title="二维差分  上册第70页"></a>二维差分  上册第70页</h2><p><em>例： 一块n*n的格子上有m块地毯，给出地毯的信息，求每个点被几块地毯覆盖</em>  (洛谷P3397)</p>
+<p>暴力求解 时间复杂度O（m*n*n）,用二维差分,时间复杂度O(m+n*n) 为最优时间复杂度 </p>
+<ul>
+<li><p>二维差分中,原数组a[][]是差分数组D[][]的前缀和,坐标原点(1,1)和坐标(i,j)之间每个D[][]的和为a[i][j]</p>
+</li>
+<li><p>可以把每个D[][]看作一个格子,所有格子的面积之和为a[][]</p>
+</li>
+<li><p>计算公式: <strong>D[i][j]&#x3D;a[i][j]-a[i-1][j]-a[i][j-1]+a[i-1][j-1]</strong>  因为a[i-1][j]-a[i][j-1]减去了两次a[i-1][j-1],故加上一次</p>
+</li>
+<li><p>区间修改:  x1,y1,x2,y2即为地毯的两个坐标</p>
+<ul>
+<li><strong>D[x1][y1]+&#x3D;d;</strong>	&#x2F;&#x2F;起点</li>
+<li><strong>D[x1][y2+1]-&#x3D;d;</strong></li>
+<li><strong>D[x2+1][y1]-&#x3D;d;</strong></li>
+<li><strong>D[x2+1][y2+1]+&#x3D;d;</strong>  &#x2F;&#x2F;终点,减了两次,故加上一次</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//递归公式法</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n, m,x1,y1,x2,y2;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="comment">//二维差分数组</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; x1 &gt;&gt; y1 &gt;&gt; x2 &gt;&gt; y2;</span><br><span class="line">		D[x1][y1] += <span class="number">1</span>;</span><br><span class="line">		D[x2+<span class="number">1</span>][y2+<span class="number">1</span>] += <span class="number">1</span>;</span><br><span class="line">		D[x1][y2 + <span class="number">1</span>] -= <span class="number">1</span>;</span><br><span class="line">		D[x2 + <span class="number">1</span>][y1] -= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; ++j) &#123;</span><br><span class="line">			D[i][j] = D[i][j] + D[i - <span class="number">1</span>][j] + D[i][j - <span class="number">1</span>] - D[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">			cout &lt;&lt; D[i][j]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//直接计算法 不使用递推公式</span></span><br><span class="line"><span class="comment">//先累加y方向,在累加x方向即可求出前缀和</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; ++j) &#123;</span><br><span class="line">			D[i][j + <span class="number">1</span>] += D[i][j];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; ++j) &#123;</span><br><span class="line">			D[i+<span class="number">1</span>][j] += D[i][j];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>直接计算与递推公式的计算量相当</li>
+<li>递归公式简洁明了</li>
+<li>三维差分递推公式过于复杂,使用直接计算更加方便</li>
+</ul>
+<h2 id="三维差分"><a href="#三维差分" class="headerlink" title="三维差分"></a>三维差分</h2><p>三维差分与二维差分类似,二维差分是面,三维差分是体</p>
+<ul>
+<li>三维差分的区间修改需要修改体的8个顶点</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">D[x1][y1][z1]+=d;</span><br><span class="line">D[x2+<span class="number">1</span>][y1][z1]-=d;</span><br><span class="line">D[x1][y2+<span class="number">1</span>][z1]-=d;</span><br><span class="line">D[x1][y1][z2+<span class="number">1</span>]-=d;</span><br><span class="line">D[x2+<span class="number">1</span>][y2+<span class="number">1</span>][z1]+=d;</span><br><span class="line">D[x2+<span class="number">1</span>][y1][z2+<span class="number">1</span>]+=d;</span><br><span class="line">D[x1][y2+<span class="number">1</span>][z2+<span class="number">1</span>]+=d;</span><br><span class="line">D[x1][y1][z1]-=d;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用直接计算法求结果数组</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=A;++i)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=B;++j)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=C;++k)&#123;</span><br><span class="line">            D[i][j][k+<span class="number">1</span>]+=D[i][j][k];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//在剩下两个方向上再重复两次</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以不适用三维数组,使用一维数组存储,再定义一个函数 <code>num(x,y,z)</code>计算坐标对应的引索<ul>
+<li><code>if(x&gt;A||y&gt;B||z&gt;C) return 0;</code></li>
+<li><code>return ((x-1)*B+(y-1)*c+(z-1)*A);</code></li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>算法</category>
@@ -1824,5 +1866,72 @@
 <li>故 最小公倍数&#x3D; (a*b)&#x2F;z</li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>JAVA并发</title>
+    <url>/2023/03/03/java%E5%B9%B6%E5%8F%91/</url>
+    <content><![CDATA[<h1 id="进程-x2F-线程"><a href="#进程-x2F-线程" class="headerlink" title="进程&#x2F;线程"></a>进程&#x2F;线程</h1><p>​	一个进程有多个线程,线程是CPU执行的基础单位(最小单位),线程不能独立运行,必须依赖进程,所有线程共享进程的资源</p>
+<p>​	并发量是效率,在一段时间内完成的量,并行量是指在某一时刻可以同时进行几项任务</p>
+<h2 id="线程的使用"><a href="#线程的使用" class="headerlink" title="线程的使用"></a>线程的使用</h2><ul>
+<li><p>自定义一个线程类,继承<code>Thread</code></p>
+</li>
+<li><p>在类中重载run()方法</p>
+<ul>
+<li>run()方法在线程启动后自动执行</li>
+<li>run()方法执行完毕后线程自动销毁</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BallThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Graphics graphics;</span><br><span class="line">    <span class="comment">//实现线程</span></span><br><span class="line">    <span class="comment">//重新run方法:启动线程后自动执行</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//绘制小球</span></span><br><span class="line">        <span class="comment">//graphics.fillOval(100,100,100,100);</span></span><br><span class="line">        <span class="comment">//让小球循环画</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">400</span>;i++) &#123;</span><br><span class="line">            graphics.fillOval(<span class="number">100</span>,<span class="number">100</span>+i,<span class="number">100</span>,<span class="number">100</span>);</span><br><span class="line">            <span class="comment">//延时</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">50</span>);   <span class="comment">//添加线程延迟,单位毫秒</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ex) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(ex);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过<code>Thread.sleep(int millis)</code>来设置线程的延时(停顿),单位为毫秒</li>
+<li>通过父类方法 <code>start()</code> 启动线程</li>
+</ul>
+<h1 id="线程生命周期"><a href="#线程生命周期" class="headerlink" title="线程生命周期"></a>线程生命周期</h1><ul>
+<li><p>NEW</p>
+<p>尚未启动的线程处于此状态</p>
+</li>
+<li><p>RUNNABLE</p>
+</li>
+</ul>
+<p>​		在Java虚拟机中执行的线程处于此状态</p>
+<ul>
+<li><p>BLOCKED</p>
+<p>被阻塞等待监视器锁定的线程处于此状态</p>
+</li>
+<li><p>WAITING</p>
+<p>正在等待另一个线程执行特定动作的线程处于此状态</p>
+</li>
+<li><p>TIMED_WAITING</p>
+<p>正在等待另一个线程执行动作达到指定等待时间的线程处于此状态(超时等待)</p>
+</li>
+<li><p>TERMINATED</p>
+<p>已经退出的线程处于此状态</p>
+</li>
+</ul>
+<h2 id="等待和阻塞"><a href="#等待和阻塞" class="headerlink" title="等待和阻塞"></a>等待和阻塞</h2><ul>
+<li><p>等待是线程还没有被CPU调度,没有获得处理机资源的时间片,即使CPU空闲也不会被调用;</p>
+</li>
+<li><p>阻塞是线程无法获取到其执行需要的资源,如CPU没有空闲资源</p>
+</li>
+</ul>
+<h2 id="使用构造方法初始化线程"><a href="#使用构造方法初始化线程" class="headerlink" title="使用构造方法初始化线程"></a>使用构造方法初始化线程</h2><ul>
+<li>构造方法只执行一次,防止出现重复线程等问题</li>
+<li>在构造方法中创建线程并启动,可以防止创建多个进程</li>
+</ul>
+<h1 id="键盘监听器"><a href="#键盘监听器" class="headerlink" title="键盘监听器"></a>键盘监听器</h1><ul>
+<li><p>窗口需要获取焦点才能使用键盘监听器</p>
+</li>
+<li><p>获取按下的键盘按键,(控制方向移动等)</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>工程</category>
+      </categories>
+      <tags>
+        <tag>进阶</tag>
+      </tags>
   </entry>
 </search>
