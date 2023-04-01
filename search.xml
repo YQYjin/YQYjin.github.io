@@ -386,7 +386,7 @@
 <li>去除重复记录 <code>select distinct 字段列表 from 表名;</code></li>
 </ul>
 </li>
-<li><p><strong>条件查询</strong></p>
+<li><p><strong>条件查询</strong>(模糊查询)</p>
 <ul>
 <li><p><code>select 字段列表 from 表名 where 条件列表;</code>  </p>
 <p>like 占位符 模糊匹配(_匹配单个字符,%匹配任意个字符)</p>
@@ -429,6 +429,12 @@
 <p>查询第一页 <code>select * from emp limit 10;</code></p>
 <p>查询第二页 <code>select * from emp limit 10 , 10;</code></p>
 </li>
+</ul>
+</li>
+<li><p>联表查询</p>
+<ul>
+<li>外连接</li>
+<li>内连接</li>
 </ul>
 </li>
 </ul>
@@ -638,29 +644,55 @@
   <entry>
     <title>约束</title>
     <url>/2023/01/03/MySQL%E7%BA%A6%E6%9D%9F/</url>
-    <content><![CDATA[<h1 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h1><h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><span id="more"></span>
+    <content><![CDATA[<h1 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h1><h2 id="约束条件"><a href="#约束条件" class="headerlink" title="约束条件"></a>约束条件</h2><table>
+<thead>
+<tr>
+<th>主键约束</th>
+<th>约束数据库中每条记录唯一</th>
+<th>primary key</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>唯一约束</td>
+<td>约束数据内容唯一</td>
+<td>unique</td>
+</tr>
+<tr>
+<td>外键约束</td>
+<td>表之间引用完整</td>
+<td>foreign key</td>
+</tr>
+<tr>
+<td>非空约束</td>
+<td>使该字段值不为空</td>
+<td>not null</td>
+</tr>
+<tr>
+<td>检查约束</td>
+<td>限制值的范围</td>
+<td>check(条件)</td>
+</tr>
+<tr>
+<td>默认约束</td>
+<td>默认值</td>
+<td>default</td>
+</tr>
+<tr>
+<td>自增约束</td>
+<td>未指定值时按上一条数据的值加一</td>
+<td>auto_increment</td>
+</tr>
+</tbody></table>
+<span id="more"></span>
 
-<ul>
-<li><p><code>primary key</code>主键</p>
-</li>
-<li><p><code>auto_increment</code>自动增长</p>
-</li>
-<li><p><code>not null</code>不为空</p>
-</li>
-<li><p><code>unique</code>不重复</p>
-</li>
-<li><p><code>check (条件列表)</code>检查约束,使符合某个条件</p>
-</li>
-<li><p><code>defualt 默认值</code> 默认约束</p>
-<p>约束关键字添加在数据类型后,多个约束使用空格分开</p>
-</li>
-</ul>
 <h2 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h2><p>使两张表建立联系,保证数据的一致性和完整性</p>
 <p>具有外键的表成为子表,子表关联的表称为父表(主表)</p>
 <ul>
 <li><p>添加外键</p>
 <ul>
-<li><p><code>alter table 表名 add constraint 外键名称 foreign key(外键字段名) references 主表(主表列表名)</code></p>
+<li><p><code>alter table 表名 add constraint [外键名称] foreign key(外键字段名) references 主表(主表列表名)</code></p>
+</li>
+<li><p><code>alter table storage add constraint foreign key(ID) references oil(ID);</code></p>
 </li>
 <li><pre><code class="sql">create table 表名(
     字段名 数据类型,
@@ -679,6 +711,23 @@
 <li><code>set default</code>父表中进行删除或更新时,将外键设置为一个默认值</li>
 </ul>
 <p><code>alter table 表名 add constraint 外键名称 foreign key(外键字段) references 主表名(主表字段名) on update 关键字 on delete 关键字;</code></p>
+<h1 id="主键约束"><a href="#主键约束" class="headerlink" title="主键约束"></a>主键约束</h1><ul>
+<li>表外添加 <code>alter table 表名 add primary key (字段名);</code></li>
+<li>撤销 <code>alter table 表名 drop primary key;</code></li>
+</ul>
+<h1 id="唯一约束"><a href="#唯一约束" class="headerlink" title="唯一约束"></a>唯一约束</h1><p>添加方式与主键约束相似</p>
+<h1 id="非空约束"><a href="#非空约束" class="headerlink" title="非空约束"></a>非空约束</h1><p>添加方式与主键约束相送</p>
+<h1 id="默认约束"><a href="#默认约束" class="headerlink" title="默认约束"></a>默认约束</h1><ul>
+<li>表外添加 <code>alter table 表名 add 字段名 default 默认值</code></li>
+<li>撤销 <code>drop defautl</code></li>
+</ul>
+<h1 id="检查约束"><a href="#检查约束" class="headerlink" title="检查约束"></a>检查约束</h1><ul>
+<li>表外添加 <code>alter table 表名 add 字段名 check(条件列表)</code><ul>
+<li>检查约束会约束 值必须使条件列表为真</li>
+</ul>
+</li>
+<li>撤销 <code>drop check 字段名</code></li>
+</ul>
 ]]></content>
       <categories>
         <category>MySQL</category>
@@ -1673,7 +1722,7 @@
   <entry>
     <title>基础算法</title>
     <url>/2023/02/06/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="基础算法"><a href="#基础算法" class="headerlink" title="基础算法"></a>基础算法</h1><span id="more"></span>
+    <content><![CDATA[<h1 id="基础算法-1"><a href="#基础算法-1" class="headerlink" title="基础算法-1"></a>基础算法-1</h1><span id="more"></span>
 
 <h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>查找 [0,n)之间的 x或<strong>x的后缀</strong></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">binSearch</span><span class="params">(<span class="type">int</span> a[], <span class="type">int</span> n, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> left = <span class="number">0</span>; <span class="type">int</span> right = n - <span class="number">1</span>;</span><br><span class="line">	<span class="type">int</span> mid;</span><br><span class="line">	<span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">		mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">		<span class="comment">// mid=left+(right-left)/2  防止right和left相加后溢出</span></span><br><span class="line">        <span class="comment">// mid=left+(right-left)&gt;&gt;2 综合最优</span></span><br><span class="line">		<span class="keyword">if</span> (a[mid] &gt; x) right = mid;</span><br><span class="line">		<span class="comment">//if(a[mid]&gt;=x) right=mid;</span></span><br><span class="line">		<span class="comment">// eles left=mid+1;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1891,6 +1940,30 @@
 <li><p>获取按下的键盘按键,(控制方向移动等)</p>
 </li>
 </ul>
+<h1 id="线程任务"><a href="#线程任务" class="headerlink" title="线程任务"></a>线程任务</h1><ul>
+<li>定时线程任务,每隔一段时间自动创建对象</li>
+</ul>
+<h1 id="图片移动显示"><a href="#图片移动显示" class="headerlink" title="图片移动显示"></a>图片移动显示</h1><ul>
+<li><p>在正坐标画图片的同时在相应的负坐标也画图</p>
+</li>
+<li><p><code>drawImage(image,0,y++,900,900,null);</code></p>
+<p><code>drawImage(image,0,y-900,900,900,null);</code></p>
+</li>
+<li><p>因为y轴最大为900,所有在相应负坐标即为正坐标y-900</p>
+</li>
+</ul>
+<h1 id="闪烁问题"><a href="#闪烁问题" class="headerlink" title="闪烁问题"></a>闪烁问题</h1><ul>
+<li>闪烁问题是由于多个对象被画笔绘制,导致绘制被覆盖,一个对象没有被画完就画另一个对象</li>
+<li>使用缓冲区来解决</li>
+<li>创建一个BufferedImage作为缓冲区,将窗体画笔替换为缓冲区画笔,让缓冲区被绘制完成后再显示在窗体上就可以解决闪烁问题</li>
+</ul>
+<h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><h2 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h2><h2 id="1-同步代码块"><a href="#1-同步代码块" class="headerlink" title="1. 同步代码块"></a>1. 同步代码块</h2><p>​	使用synchronized(){} 方法同步代码块</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(监视器(对象锁))&#123;</span><br><span class="line">    需要同步代码...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 任何一个对象都可以作为监视器(锁)使用,且要保证并发线程使用的监视器是同一个对象</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>任何一个对象都可以作为监视器,无论是专门创建的,还是有其他用途的对象,但必须要保证唯一性</strong></p>
+<h2 id="2-同步方法"><a href="#2-同步方法" class="headerlink" title="2.同步方法"></a>2.同步方法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">name</span><span class="params">()</span>&#123;</span><br><span class="line">    方法体</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同步方法的监视器对象是 本类对象 <strong>this</strong> ,且不可修改8</p>
 ]]></content>
       <categories>
         <category>工程</category>
@@ -1898,5 +1971,69 @@
       <tags>
         <tag>进阶</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>基础算法</title>
+    <url>/2023/03/17/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95-2/</url>
+    <content><![CDATA[<h1 id="基础算法-2"><a href="#基础算法-2" class="headerlink" title="基础算法-2"></a>基础算法-2</h1><span id="more"></span>
+
+<h1 id="离散化"><a href="#离散化" class="headerlink" title="离散化"></a>离散化</h1><p>​	在不关注数值的绝对大小而关注数据的相对大小时,将数据离散化可以把分布广而稀疏的数据转换为密集分布,从而使算法更快速,更节省空间地处理问题.</p>
+<p>​	离散化的步骤: 1.排序 2.离散化 3.归位</p>
+<p>使用STL进行离散化处理</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> arr[<span class="number">100001</span>];</span><br><span class="line">	<span class="type">int</span> n;</span><br><span class="line">	cin &gt;&gt; n;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; arr[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span>* newArr = <span class="keyword">new</span> <span class="type">int</span>[n];</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		<span class="comment">//通过lower_bound获取递增后arr[i]的位置,该位置即为离散化后的数值</span></span><br><span class="line">		newArr[i] = <span class="built_in">lower_bound</span>(arr + <span class="number">1</span>, arr + n + <span class="number">1</span>, arr[i]) - arr;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		cout &lt;&lt; newArr[i] &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果需要去重,可以使用unique()函数</p>
+<h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><p>​	可以直接使用STL中的排序算法 sort(),该函数的复杂度为 nlogn</p>
+<h2 id="排列"><a href="#排列" class="headerlink" title="排列"></a>排列</h2><ul>
+<li>next_permutation()函数</li>
+</ul>
+<p>​	返回值为bool,若没有下一个更大的排列,就返回false,若有就在原字符串中放入新的排列</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	string s = <span class="string">&quot;bcd&quot;</span>;</span><br><span class="line">	<span class="keyword">do</span> &#123; cout &lt;&lt; s &lt;&lt; endl; &#125; </span><br><span class="line">	<span class="keyword">while</span> (<span class="built_in">next_permutation</span>(s.<span class="built_in">begin</span>(), s.<span class="built_in">end</span>()));</span><br><span class="line">	<span class="comment">// 将会输出 bca,cab,cba</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​	若要获取全排列,先把字符串从小到大排序,然后再使用该函数.</p>
+<ul>
+<li>prev_permutation()</li>
+</ul>
+<p>​	该函数于上面函数相似,但是求前一个排列</p>
+<ul>
+<li>手写排列函数</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">bool</span> isVis[<span class="number">20</span>];</span><br><span class="line"><span class="type">int</span> b[<span class="number">20</span>];</span><br><span class="line"><span class="type">int</span> a[<span class="number">10</span>] = &#123; <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span> &#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">myNext_permutation</span><span class="params">(<span class="type">int</span> s, <span class="type">int</span> resNum,<span class="type">int</span> totalNum)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//s记录是排列中的第几个,t记录 所求排列的数组的长度</span></span><br><span class="line">	<span class="keyword">if</span> (s == resNum) &#123;</span><br><span class="line">		<span class="comment">//输出一个排列</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; ++i) &#123;</span><br><span class="line">			cout &lt;&lt; b[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; endl;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; totalNum; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (!isVis[i]) &#123;</span><br><span class="line">			isVis[i] = <span class="literal">true</span>;</span><br><span class="line">			b[s] = a[i];</span><br><span class="line">			<span class="built_in">myNext_permutation</span>(s + <span class="number">1</span>, resNum,totalNum);</span><br><span class="line">			isVis[i] = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n = <span class="number">3</span>;</span><br><span class="line">	<span class="comment">//前3个数中的3个数的全排列</span></span><br><span class="line">	<span class="comment">//若要取前四个数中的3个数的全排列,应为: myNext_permutation(0,3,4);</span></span><br><span class="line">	<span class="built_in">myNext_permutation</span>(<span class="number">0</span>, n,n);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="分治"><a href="#分治" class="headerlink" title="分治"></a>分治</h1><h2 id="分治算法的特征"><a href="#分治算法的特征" class="headerlink" title="分治算法的特征:"></a>分治算法的特征:</h2><ul>
+<li>平衡子问题:分治后的子问题规模大致相同;子问题规模相同的问题处理效率高于子问题规模不等的问题</li>
+<li>独立子问题:分治后的子问题相互独立,互不相干,这是区别与DP的根本特征</li>
+</ul>
+<p>汉诺塔问题,快速幂的一种解决方法,归并排序,快速排序都属于分支算法的应用</p>
+<h2 id="逆序数问题-归并排序"><a href="#逆序数问题-归并排序" class="headerlink" title="逆序数问题(归并排序)"></a>逆序数问题(归并排序)</h2><p> 通过归并排序的合并来统计逆序数的数量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ll a[N], b[N], cnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">merge</span><span class="params">(ll left, ll mid, ll right)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> i = left, j = mid + <span class="number">1</span>, temp = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (i &lt;= mid &amp;&amp; j &lt;= right) &#123;</span><br><span class="line">		<span class="keyword">if</span> (a[i] &lt; a[j]) &#123;</span><br><span class="line">			b[temp++] = a[i++];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			b[temp++] = a[j++];</span><br><span class="line">			cnt += mid - i + <span class="number">1</span>;	<span class="comment">//记录逆序数</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 处理剩下的</span></span><br><span class="line">	<span class="keyword">while</span> (i &lt;= mid) b[temp++] = a[i++];</span><br><span class="line">	<span class="keyword">while</span> (j &lt;= left) b[temp++] = b[j++];</span><br><span class="line">	<span class="comment">// 将归并好的复制回原数组</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> x = <span class="number">0</span>; x &lt; temp; ++x) &#123;</span><br><span class="line">		a[left + x] = b[x];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mergeSort</span><span class="params">(ll left, ll right)</span> </span>&#123;</span><br><span class="line">	ll mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">	<span class="built_in">mergeSort</span>(left, mid);</span><br><span class="line">	<span class="built_in">mergeSort</span>(mid + <span class="number">1</span>, right);</span><br><span class="line">	<span class="built_in">merge</span>(left, mid, right);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//每交换一次相邻的逆序对就可以消去一个逆序对,从 大,中,小;大,小,中;各种情况归纳可得</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="第K大数问题-快速排序"><a href="#第K大数问题-快速排序" class="headerlink" title="第K大数问题(快速排序)"></a>第K大数问题(快速排序)</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> arr[N];</span><br><span class="line"><span class="comment">//快速排序求第 k 大数</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">quickSort</span><span class="params">(<span class="type">int</span> left, <span class="type">int</span> right, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> mid = arr[left + (right - left) / <span class="number">2</span>];</span><br><span class="line">	<span class="type">int</span> i = left, j = right - <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (i &lt;= j) &#123;</span><br><span class="line">		<span class="keyword">while</span> (arr[i] &lt; mid) ++i;</span><br><span class="line">		<span class="keyword">while</span> (arr[j] &gt; mid) --j;</span><br><span class="line">		<span class="keyword">if</span> (i &lt;= j) &#123;</span><br><span class="line">			<span class="built_in">swap</span>(arr[i], arr[j]);</span><br><span class="line">			++i; --j;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//只递归含有第k个数的部分</span></span><br><span class="line">	<span class="keyword">if</span> (left &lt;= j &amp;&amp; k &lt;= j) <span class="keyword">return</span> <span class="built_in">quickSort</span>(left, j+<span class="number">1</span>, k);</span><br><span class="line">	<span class="keyword">if</span> (i &lt; right &amp;&amp; k &gt;= i) <span class="keyword">return</span> <span class="built_in">quickSort</span>(i, right, k);</span><br><span class="line">	<span class="keyword">return</span> arr[k]; <span class="comment">//返回结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="贪心与拟阵"><a href="#贪心与拟阵" class="headerlink" title="贪心与拟阵"></a>贪心与拟阵</h1><p>​	使用贪心的问题需要满足 可以从局部最优推广到全局最优,拟阵是一种评估方法,能在某些特殊情况下证明贪心法是全局最优的</p>
+<p>​	局部最优不能总能导致全局最优,即使是同一个问题,参数的改变也会导致无法使用贪心算法</p>
+<p>贪心算法需要满足:</p>
+<ul>
+<li><strong>最优子结构性质</strong>,即一个问题的最优解包含子问题的最优解,即能从局部最优扩展到全局最优</li>
+<li><strong>贪心选择性质</strong>,整体的最优解可以通过对一系列子问题的最优解的选择得到</li>
+</ul>
+<p>即使贪心算法得不到最优解,也往往能得到十分接近最优解的<strong>近似解</strong>,如果一个问题不一定要求最优解,可以尝试贪心</p>
+<h2 id="拟阵"><a href="#拟阵" class="headerlink" title="拟阵"></a>拟阵</h2><p>​	如果一个问题满足拟阵结构,那么贪心就可以得到最优解,是一个充分不必要条件</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>搜索</title>
+    <url>/2023/04/01/%E6%90%9C%E7%B4%A2/</url>
+    <content><![CDATA[<h1 id="BFS和DFS基础"><a href="#BFS和DFS基础" class="headerlink" title="BFS和DFS基础"></a>BFS和DFS基础</h1><ul>
+<li>BFS&#x3D;队列</li>
+<li>DFS&#x3D;递归</li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
   </entry>
 </search>

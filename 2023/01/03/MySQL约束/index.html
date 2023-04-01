@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="约束关键字">
+  <meta name="description" content="约束约束条件   主键约束 约束数据库中每条记录唯一 primary key    唯一约束 约束数据内容唯一 unique   外键约束 表之间引用完整 foreign key   非空约束 使该字段值不为空 not null   检查约束 限制值的范围 check(条件)   默认约束 默认值 default   自增约束 未指定值时按上一条数据的值加一 auto_increment">
 <meta property="og:type" content="article">
 <meta property="og:title" content="约束">
 <meta property="og:url" content="http://example.com/2023/01/03/MySQL%E7%BA%A6%E6%9D%9F/index.html">
 <meta property="og:site_name" content="月 夜 梦 灵">
-<meta property="og:description" content="约束关键字">
+<meta property="og:description" content="约束约束条件   主键约束 约束数据库中每条记录唯一 primary key    唯一约束 约束数据内容唯一 unique   外键约束 表之间引用完整 foreign key   非空约束 使该字段值不为空 not null   检查约束 限制值的范围 check(条件)   默认约束 默认值 default   自增约束 未指定值时按上一条数据的值加一 auto_increment">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-01-03T03:20:42.950Z">
-<meta property="article:modified_time" content="2023-03-09T07:25:05.679Z">
+<meta property="article:modified_time" content="2023-03-16T01:26:58.596Z">
 <meta property="article:author" content="YQYjin">
 <meta property="article:tag" content="基础">
 <meta name="twitter:card" content="summary">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-09 15:25:05" itemprop="dateModified" datetime="2023-03-09T15:25:05+08:00">2023-03-09</time>
+                <time title="修改时间：2023-03-16 09:26:58" itemprop="dateModified" datetime="2023-03-16T09:26:58+08:00">2023-03-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -252,29 +252,55 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h1><h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><span id="more"></span>
+        <h1 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h1><h2 id="约束条件"><a href="#约束条件" class="headerlink" title="约束条件"></a>约束条件</h2><table>
+<thead>
+<tr>
+<th>主键约束</th>
+<th>约束数据库中每条记录唯一</th>
+<th>primary key</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>唯一约束</td>
+<td>约束数据内容唯一</td>
+<td>unique</td>
+</tr>
+<tr>
+<td>外键约束</td>
+<td>表之间引用完整</td>
+<td>foreign key</td>
+</tr>
+<tr>
+<td>非空约束</td>
+<td>使该字段值不为空</td>
+<td>not null</td>
+</tr>
+<tr>
+<td>检查约束</td>
+<td>限制值的范围</td>
+<td>check(条件)</td>
+</tr>
+<tr>
+<td>默认约束</td>
+<td>默认值</td>
+<td>default</td>
+</tr>
+<tr>
+<td>自增约束</td>
+<td>未指定值时按上一条数据的值加一</td>
+<td>auto_increment</td>
+</tr>
+</tbody></table>
+<span id="more"></span>
 
-<ul>
-<li><p><code>primary key</code>主键</p>
-</li>
-<li><p><code>auto_increment</code>自动增长</p>
-</li>
-<li><p><code>not null</code>不为空</p>
-</li>
-<li><p><code>unique</code>不重复</p>
-</li>
-<li><p><code>check (条件列表)</code>检查约束,使符合某个条件</p>
-</li>
-<li><p><code>defualt 默认值</code> 默认约束</p>
-<p>约束关键字添加在数据类型后,多个约束使用空格分开</p>
-</li>
-</ul>
 <h2 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h2><p>使两张表建立联系,保证数据的一致性和完整性</p>
 <p>具有外键的表成为子表,子表关联的表称为父表(主表)</p>
 <ul>
 <li><p>添加外键</p>
 <ul>
-<li><p><code>alter table 表名 add constraint 外键名称 foreign key(外键字段名) references 主表(主表列表名)</code></p>
+<li><p><code>alter table 表名 add constraint [外键名称] foreign key(外键字段名) references 主表(主表列表名)</code></p>
+</li>
+<li><p><code>alter table storage add constraint foreign key(ID) references oil(ID);</code></p>
 </li>
 <li><pre><code class="sql">create table 表名(
     字段名 数据类型,
@@ -293,6 +319,23 @@
 <li><code>set default</code>父表中进行删除或更新时,将外键设置为一个默认值</li>
 </ul>
 <p><code>alter table 表名 add constraint 外键名称 foreign key(外键字段) references 主表名(主表字段名) on update 关键字 on delete 关键字;</code></p>
+<h1 id="主键约束"><a href="#主键约束" class="headerlink" title="主键约束"></a>主键约束</h1><ul>
+<li>表外添加 <code>alter table 表名 add primary key (字段名);</code></li>
+<li>撤销 <code>alter table 表名 drop primary key;</code></li>
+</ul>
+<h1 id="唯一约束"><a href="#唯一约束" class="headerlink" title="唯一约束"></a>唯一约束</h1><p>添加方式与主键约束相似</p>
+<h1 id="非空约束"><a href="#非空约束" class="headerlink" title="非空约束"></a>非空约束</h1><p>添加方式与主键约束相送</p>
+<h1 id="默认约束"><a href="#默认约束" class="headerlink" title="默认约束"></a>默认约束</h1><ul>
+<li>表外添加 <code>alter table 表名 add 字段名 default 默认值</code></li>
+<li>撤销 <code>drop defautl</code></li>
+</ul>
+<h1 id="检查约束"><a href="#检查约束" class="headerlink" title="检查约束"></a>检查约束</h1><ul>
+<li>表外添加 <code>alter table 表名 add 字段名 check(条件列表)</code><ul>
+<li>检查约束会约束 值必须使条件列表为真</li>
+</ul>
+</li>
+<li>撤销 <code>drop check 字段名</code></li>
+</ul>
 
     </div>
 
@@ -376,7 +419,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.</span> <span class="nav-text">约束</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">1.1.</span> <span class="nav-text">关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.2.</span> <span class="nav-text">外键约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%9B%B4%E6%96%B0%E5%A4%96%E9%94%AE"><span class="nav-number">1.3.</span> <span class="nav-text">删除更新外键</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.</span> <span class="nav-text">约束</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">约束条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.2.</span> <span class="nav-text">外键约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%9B%B4%E6%96%B0%E5%A4%96%E9%94%AE"><span class="nav-number">1.3.</span> <span class="nav-text">删除更新外键</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.</span> <span class="nav-text">主键约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%94%AF%E4%B8%80%E7%BA%A6%E6%9D%9F"><span class="nav-number">3.</span> <span class="nav-text">唯一约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%9E%E7%A9%BA%E7%BA%A6%E6%9D%9F"><span class="nav-number">4.</span> <span class="nav-text">非空约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E7%BA%A6%E6%9D%9F"><span class="nav-number">5.</span> <span class="nav-text">默认约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E7%BA%A6%E6%9D%9F"><span class="nav-number">6.</span> <span class="nav-text">检查约束</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -392,7 +435,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
