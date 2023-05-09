@@ -1001,18 +1001,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Edu 141</title>
-    <url>/2023/01/11/Edu-141/</url>
-    <content><![CDATA[<h1 id="A-Mike-it-Beautiful"><a href="#A-Mike-it-Beautiful" class="headerlink" title="A Mike it Beautiful"></a>A Mike it Beautiful</h1><span id="more"></span>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>codeforce</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Unity3D基础</title>
     <url>/2023/01/12/Unity3D%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<ol>
@@ -2023,7 +2011,9 @@
   <entry>
     <title>搜索</title>
     <url>/2023/04/01/%E6%90%9C%E7%B4%A2/</url>
-    <content><![CDATA[<h1 id="BFS和DFS基础"><a href="#BFS和DFS基础" class="headerlink" title="BFS和DFS基础"></a>BFS和DFS基础</h1><ul>
+    <content><![CDATA[<h1 id="BFS和DFS基础"><a href="#BFS和DFS基础" class="headerlink" title="BFS和DFS基础"></a>BFS和DFS基础</h1><span id="more"></span>
+
+<ul>
 <li>BFS&#x3D;队列</li>
 <li>DFS&#x3D;递归</li>
 </ul>
@@ -2067,6 +2057,13 @@
 
 <h2 id="综合剪枝"><a href="#综合剪枝" class="headerlink" title="综合剪枝"></a>综合剪枝</h2><pre><code> 某些题目中需要用到多种剪枝手段
 </code></pre>
+<ul>
+<li>奇偶判断 p115页<ul>
+<li>一种搜索特定步数时的剪枝手段</li>
+<li>曼哈顿距离可以用于奇偶判断</li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>算法</category>
@@ -2075,7 +2072,9 @@
   <entry>
     <title>线程池</title>
     <url>/2023/04/09/%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><h2 id="效用"><a href="#效用" class="headerlink" title="效用"></a>效用</h2><p>​	线程池可以提高性能,在系统启动时创建大量空闲的线程,再将任务传入线程池,线程池就会启动一个线程来执行该任务,执行结束后该线程不会被消亡,而是返回线程池,重回空闲状态,等待执行下一个任务.</p>
+    <content><![CDATA[<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><span id="more"></span>
+
+<h2 id="效用"><a href="#效用" class="headerlink" title="效用"></a>效用</h2><p>​	线程池可以提高性能,在系统启动时创建大量空闲的线程,再将任务传入线程池,线程池就会启动一个线程来执行该任务,执行结束后该线程不会被消亡,而是返回线程池,重回空闲状态,等待执行下一个任务.</p>
 <ul>
 <li><p>线程池可以降低资源消耗,避免了创建和销毁线程时造成的消耗</p>
 </li>
@@ -2124,7 +2123,9 @@
   <entry>
     <title>线程安全</title>
     <url>/2023/04/01/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/</url>
-    <content><![CDATA[<h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><h2 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h2><p>​	在多个线程对同一个变量进行更改时,可能会导致线程对该变量的更改和读取出现错误,出现线程不安全</p>
+    <content><![CDATA[<h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><span id="more"></span>
+
+<h2 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h2><p>​	在多个线程对同一个变量进行更改时,可能会导致线程对该变量的更改和读取出现错误,出现线程不安全</p>
 <p>​	通过添加监听器或加锁的方式,限定变量同一时间只能被一个线程修改</p>
 <h2 id="1-同步代码块"><a href="#1-同步代码块" class="headerlink" title="1. 同步代码块"></a>1. 同步代码块</h2><p>​	使用synchronized(){} 方法同步代码块</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(监视器(对象锁))&#123;</span><br><span class="line">    需要同步代码...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 任何一个对象都可以作为监视器(锁)使用,且要保证并发线程使用的监视器是同一个对象</span></span><br></pre></td></tr></table></figure>
