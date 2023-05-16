@@ -20,20 +20,23 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="接口">
+  <meta name="description" content="HTTPS的实现,混合加密,数字签名,数字证书,TLS握手,数字证书校验和HTTPS安全性">
 <meta property="og:type" content="article">
-<meta property="og:title" content="接口">
-<meta property="og:url" content="http://example.com/2023/01/03/%E6%8E%A5%E5%8F%A3/index.html">
+<meta property="og:title" content="HTTPS">
+<meta property="og:url" content="http://example.com/2023/05/14/HTTPS/index.html">
 <meta property="og:site_name" content="月 夜 梦 灵">
-<meta property="og:description" content="接口">
+<meta property="og:description" content="HTTPS的实现,混合加密,数字签名,数字证书,TLS握手,数字证书校验和HTTPS安全性">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-01-03T11:12:44.249Z">
-<meta property="article:modified_time" content="2023-03-09T07:23:10.936Z">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/HTTPS%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/RSA%E6%8F%A1%E6%89%8B.jpg">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/HTTPS%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7.jpg">
+<meta property="article:published_time" content="2023-05-14T08:11:30.302Z">
+<meta property="article:modified_time" content="2023-05-16T14:31:11.546Z">
 <meta property="article:author" content="YQYjin">
-<meta property="article:tag" content="基础">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/HTTPS%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81.png">
 
-<link rel="canonical" href="http://example.com/2023/01/03/%E6%8E%A5%E5%8F%A3/">
+<link rel="canonical" href="http://example.com/2023/05/14/HTTPS/">
 
 
 <script id="page-configurations">
@@ -46,7 +49,7 @@
   };
 </script>
 
-  <title>接口 | 月 夜 梦 灵</title>
+  <title>HTTPS | 月 夜 梦 灵</title>
   
 
 
@@ -199,7 +202,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/03/%E6%8E%A5%E5%8F%A3/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/14/HTTPS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -212,7 +215,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          接口
+          HTTPS
         </h1>
 
         <div class="post-meta">
@@ -222,14 +225,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-01-03 19:12:44" itemprop="dateCreated datePublished" datetime="2023-01-03T19:12:44+08:00">2023-01-03</time>
+              <time title="创建时间：2023-05-14 16:11:30" itemprop="dateCreated datePublished" datetime="2023-05-14T16:11:30+08:00">2023-05-14</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-09 15:23:10" itemprop="dateModified" datetime="2023-03-09T15:23:10+08:00">2023-03-09</time>
+                <time title="修改时间：2023-05-16 22:31:11" itemprop="dateModified" datetime="2023-05-16T22:31:11+08:00">2023-05-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +240,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
                 </span>
             </span>
 
@@ -252,40 +255,50 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><span id="more"></span>
+        <p>HTTPS的实现,混合加密,数字签名,数字证书,TLS握手,数字证书校验和HTTPS安全性</p>
+<span id="more"></span>
 
-<p>格式: <code>interface 接口名 &#123;&#125;</code></p>
+<h1 id="HTTPS与HTTP"><a href="#HTTPS与HTTP" class="headerlink" title="HTTPS与HTTP"></a>HTTPS与HTTP</h1><p>HTTPS在HTTP基础上发展而来,通过在HTTP和TCP网络层之间加入<strong>SSL&#x2F;TLS</strong>安全协议,解决了HTTP的三大风险</p>
 <ul>
-<li>接口中的变量默认以 statci final 修饰,必须初始化赋值</li>
-<li>接口中可以定义抽象方法,静态方法和默认方法</li>
+<li>信息加密:将信息加密,解决窃听风险;</li>
+<li>校验机制:验证报文是否被篡改,解决篡改风险</li>
+<li>身份证书:验证通信双方身份,解决伪装风险</li>
 </ul>
-<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><ol>
-<li>创建一个类 实现 接口(继承接口) ,一个类可以实现多个接口但只能继承一个类</li>
-<li>类中必须重写接口中的所有抽象方法</li>
-<li>类中可以直接使用 接口中的变量,静态方法和默认方法</li>
-</ol>
-<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">open</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Door</span>&#123;</span><br><span class="line">    Lock lock;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">openDoor</span><span class="params">()</span>&#123;</span><br><span class="line">        lock.open();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">closeDoor</span><span class="params">()</span>&#123;</span><br><span class="line">        lock.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//实现 接口Lock</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">leyLock</span> <span class="keyword">implements</span> <span class="title class_">Lock</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">open</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;key 正确,开门&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;key 正确,关门&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">calss Mange&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        Door door= <span class="keyword">new</span> <span class="title class_">Door</span>();</span><br><span class="line">        keyLock keylock=<span class="keyword">new</span> <span class="title class_">keyLock</span>();</span><br><span class="line">        door.lock() = keylock; <span class="comment">//传入接口</span></span><br><span class="line">        </span><br><span class="line">        door.open();</span><br><span class="line">        door.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>若要对锁进行升级或修改,对实现锁这个接口的类进行修改或再次创建一个类对锁进行实现,然后传入接口就可以了,避免了对门和锁的源码进行修改</p>
-<h2 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h2><ul>
-<li><p>抽象类： </p>
+<h1 id="HTTPS的实现"><a href="#HTTPS的实现" class="headerlink" title="HTTPS的实现"></a>HTTPS的实现</h1><h2 id="1-混合加密"><a href="#1-混合加密" class="headerlink" title="1.混合加密"></a>1.混合加密</h2><p>通信建立前使用非对称加密,通过公钥,私钥进行加密通信交换密钥</p>
+<p>通信建立后使用对称加密,通过密钥加密通信</p>
+<p>非对称加密速度慢,但可以安全交换密钥,对称加密速度快但无法安全交换密钥,因此使用混合加密模式</p>
+<h2 id="2-摘要算法-amp-数字签名"><a href="#2-摘要算法-amp-数字签名" class="headerlink" title="2. 摘要算法&amp;数字签名"></a>2. 摘要算法&amp;数字签名</h2><p>​	在传输信息时,通过<strong>摘要算法</strong>(哈希算法),计算出内容的哈希值,一起发送,接收后次计算哈希值并比较便可确定内容是否遭到篡改,哈希值唯一且无法推导出内容;但不能保证 <strong>哈希值和内容一同被篡改</strong></p>
+<p>​	非对称加密中,公钥加密,私钥解密用于保证传输内容安全,而私钥加密,公钥解密用于验证身份;</p>
+<p>​	因为可以用公钥解密就证明该信息的来源拥有私钥,数字签名算法就通过私钥加密,公钥解密来实现,但只加密哈希值而不加密内容,因为消耗较大.在建立通信后服务器会将公钥发给客户端,然后服务器用私钥加密,就可以确定信息来自服务器;</p>
+<p>​	但可能会遇到伪造公钥和密钥,即消息来源身份不确定,这时需要用到数字证书</p>
+<h2 id="3-数字证书"><a href="#3-数字证书" class="headerlink" title="3.数字证书"></a>3.数字证书</h2><p>​	数字证书唯一,由CA(数字证书认证机构)颁发,只要证书是可信的,公钥和私钥就是可信的,即通过数字证书验证公钥和私钥是否被伪造</p>
+<p>​	本质还是数字签名算法,由CA持有私钥并颁发公钥,不同的是CA颁发的公钥已事先存储在客户端中,不会在通信过程中被篡改</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/HTTPS%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81.png"></p>
+<h1 id="HTTPS连接流程"><a href="#HTTPS连接流程" class="headerlink" title="HTTPS连接流程"></a>HTTPS连接流程</h1><p>​	基于RSA算法的TLS握手流程图:</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/RSA%E6%8F%A1%E6%89%8B.jpg"></p>
+<p>​	过程中一共生成三个随机数:Client Random、Server Random、pre-master key,客户端和服务端会使用这三个随机数,使用双方协商的加密算法算出会话密钥;最后服务器向客户端发送消息,表示之后的信息都使用会话密钥加密</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><p>​	RSA算法存在前向安全的问题,若服务器的私钥丢失,则过去被截取的所有TLS密文都会被破解,对此,出现了<code>ECDHE</code>密钥协商算法,目前大多数网站都使用该算法</p>
+<h2 id="校验数字证书"><a href="#校验数字证书" class="headerlink" title="校验数字证书"></a>校验数字证书</h2><ul>
+<li>证书签名</li>
+</ul>
+<p>​	证书分为两部分,第一部分为证书的内容,包含持有者的公钥,用途,有效时间等信息,然后通过哈希算法将这些信息计算出一个哈希值,再使用CA的密钥将哈希值加密,添加到证书中,即为证书的第二部分</p>
 <ul>
-<li>定义抽象方法</li>
-<li>定义普通方法</li>
+<li>校验证书</li>
 </ul>
-</li>
-<li><p>接口 &gt; 抽象类 &gt; 类： </p>
-</li>
-<li><p>设计 &gt; 半成品 &gt; 成品 </p>
-</li>
-<li><p>依赖不能导致： </p>
+<p>​	客户端收到后,使用相同的哈希算法将证书的内容计算出一个哈希值,再使用CA的公钥解密证书中的哈希值,两者相同则证书可信,反之证书不可信</p>
 <ul>
-<li>抽象类可以继承非抽象类,但不要这么做</li>
+<li>证书信任链</li>
 </ul>
-</li>
-<li><p>只要是抽象的都不可以实例化对象</p>
-</li>
-</ul>
+<p>​	客户端收到证书后,会找到该证书的签发者,若签发者不是根证书,就接着向上找,直到找到根证书,即自签证书,然后根证书验证下级证书,依次进行,直到验证到本次的证书,形成一个证书信任链</p>
+<p>​	这么做的目的是严格隔离根证书,防止根证书被修改,一旦根证书失效,整个信任链都会出现问题</p>
+<h2 id="数据完整性"><a href="#数据完整性" class="headerlink" title="数据完整性"></a>数据完整性</h2><p>​	TLS实现上分为TLS握手协议和TLS记录协议,后者保护数据,验证其完整性和来源</p>
+<p>​	消息会被分成多个片段,对每个片段进行压缩并附上消息认证码(MAC值,哈希算法生成),目的是保证完整性和防止被修改,然后对压缩片段和MAC进行加密,头部附上信息,然后发送出去</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/HTTPS%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7.jpg"></p>
+<h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><p><strong>HTTPS是否完全安全可靠?</strong></p>
+<p>有一个中间人服务器,它与客户端完成TLS握手,然后再与原目标服务器完成TLS握手</p>
+<p>​	在这种情况下,中间人服务器可以获取到并解密客户端发送的消息,也可以获取到并解密服务器发送的消息,但发生这种情况前提是客户端接受中间人的证书,因为中间人服务器无法获取服务器的私钥,无法去CA获取签名证书,只能伪造证书,这时浏览器会提示证书不可信,只要不接受该证书,信息就不会被泄露</p>
+<p>​	不信任中间人证书是一种方法,另一种是HTTPS双向验证,即服务器也验证客户端的身份</p>
+<p>​	HTTPS协议到目前位为止不存在任何漏洞,被中间人攻击是利用了客户端漏洞(信任中间人证书或被恶意导入伪造的根证书)</p>
 
     </div>
 
@@ -294,9 +307,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"># 基础</a>
-          </div>
 
         
 
@@ -304,13 +314,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/01/03/MySQL%E7%BA%A6%E6%9D%9F/" rel="prev" title="约束">
-      <i class="fa fa-chevron-left"></i> 约束
+    <a href="/2023/05/13/HTTP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" rel="prev" title="HTTP基本概念">
+      <i class="fa fa-chevron-left"></i> HTTP基本概念
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/01/07/%E4%BA%94%E5%AD%90%E6%A3%8B/" rel="next" title="五子棋">
-      五子棋 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -369,7 +376,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.</span> <span class="nav-text">接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="nav-number">1.3.</span> <span class="nav-text">抽象类</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTPS%E4%B8%8EHTTP"><span class="nav-number">1.</span> <span class="nav-text">HTTPS与HTTP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTPS%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">HTTPS的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%B7%B7%E5%90%88%E5%8A%A0%E5%AF%86"><span class="nav-number">2.1.</span> <span class="nav-text">1.混合加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95-amp-%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="nav-number">2.2.</span> <span class="nav-text">2. 摘要算法&amp;数字签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="nav-number">2.3.</span> <span class="nav-text">3.数字证书</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTPS%E8%BF%9E%E6%8E%A5%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">HTTPS连接流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">3.1.</span> <span class="nav-text">缺陷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="nav-number">3.2.</span> <span class="nav-text">校验数字证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">3.3.</span> <span class="nav-text">数据完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">3.4.</span> <span class="nav-text">安全性</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

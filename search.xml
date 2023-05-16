@@ -2011,9 +2011,10 @@
   <entry>
     <title>搜索</title>
     <url>/2023/04/01/%E6%90%9C%E7%B4%A2/</url>
-    <content><![CDATA[<h1 id="BFS和DFS基础"><a href="#BFS和DFS基础" class="headerlink" title="BFS和DFS基础"></a>BFS和DFS基础</h1><span id="more"></span>
+    <content><![CDATA[<p>BFS,DFS,剪枝,判重,最短路径dijkstra</p>
+<span id="more"></span>
 
-<ul>
+<h1 id="BFS和DFS基础"><a href="#BFS和DFS基础" class="headerlink" title="BFS和DFS基础"></a>BFS和DFS基础</h1><ul>
 <li>BFS&#x3D;队列</li>
 <li>DFS&#x3D;递归</li>
 </ul>
@@ -2064,6 +2065,8 @@
 </ul>
 </li>
 </ul>
+<h1 id="最短路径Dijkstra"><a href="#最短路径Dijkstra" class="headerlink" title="最短路径Dijkstra"></a>最短路径Dijkstra</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">2999999</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">3e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="comment">//边类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Edge</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="type">int</span> from, to;</span><br><span class="line">	ll value;</span><br><span class="line">	<span class="built_in">Edge</span>(<span class="type">int</span> from, <span class="type">int</span> to, ll value) &#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;from = from;</span><br><span class="line">		<span class="keyword">this</span>-&gt;to = to;</span><br><span class="line">		<span class="keyword">this</span>-&gt;value = value;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//节点类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="type">int</span> id;</span><br><span class="line">	ll minDis;</span><br><span class="line">	<span class="built_in">Node</span>(<span class="type">int</span> id, <span class="type">int</span> minDis) &#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;id = id;</span><br><span class="line">		<span class="keyword">this</span>-&gt;minDis = minDis;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">bool</span> <span class="keyword">operator</span> &lt; (<span class="type">const</span> Node&amp; a) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>-&gt;minDis &gt; a.minDis;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//存储图</span></span><br><span class="line">vector&lt;Edge&gt; edges[N];</span><br><span class="line"><span class="comment">//存储所有点到起点的距离</span></span><br><span class="line">ll allDis[N];</span><br><span class="line"><span class="comment">//标志该点已找到最短路径</span></span><br><span class="line"><span class="type">bool</span> isDone[N];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dijkstra</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> start = <span class="number">1</span>;</span><br><span class="line">	priority_queue&lt;Node&gt; smallHeap;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; N; ++i) &#123;</span><br><span class="line">		allDis[i] = INF;</span><br><span class="line">		isDone[i] = <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	allDis[start] = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//加入第一个点</span></span><br><span class="line">	smallHeap.<span class="built_in">push</span>(<span class="built_in">Node</span>(start, allDis[start]));</span><br><span class="line">	<span class="keyword">while</span> (!smallHeap.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">		Node node = smallHeap.<span class="built_in">top</span>();</span><br><span class="line">		smallHeap.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="comment">//是否被遍历过,即是否找到最短路径</span></span><br><span class="line">		<span class="keyword">if</span> (isDone[node.id]) <span class="keyword">continue</span>;</span><br><span class="line">		isDone[node.id] = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; edges[node.id].<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">			Edge edge = edges[node.id][i];</span><br><span class="line">			<span class="keyword">if</span> (isDone[edge.to]) <span class="keyword">continue</span>;</span><br><span class="line">			<span class="comment">//是否更新</span></span><br><span class="line">			<span class="keyword">if</span> (allDis[edge.to] &gt; node.minDis + edge.value) &#123;</span><br><span class="line">				allDis[edge.to] = node.minDis + edge.value;</span><br><span class="line">				smallHeap.<span class="built_in">push</span>(<span class="built_in">Node</span>(edge.to, allDis[edge.to]));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n, m,u,v,w;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;</span><br><span class="line">		edges[u].<span class="built_in">push_back</span>(<span class="built_in">Edge</span>(u,v,w));</span><br><span class="line">		<span class="comment">//若为无方向图</span></span><br><span class="line">		<span class="comment">//edges[v].push_back(Edge(v, u, w));</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">dijkstra</span>();</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (allDis[i] == INF) cout &lt;&lt; <span class="number">-1</span> &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		<span class="keyword">else</span> cout &lt;&lt; allDis[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>算法</category>
@@ -2167,5 +2170,142 @@
       <tags>
         <tag>进阶</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>HTTPS</title>
+    <url>/2023/05/14/HTTPS/</url>
+    <content><![CDATA[<p>HTTPS的实现,混合加密,数字签名,数字证书,TLS握手,数字证书校验和HTTPS安全性</p>
+<span id="more"></span>
+
+<h1 id="HTTPS与HTTP"><a href="#HTTPS与HTTP" class="headerlink" title="HTTPS与HTTP"></a>HTTPS与HTTP</h1><p>HTTPS在HTTP基础上发展而来,通过在HTTP和TCP网络层之间加入<strong>SSL&#x2F;TLS</strong>安全协议,解决了HTTP的三大风险</p>
+<ul>
+<li>信息加密:将信息加密,解决窃听风险;</li>
+<li>校验机制:验证报文是否被篡改,解决篡改风险</li>
+<li>身份证书:验证通信双方身份,解决伪装风险</li>
+</ul>
+<h1 id="HTTPS的实现"><a href="#HTTPS的实现" class="headerlink" title="HTTPS的实现"></a>HTTPS的实现</h1><h2 id="1-混合加密"><a href="#1-混合加密" class="headerlink" title="1.混合加密"></a>1.混合加密</h2><p>通信建立前使用非对称加密,通过公钥,私钥进行加密通信交换密钥</p>
+<p>通信建立后使用对称加密,通过密钥加密通信</p>
+<p>非对称加密速度慢,但可以安全交换密钥,对称加密速度快但无法安全交换密钥,因此使用混合加密模式</p>
+<h2 id="2-摘要算法-amp-数字签名"><a href="#2-摘要算法-amp-数字签名" class="headerlink" title="2. 摘要算法&amp;数字签名"></a>2. 摘要算法&amp;数字签名</h2><p>​	在传输信息时,通过<strong>摘要算法</strong>(哈希算法),计算出内容的哈希值,一起发送,接收后次计算哈希值并比较便可确定内容是否遭到篡改,哈希值唯一且无法推导出内容;但不能保证 <strong>哈希值和内容一同被篡改</strong></p>
+<p>​	非对称加密中,公钥加密,私钥解密用于保证传输内容安全,而私钥加密,公钥解密用于验证身份;</p>
+<p>​	因为可以用公钥解密就证明该信息的来源拥有私钥,数字签名算法就通过私钥加密,公钥解密来实现,但只加密哈希值而不加密内容,因为消耗较大.在建立通信后服务器会将公钥发给客户端,然后服务器用私钥加密,就可以确定信息来自服务器;</p>
+<p>​	但可能会遇到伪造公钥和密钥,即消息来源身份不确定,这时需要用到数字证书</p>
+<h2 id="3-数字证书"><a href="#3-数字证书" class="headerlink" title="3.数字证书"></a>3.数字证书</h2><p>​	数字证书唯一,由CA(数字证书认证机构)颁发,只要证书是可信的,公钥和私钥就是可信的,即通过数字证书验证公钥和私钥是否被伪造</p>
+<p>​	本质还是数字签名算法,由CA持有私钥并颁发公钥,不同的是CA颁发的公钥已事先存储在客户端中,不会在通信过程中被篡改</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/HTTPS%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81.png"></p>
+<h1 id="HTTPS连接流程"><a href="#HTTPS连接流程" class="headerlink" title="HTTPS连接流程"></a>HTTPS连接流程</h1><p>​	基于RSA算法的TLS握手流程图:</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/RSA%E6%8F%A1%E6%89%8B.jpg"></p>
+<p>​	过程中一共生成三个随机数:Client Random、Server Random、pre-master key,客户端和服务端会使用这三个随机数,使用双方协商的加密算法算出会话密钥;最后服务器向客户端发送消息,表示之后的信息都使用会话密钥加密</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><p>​	RSA算法存在前向安全的问题,若服务器的私钥丢失,则过去被截取的所有TLS密文都会被破解,对此,出现了<code>ECDHE</code>密钥协商算法,目前大多数网站都使用该算法</p>
+<h2 id="校验数字证书"><a href="#校验数字证书" class="headerlink" title="校验数字证书"></a>校验数字证书</h2><ul>
+<li>证书签名</li>
+</ul>
+<p>​	证书分为两部分,第一部分为证书的内容,包含持有者的公钥,用途,有效时间等信息,然后通过哈希算法将这些信息计算出一个哈希值,再使用CA的密钥将哈希值加密,添加到证书中,即为证书的第二部分</p>
+<ul>
+<li>校验证书</li>
+</ul>
+<p>​	客户端收到后,使用相同的哈希算法将证书的内容计算出一个哈希值,再使用CA的公钥解密证书中的哈希值,两者相同则证书可信,反之证书不可信</p>
+<ul>
+<li>证书信任链</li>
+</ul>
+<p>​	客户端收到证书后,会找到该证书的签发者,若签发者不是根证书,就接着向上找,直到找到根证书,即自签证书,然后根证书验证下级证书,依次进行,直到验证到本次的证书,形成一个证书信任链</p>
+<p>​	这么做的目的是严格隔离根证书,防止根证书被修改,一旦根证书失效,整个信任链都会出现问题</p>
+<h2 id="数据完整性"><a href="#数据完整性" class="headerlink" title="数据完整性"></a>数据完整性</h2><p>​	TLS实现上分为TLS握手协议和TLS记录协议,后者保护数据,验证其完整性和来源</p>
+<p>​	消息会被分成多个片段,对每个片段进行压缩并附上消息认证码(MAC值,哈希算法生成),目的是保证完整性和防止被修改,然后对压缩片段和MAC进行加密,头部附上信息,然后发送出去</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/HTTPS%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7.jpg"></p>
+<h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><p><strong>HTTPS是否完全安全可靠?</strong></p>
+<p>有一个中间人服务器,它与客户端完成TLS握手,然后再与原目标服务器完成TLS握手</p>
+<p>​	在这种情况下,中间人服务器可以获取到并解密客户端发送的消息,也可以获取到并解密服务器发送的消息,但发生这种情况前提是客户端接受中间人的证书,因为中间人服务器无法获取服务器的私钥,无法去CA获取签名证书,只能伪造证书,这时浏览器会提示证书不可信,只要不接受该证书,信息就不会被泄露</p>
+<p>​	不信任中间人证书是一种方法,另一种是HTTPS双向验证,即服务器也验证客户端的身份</p>
+<p>​	HTTPS协议到目前位为止不存在任何漏洞,被中间人攻击是利用了客户端漏洞(信任中间人证书或被恶意导入伪造的根证书)</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>HTTP基本概念</title>
+    <url>/2023/05/13/HTTP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
+    <content><![CDATA[<p>​	HTTP基本概念,GET与POST,HTTP缓存,HTTP特性,HTTP性能</p>
+<span id="more"></span>
+
+<h1 id="HTTP基本概念"><a href="#HTTP基本概念" class="headerlink" title="HTTP基本概念"></a>HTTP基本概念</h1><p>​	HTTP,即超文本传输协议,HyperText Transfer Protocol.	“文本”的含义包括文字,图片,视频,压缩包等,而”超文本”,即文字,图片,视频等的混合体,最重要的是具有超链接,可以从一个超文本跳转到另一个超文本</p>
+<h3 id="HTTP常见状态码"><a href="#HTTP常见状态码" class="headerlink" title="HTTP常见状态码"></a>HTTP常见状态码</h3><p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/HTTP%E7%8A%B6%E6%80%81%E7%A0%81.jpg"></p>
+<h3 id="HTTP常见字段"><a href="#HTTP常见字段" class="headerlink" title="HTTP常见字段"></a>HTTP常见字段</h3><ul>
+<li><code>host</code>字段,指定服务器的域名,如Host:<a href="http://www.baidu.com/">www.baidu.com</a></li>
+<li><code>Content-Length</code>字段,表明服务器返回数据的长度,用于表示数据的边界,防止TCP粘包</li>
+<li><code>Connection</code>字段,用于使用长连接时,为兼容老版本HTTP,首部字段值应为Keep-Alive</li>
+<li><code>Content-Type</code>字段,表明返回数据的格式</li>
+<li><code>Accept</code>字段,客户端请求时表明可以接收的数据格式</li>
+<li><code>Content-Encoding</code>字段,表明返回数据的压缩格式,对应<code>Accept-Encoding</code></li>
+</ul>
+<h1 id="GET与POST"><a href="#GET与POST" class="headerlink" title="GET与POST"></a>GET与POST</h1><ul>
+<li><code>GET</code>的语义是:从服务器获取指定的资源,GET参数一般在URL中,URL只支持ASCII且限制长度</li>
+<li><code>POST</code>的语义是:根据请求的负荷(报文body)对指定的资源作出修改,如提交一个评论,将评论内容放在报文body中发送给服务器,服务器生成相应的评论</li>
+</ul>
+<p>上面对于GET和POST是根据RFC规范分析的,实际开发中可能不遵循RFC规范,使用GET实现POST的功能或使用POST实现GET的功能</p>
+<h3 id="安全和幂等"><a href="#安全和幂等" class="headerlink" title="安全和幂等"></a>安全和幂等</h3><ul>
+<li>安全:请求方法不会有破坏服务器上资源的可能</li>
+<li>幂等:多次相同操作的结果相同</li>
+</ul>
+<p>​	对于GET,由于是只读,因此是安全且幂等的;对于POST,由于会修改服务器上的资源,因此是不安全的,由于多次提交会创建多个相同的资源,因此不是幂等的.</p>
+<h1 id="HTTP缓存"><a href="#HTTP缓存" class="headerlink" title="HTTP缓存"></a>HTTP缓存</h1><p>HTTP缓存有两种方式,分别是<strong>强制缓存</strong>和<strong>协商缓存</strong></p>
+<h3 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h3><ul>
+<li><p>强制缓存由浏览器判断缓存是否过期,由浏览器决定是否使用本地缓存</p>
+</li>
+<li><p>强制缓存利用HTTP相应头部<code>Cache-Control</code>字段和<code>Expires</code>字段判断是否过去,前者是相对时间,后者是绝对时间,且Cache-Control优先级高于Expires</p>
+</li>
+<li><p>当浏览器再次请求时,根据请求时间和Cache-Control中设置过期时间计算,若没有过期则使用本地缓存,否则重新请求服务器,并重置Cache-Control和Expires</p>
+</li>
+</ul>
+<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><blockquote>
+<p>当强制缓存失效时使用协商缓存</p>
+</blockquote>
+<p>​	当服务器返回码为304时,代表可以使用本地缓存</p>
+<p>​	协商缓存可以通过两种方式实现:<code>If-Modified-Since</code>和<code>Last-Modified</code> ; <code>If-None-Match</code>与<code>ETag</code> ;两种字段组合,前一个是请求头字段,后一个是响应头字段</p>
+<ul>
+<li>第一种方法实现:请求时带上<code>If-Modified-Since</code>和<code>Last-Modified</code>,服务器接受到<code>If-Modified-Since</code>时,判断<code>Last-Modified</code>,若服务器最新的修改时间大于请求的最后修改时间,返回最新资源,反之使用本地缓存</li>
+<li>第二种方法实现:若本地获取到的资源有ETag字段,再次请求时把<code>If-None-Match</code>设置为ETag的值,服务器比较ETag的值是否发生改变,若改变就返回最新资源,没有改变就使用本地缓存</li>
+</ul>
+<p>​	第一种方法是基于时间实现,第二章方法是基于唯一表示实现,相对来说后者更加可靠,避免修改时间带来的错误.因此ETag优先级更高,当<strong>请求时</strong>同时使用了这两种方法,服务器会在先判断ETag,ETag相同才会判断Last-Modified.</p>
+<p><strong>ETag可以解决Last-Modified出现的问题:</strong></p>
+<ol>
+<li>没有修改文件内容,但文件最后修改时间改变</li>
+<li>修改文件的时间粒度可能是秒以下,但Last-Modified的粒度是秒</li>
+<li>服务器可能获取不到文件的精确修改时间</li>
+</ol>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/HTTP%E7%BC%93%E5%AD%98%E6%B5%81%E7%A8%8B.jpg"></p>
+<h1 id="HTTP特性"><a href="#HTTP特性" class="headerlink" title="HTTP特性"></a>HTTP特性</h1><p>​	HTTP有版本1.1,2.0,3.0,不同版本的特性不同</p>
+<h2 id="HTTP-x2F-1-1特性"><a href="#HTTP-x2F-1-1特性" class="headerlink" title="HTTP&#x2F;1.1特性"></a>HTTP&#x2F;1.1特性</h2><h3 id="HTTP-x2F-1-1最突出的优点是"><a href="#HTTP-x2F-1-1最突出的优点是" class="headerlink" title="HTTP&#x2F;1.1最突出的优点是:"></a>HTTP&#x2F;1.1最突出的优点是:</h3><ol>
+<li>简单:报文格式是简单的文本格式</li>
+<li>灵活和易于拓展:各种请求方法,URL等每个组成的要求不固定,可根据情况改变</li>
+<li>应用广泛和跨平台</li>
+</ol>
+<h3 id="HTTP-x2F-1-1的缺陷"><a href="#HTTP-x2F-1-1的缺陷" class="headerlink" title="HTTP&#x2F;1.1的缺陷:"></a>HTTP&#x2F;1.1的缺陷:</h3><ol>
+<li><p>无状态:无状态可以节省空间和服务器的负担,但面对有关联的操作非常麻烦,无法记录用户信息等,可以用Cookie技术解决,Cookie由服务器生成,客户端保存,发送请求时附带Cookie来识别身份</p>
+</li>
+<li><p>明文传输:明文传输使内容可以直接被人识别,方便调试,但所有内容都无隐私可言</p>
+</li>
+<li><p>不安全:不安全有三个方面</p>
+<ul>
+<li><p>使用明文通信,信息会泄露</p>
+</li>
+<li><p>不验证通信双方身份,可能遭遇伪装</p>
+</li>
+<li><p>无法验证报文完整性,内容可能遭到篡改</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="HTTP-x2F-1-1性能"><a href="#HTTP-x2F-1-1性能" class="headerlink" title="HTTP&#x2F;1.1性能"></a>HTTP&#x2F;1.1性能</h3><p>HTTP使用TCP&#x2F;IP,使用<strong>请求-应答</strong>的通信方式</p>
+<ol>
+<li>长连接:减少TCP重复建立连接的消耗,减轻服务器负担;特点是必须双方都明确提出断开连接才断开,但当长连接长时无数据交互,服务端会主动断开</li>
+<li>管道网络传输:可以发送多个请求不必等待前一个请求响应,减少整体的响应时间;HTTP&#x2F;1.1解决了请求的队头阻塞但没有解决响应的队头阻塞,处理某个请求时,服务器会阻塞后续请求</li>
+<li>队头阻塞:一个请求被阻塞,后续所有请求都被阻塞</li>
+</ol>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
   </entry>
 </search>
