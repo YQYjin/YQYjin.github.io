@@ -2308,4 +2308,130 @@
         <category>计算机网络</category>
       </categories>
   </entry>
+  <entry>
+    <title>RSA,ECDHE</title>
+    <url>/2023/05/21/RSA,ECDHE/</url>
+    <content><![CDATA[<p>​	RSA是HTTPS下层TLS&#x2F;SSL握手过程中的一种密钥交换算法,用于交换会话用于对称加密的密钥</p>
+<p>​	ECDHE支持前向保密,目前被广泛使用</p>
+<span id="more"></span>
+
+<h1 id="RSA四次握手"><a href="#RSA四次握手" class="headerlink" title="RSA四次握手"></a>RSA四次握手</h1><h2 id="1-第一次握手"><a href="#1-第一次握手" class="headerlink" title="1.第一次握手"></a>1.第一次握手</h2><p>​	客户端首先发送一个”Client Hello” 消息,包括客户端使用的TLS版本号,支持的密码套件和生成的随机数(Client Random),该随机数会被服务器保存用于生成密钥</p>
+<h2 id="2-第二次握手"><a href="#2-第二次握手" class="headerlink" title="2.第二次握手"></a>2.第二次握手</h2><ul>
+<li><p>服务器受到消息后确认TLS版本是否支持,从客户端密码套件中选取一个,以及生成随机数(Server Random)</p>
+</li>
+<li><p>服务器返回”Server Hello”消息,包括服务器确认的TLS版本号,服务器生成的随机数,和选取的密码套件</p>
+</li>
+<li><p>为了证明身份,服务器会发送”Server Certificate”给客户端,包含服务器的<strong>数字证书</strong></p>
+</li>
+<li><p>最后发送”Server Hello Done”消息,告知消息发送完毕</p>
+</li>
+</ul>
+<p>当课后端收到响应后,会首先验证数字证书(这个过程在前文有详细解释),<strong>证书通过后才进行第三次握手</strong></p>
+<h2 id="3-第三次握手"><a href="#3-第三次握手" class="headerlink" title="3.第三次握手"></a>3.第三次握手</h2><p>​	客户端生成一个新的随机数(pre-master),使用服务器的RSA公钥加密该随机数,通过”Client Key Exchange”消息传给服务器,服务器使用RSA私钥解密</p>
+<p>​	此时服务器和客户端都共享了三个随机数,Client Random,Server Random和pre-master,根据这三个随机数,生成会话密钥,用于对称加密</p>
+<p>​	生成密钥后,客户端发送”Change Cipher Spec”,通知服务器开始使用密钥加密</p>
+<p>​	客户端再发送一个”Encrypted Handshake Message(Finished)”,将之前发送的数据做个摘要,再使用会话密钥加密,让服务器验证之前的握手信息是否被篡改以及加密会话是否可用</p>
+<h2 id="4-第四次握手"><a href="#4-第四次握手" class="headerlink" title="4.第四次握手"></a>4.第四次握手</h2><p>​	服务器同样发送,”Change Cipher Spec”和”Encrypted Handshake Message(Finished)”,若没有双方都验证加密和解密没有问题,握手完成</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><p>​	RSA密钥协商算法不支持<strong>前向保密</strong></p>
+<p>​	客户端传递的随机数使用服务器公钥加密,若服务器私钥泄露,被第三方截取的TLS密文都会被破解</p>
+<h1 id="ECDHE"><a href="#ECDHE" class="headerlink" title="ECDHE"></a>ECDHE</h1><p>PDF145页</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>HTTP演变和优化</title>
+    <url>/2023/05/17/HTTP%E6%BC%94%E5%8F%98/</url>
+    <content><![CDATA[<p>HTTP&#x2F;1.1,HTTP&#x2F;2,HTTP&#x2F;3</p>
+<span id="more"></span>
+
+<h1 id="HTTP-x2F-1-1"><a href="#HTTP-x2F-1-1" class="headerlink" title="HTTP&#x2F;1.1"></a>HTTP&#x2F;1.1</h1><p>​	相对于HTTP&#x2F;1.0使用长连接和管道传输</p>
+<p>​	存在的性能瓶颈:</p>
+<ul>
+<li>头部不压缩,只压缩Body,首部信息越大延迟越大</li>
+<li>发送重复的头部信息浪费大</li>
+<li>存在响应的队头阻塞</li>
+<li>没有请求优先级</li>
+<li>请求只能由客户端发出,服务器只能被动响应</li>
+</ul>
+<h1 id="HTTP-x2F-2-0"><a href="#HTTP-x2F-2-0" class="headerlink" title="HTTP&#x2F;2.0"></a>HTTP&#x2F;2.0</h1><p>HTTP&#x2F;2.0基于HTTPS</p>
+<h2 id="相对于HTTP-x2F-1-1"><a href="#相对于HTTP-x2F-1-1" class="headerlink" title="相对于HTTP&#x2F;1.1"></a>相对于HTTP&#x2F;1.1</h2><ul>
+<li>头部压缩</li>
+</ul>
+<p>​	若同时发送多个请求且头部一样或相似,HPACK算法消除重复的部分,在客户端和服务器维护一张头信息表,发送引索来提高速度</p>
+<ul>
+<li>二进制格式</li>
+</ul>
+<p>​	报文使用二进制格式,统称为帧,分为头信息帧和数据帧</p>
+<ul>
+<li>并发传输</li>
+</ul>
+<p>​	引入Stream概念,解决了响应的队头阻塞,1个TCP连接包括多个Stream,Stream中包含多个Message,不同的Stream帧可以乱序发送,接受端根据Stream ID来组合为完整信息,HTTP&#x2F;2可以并行交错地发送请求和响应</p>
+<ul>
+<li>服务器可主动推送资源</li>
+</ul>
+<p>​	服务器和客户端都可建立Stream,服务器的Stream ID必须是偶数,客户端必须是奇数;若客户端请求一个HTML文件,但需要CSS文件来渲染,使用HTTP&#x2F;2.0就不需要再发送一次请求获取CSS,服务器主动发送CSS文件,提高效率</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><p>​	HTTP&#x2F;2.0解决了HTTP&#x2F;1.1的响应队头阻塞,解决了HTTP层的队头阻塞问题,但仍存在队头阻塞问题;由于HTTP&#x2F;2.0基于TCP协议,TCP必须保证接受到的字节数据完整且连续,若存在字节缺失,则后面收到的信息全部阻塞到缓冲区中,直到重新发送该缺失字节</p>
+<p>​	所以一旦丢包,就会触发TCP重传,在<strong>一个TCP连接中的所有HTTP请求都必须等待该包被重传</strong></p>
+<h1 id="HTTP-x2F-3-0"><a href="#HTTP-x2F-3-0" class="headerlink" title="HTTP&#x2F;3.0"></a>HTTP&#x2F;3.0</h1><p>​	HTTP&#x2F;3.0将HTTP下层协议从<strong>TCP协议改为UDP协议</strong>,通过基于UDP的QUIC协议也可以实现类似TCP的可靠性传输</p>
+<p>​	QUIC有以下三个特点:</p>
+<ul>
+<li>无队头阻塞</li>
+</ul>
+<p>​	当某个流发生丢包时,只阻塞这个流,其他流不会受到影响;QUIC连接上的各Stream之间没有依赖,各自独立,因此只影响该流;</p>
+<ul>
+<li>更快建立连接</li>
+</ul>
+<p>​		在HTTP&#x2F;2.0中,TCP协议和TLS协议是分层的,先进行TCP握手再进行TLS握手,而在QUIC协议中内部包含了TLS协议,握手的目的是确认双方的<code>连接ID</code>,这个握手过程只需要1RTT,连接迁移就是基于连接ID实现的;</p>
+<p>​	甚至在第二次连接时,数据包可以于QUIC握手信息一起发送,达到0RTT握手时间的效果</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/QUIC%E6%8F%A1%E6%89%8B.png"></p>
+<ul>
+<li>连接迁移</li>
+</ul>
+<p>​	基于TCP协议的HTTP通过四元组(源IP,源端口,目的IP,目的端口)确定一个连接,如当手机从WIFI切换为4G网络后,IP地址会发生变化,就会断开连接并重新连接,延迟很高,连接迁移的成本很高</p>
+<p>​	对应QUIC协议,通过<strong>连接ID</strong>来确定一个连接,即使IP地址变化,只要仍保持上下文信息(连接ID,TLS密钥等),就可以”无缝”复用原连接</p>
+<h3 id="QUIC"><a href="#QUIC" class="headerlink" title="QUIC"></a>QUIC</h3><p>​	QUIC是基于UDP之上的伪TCP+TLS+HTTP&#x2F;2的多路复用协议,QUIC是新协议,若网络设备不识别QUIC包,当作UDP包,此时QUIC就可能被误作为UDP包丢弃</p>
+<p>​	HTTP&#x2F;3.0目前普及速度较慢</p>
+<h1 id="HTTP-x2F-1-1优化"><a href="#HTTP-x2F-1-1优化" class="headerlink" title="HTTP&#x2F;1.1优化"></a>HTTP&#x2F;1.1优化</h1><p>​	以下三个方面:</p>
+<ul>
+<li>避免发送HTTP请求</li>
+<li>需要发送HTTP请求时减少HTTP请求次数</li>
+<li>减少服务器的HTTP响应的数据大小</li>
+</ul>
+<h2 id="1-避免发送HTTP请求"><a href="#1-避免发送HTTP请求" class="headerlink" title="1.避免发送HTTP请求"></a>1.避免发送HTTP请求</h2><p>​	在发送具有重复性的HTTP请求时,将返回结果存储到本地,即缓存技术</p>
+<p>​	缓存包括强制缓存和协商缓存,与前面章节相同</p>
+<h2 id="2-减少HTTP请求次数"><a href="#2-减少HTTP请求次数" class="headerlink" title="2.减少HTTP请求次数"></a>2.减少HTTP请求次数</h2><p>从三个方面:</p>
+<ul>
+<li>减少重定向请求次数</li>
+<li>合并请求</li>
+<li>延迟发送请求</li>
+</ul>
+<h3 id="减少重定向"><a href="#减少重定向" class="headerlink" title="减少重定向"></a>减少重定向</h3><p>​	当请求的资源从原地址转移后,服务器返回302响应码和新地址的URL,再由客户端再次发起请求,该请求也可能不是目标地址,需要再次重定向,因此重定向会降低网络性能</p>
+<p>​	将重定向通过代理服务器完成,由代理服务器进行重定向操作,找到资源后向客户端返回最终的地址,就可以减少HTTP请求次数了</p>
+<h3 id="合并请求"><a href="#合并请求" class="headerlink" title="合并请求"></a>合并请求</h3><p>​	将多个小文件请求合并为一个大请求,传输的总资源一致但减少请求次数就减少了重复发送HTTP头部</p>
+<p>​	而且HTTP&#x2F;1.1是请求响应模型,发起的每个请求都是不同的TCP连接,合并请求也可以减少TCP连接数量,省去TCP握手和慢启动过程消耗的时间</p>
+<p>​	合并请求带来的问题是,当大资源中的某个小资源变化,就要重新下载整个大资源</p>
+<h3 id="延时发送请求"><a href="#延时发送请求" class="headerlink" title="延时发送请求"></a>延时发送请求</h3><p>​	如一个界面在屏幕中不能全部显示,就先请求能显示出来的部分,当滑动到剩余部分时,再请求剩余部分的资源,达到了减少同一时间的请求次数</p>
+<h3 id="3-减少HTTP响应数据大小"><a href="#3-减少HTTP响应数据大小" class="headerlink" title="3.减少HTTP响应数据大小"></a>3.减少HTTP响应数据大小</h3><p>​	通过压缩实现,分为有损压缩和无损压缩</p>
+<blockquote>
+<p>虽然HTTP&#x2F;1.1可以进行优化,但优化是有上限的,因此出现了后面的HTTP&#x2F;2.0和HTTP&#x2F;3.0</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>java网络编程</title>
+    <url>/2023/05/17/java%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<ul>
+<li>C&#x2F;S模型</li>
+<li>B&#x2F;S模型</li>
+</ul>
+]]></content>
+      <categories>
+        <category>工程</category>
+      </categories>
+  </entry>
 </search>

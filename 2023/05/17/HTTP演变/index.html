@@ -20,20 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="函数">
+  <meta name="description" content="HTTP&#x2F;1.1,HTTP&#x2F;2,HTTP&#x2F;3">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL函数">
-<meta property="og:url" content="http://example.com/2023/01/02/MySQL%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:title" content="HTTP演变和优化">
+<meta property="og:url" content="http://example.com/2023/05/17/HTTP%E6%BC%94%E5%8F%98/index.html">
 <meta property="og:site_name" content="月 夜 梦 灵">
-<meta property="og:description" content="函数">
+<meta property="og:description" content="HTTP&#x2F;1.1,HTTP&#x2F;2,HTTP&#x2F;3">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-01-02T15:16:17.553Z">
-<meta property="article:modified_time" content="2023-03-09T07:25:13.206Z">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/QUIC%E6%8F%A1%E6%89%8B.png">
+<meta property="article:published_time" content="2023-05-17T12:17:21.792Z">
+<meta property="article:modified_time" content="2023-05-21T11:46:43.270Z">
 <meta property="article:author" content="YQYjin">
-<meta property="article:tag" content="基础">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/QUIC%E6%8F%A1%E6%89%8B.png">
 
-<link rel="canonical" href="http://example.com/2023/01/02/MySQL%E5%87%BD%E6%95%B0/">
+<link rel="canonical" href="http://example.com/2023/05/17/HTTP%E6%BC%94%E5%8F%98/">
 
 
 <script id="page-configurations">
@@ -46,7 +47,7 @@
   };
 </script>
 
-  <title>MySQL函数 | 月 夜 梦 灵</title>
+  <title>HTTP演变和优化 | 月 夜 梦 灵</title>
   
 
 
@@ -199,7 +200,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/02/MySQL%E5%87%BD%E6%95%B0/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/17/HTTP%E6%BC%94%E5%8F%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -212,7 +213,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          MySQL函数
+          HTTP演变和优化
         </h1>
 
         <div class="post-meta">
@@ -222,14 +223,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-01-02 23:16:17" itemprop="dateCreated datePublished" datetime="2023-01-02T23:16:17+08:00">2023-01-02</time>
+              <time title="创建时间：2023-05-17 20:17:21" itemprop="dateCreated datePublished" datetime="2023-05-17T20:17:21+08:00">2023-05-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-09 15:25:13" itemprop="dateModified" datetime="2023-03-09T15:25:13+08:00">2023-03-09</time>
+                <time title="修改时间：2023-05-21 19:46:43" itemprop="dateModified" datetime="2023-05-21T19:46:43+08:00">2023-05-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +238,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
                 </span>
             </span>
 
@@ -252,63 +253,80 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><span id="more"></span>
+        <p>HTTP&#x2F;1.1,HTTP&#x2F;2,HTTP&#x2F;3</p>
+<span id="more"></span>
 
-<h2 id="一-字符串函数"><a href="#一-字符串函数" class="headerlink" title="一.字符串函数"></a>一.字符串函数</h2><ul>
-<li><p><code>concat(s1,s2,...) </code>拼接字符串</p>
-</li>
-<li><p><code>lower(str)</code> 转换小写</p>
-</li>
-<li><p><code>upper(str)</code> 转换小写</p>
-</li>
-<li><p><code>lpad(str,n,pad)</code> 左填充,用字符串pad对str左边进行填充,达到n个字符串长度(总长度)</p>
-</li>
-<li><p><code>rpad(str,n,pad)</code> 左填充,用字符串pad对str右边进行填充,达到n个字符串长度(总长度)</p>
-</li>
-<li><p><code>trim(str)</code>去除头部和尾部的空格</p>
-</li>
-<li><p><code>substring(str,start,len)</code>返回从start起的len个长度的字符串</p>
-</li>
+<h1 id="HTTP-x2F-1-1"><a href="#HTTP-x2F-1-1" class="headerlink" title="HTTP&#x2F;1.1"></a>HTTP&#x2F;1.1</h1><p>​	相对于HTTP&#x2F;1.0使用长连接和管道传输</p>
+<p>​	存在的性能瓶颈:</p>
+<ul>
+<li>头部不压缩,只压缩Body,首部信息越大延迟越大</li>
+<li>发送重复的头部信息浪费大</li>
+<li>存在响应的队头阻塞</li>
+<li>没有请求优先级</li>
+<li>请求只能由客户端发出,服务器只能被动响应</li>
 </ul>
-<h2 id="二-数值函数"><a href="#二-数值函数" class="headerlink" title="二.数值函数"></a>二.数值函数</h2><ul>
-<li><p><code>ceil(x)</code> 向上取整</p>
-</li>
-<li><p><code>floor(x)</code> 向下取整</p>
-</li>
-<li><p><code>mod(x,y)</code> 返回x&#x2F;y的模</p>
-</li>
-<li><p><code>rand()</code>返回[0,1]之间的随机数</p>
-</li>
-<li><p><code>round(x,y)</code> 返回x四舍五入的值,保留y位小数</p>
-<p>生成一个六位数的随机验证码</p>
-<p><code>select lpad(round( rand()*1000000 , 0),6,&#39;0&#39;);</code></p>
-</li>
+<h1 id="HTTP-x2F-2-0"><a href="#HTTP-x2F-2-0" class="headerlink" title="HTTP&#x2F;2.0"></a>HTTP&#x2F;2.0</h1><p>HTTP&#x2F;2.0基于HTTPS</p>
+<h2 id="相对于HTTP-x2F-1-1"><a href="#相对于HTTP-x2F-1-1" class="headerlink" title="相对于HTTP&#x2F;1.1"></a>相对于HTTP&#x2F;1.1</h2><ul>
+<li>头部压缩</li>
 </ul>
-<h2 id="三-日期函数"><a href="#三-日期函数" class="headerlink" title="三.日期函数"></a>三.日期函数</h2><ul>
-<li><p><code>curdate()</code>返回当前日期</p>
-</li>
-<li><p><code>curtime()</code>返回当前时间</p>
-</li>
-<li><p><code>now()</code>返回当前日期和时间</p>
-</li>
-<li><p><code>year(data)</code>获取指定date的年份</p>
-</li>
-<li><p><code>month(data)</code>获取指定data的月份</p>
-</li>
-<li><p><code>day(data)</code>获取指定data的日期</p>
-</li>
-<li><p><code>date_add(data,INTERVAL expr type)</code>返回date加上一个时间间隔expr后的时间值</p>
-<p><code>select date_add(now(),INTERVAL 70 DAY);</code> 现在时间加上70天</p>
-</li>
-<li><p><code>datediff(date1,date2)</code>返回date1和date2之间的天数</p>
-</li>
+<p>​	若同时发送多个请求且头部一样或相似,HPACK算法消除重复的部分,在客户端和服务器维护一张头信息表,发送引索来提高速度</p>
+<ul>
+<li>二进制格式</li>
 </ul>
-<h2 id="四-流程函数"><a href="#四-流程函数" class="headerlink" title="四.流程函数"></a>四.流程函数</h2><ul>
-<li><code>if(value,t,f)</code> value为true,返回t反之返回f</li>
-<li><code>ifnull(v1,v2)</code> v1不为空返回v1,为空返回v2</li>
-<li><code>case when [v1] then [res1] ... else [default] end</code>若v1为true,返回res1,…否则返回default</li>
-<li><code>case [expr] when [v1] then [res1] ... else [default] end</code> 若expr等于v1,返回res1,….否则返回default</li>
+<p>​	报文使用二进制格式,统称为帧,分为头信息帧和数据帧</p>
+<ul>
+<li>并发传输</li>
 </ul>
+<p>​	引入Stream概念,解决了响应的队头阻塞,1个TCP连接包括多个Stream,Stream中包含多个Message,不同的Stream帧可以乱序发送,接受端根据Stream ID来组合为完整信息,HTTP&#x2F;2可以并行交错地发送请求和响应</p>
+<ul>
+<li>服务器可主动推送资源</li>
+</ul>
+<p>​	服务器和客户端都可建立Stream,服务器的Stream ID必须是偶数,客户端必须是奇数;若客户端请求一个HTML文件,但需要CSS文件来渲染,使用HTTP&#x2F;2.0就不需要再发送一次请求获取CSS,服务器主动发送CSS文件,提高效率</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><p>​	HTTP&#x2F;2.0解决了HTTP&#x2F;1.1的响应队头阻塞,解决了HTTP层的队头阻塞问题,但仍存在队头阻塞问题;由于HTTP&#x2F;2.0基于TCP协议,TCP必须保证接受到的字节数据完整且连续,若存在字节缺失,则后面收到的信息全部阻塞到缓冲区中,直到重新发送该缺失字节</p>
+<p>​	所以一旦丢包,就会触发TCP重传,在<strong>一个TCP连接中的所有HTTP请求都必须等待该包被重传</strong></p>
+<h1 id="HTTP-x2F-3-0"><a href="#HTTP-x2F-3-0" class="headerlink" title="HTTP&#x2F;3.0"></a>HTTP&#x2F;3.0</h1><p>​	HTTP&#x2F;3.0将HTTP下层协议从<strong>TCP协议改为UDP协议</strong>,通过基于UDP的QUIC协议也可以实现类似TCP的可靠性传输</p>
+<p>​	QUIC有以下三个特点:</p>
+<ul>
+<li>无队头阻塞</li>
+</ul>
+<p>​	当某个流发生丢包时,只阻塞这个流,其他流不会受到影响;QUIC连接上的各Stream之间没有依赖,各自独立,因此只影响该流;</p>
+<ul>
+<li>更快建立连接</li>
+</ul>
+<p>​		在HTTP&#x2F;2.0中,TCP协议和TLS协议是分层的,先进行TCP握手再进行TLS握手,而在QUIC协议中内部包含了TLS协议,握手的目的是确认双方的<code>连接ID</code>,这个握手过程只需要1RTT,连接迁移就是基于连接ID实现的;</p>
+<p>​	甚至在第二次连接时,数据包可以于QUIC握手信息一起发送,达到0RTT握手时间的效果</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/QUIC%E6%8F%A1%E6%89%8B.png"></p>
+<ul>
+<li>连接迁移</li>
+</ul>
+<p>​	基于TCP协议的HTTP通过四元组(源IP,源端口,目的IP,目的端口)确定一个连接,如当手机从WIFI切换为4G网络后,IP地址会发生变化,就会断开连接并重新连接,延迟很高,连接迁移的成本很高</p>
+<p>​	对应QUIC协议,通过<strong>连接ID</strong>来确定一个连接,即使IP地址变化,只要仍保持上下文信息(连接ID,TLS密钥等),就可以”无缝”复用原连接</p>
+<h3 id="QUIC"><a href="#QUIC" class="headerlink" title="QUIC"></a>QUIC</h3><p>​	QUIC是基于UDP之上的伪TCP+TLS+HTTP&#x2F;2的多路复用协议,QUIC是新协议,若网络设备不识别QUIC包,当作UDP包,此时QUIC就可能被误作为UDP包丢弃</p>
+<p>​	HTTP&#x2F;3.0目前普及速度较慢</p>
+<h1 id="HTTP-x2F-1-1优化"><a href="#HTTP-x2F-1-1优化" class="headerlink" title="HTTP&#x2F;1.1优化"></a>HTTP&#x2F;1.1优化</h1><p>​	以下三个方面:</p>
+<ul>
+<li>避免发送HTTP请求</li>
+<li>需要发送HTTP请求时减少HTTP请求次数</li>
+<li>减少服务器的HTTP响应的数据大小</li>
+</ul>
+<h2 id="1-避免发送HTTP请求"><a href="#1-避免发送HTTP请求" class="headerlink" title="1.避免发送HTTP请求"></a>1.避免发送HTTP请求</h2><p>​	在发送具有重复性的HTTP请求时,将返回结果存储到本地,即缓存技术</p>
+<p>​	缓存包括强制缓存和协商缓存,与前面章节相同</p>
+<h2 id="2-减少HTTP请求次数"><a href="#2-减少HTTP请求次数" class="headerlink" title="2.减少HTTP请求次数"></a>2.减少HTTP请求次数</h2><p>从三个方面:</p>
+<ul>
+<li>减少重定向请求次数</li>
+<li>合并请求</li>
+<li>延迟发送请求</li>
+</ul>
+<h3 id="减少重定向"><a href="#减少重定向" class="headerlink" title="减少重定向"></a>减少重定向</h3><p>​	当请求的资源从原地址转移后,服务器返回302响应码和新地址的URL,再由客户端再次发起请求,该请求也可能不是目标地址,需要再次重定向,因此重定向会降低网络性能</p>
+<p>​	将重定向通过代理服务器完成,由代理服务器进行重定向操作,找到资源后向客户端返回最终的地址,就可以减少HTTP请求次数了</p>
+<h3 id="合并请求"><a href="#合并请求" class="headerlink" title="合并请求"></a>合并请求</h3><p>​	将多个小文件请求合并为一个大请求,传输的总资源一致但减少请求次数就减少了重复发送HTTP头部</p>
+<p>​	而且HTTP&#x2F;1.1是请求响应模型,发起的每个请求都是不同的TCP连接,合并请求也可以减少TCP连接数量,省去TCP握手和慢启动过程消耗的时间</p>
+<p>​	合并请求带来的问题是,当大资源中的某个小资源变化,就要重新下载整个大资源</p>
+<h3 id="延时发送请求"><a href="#延时发送请求" class="headerlink" title="延时发送请求"></a>延时发送请求</h3><p>​	如一个界面在屏幕中不能全部显示,就先请求能显示出来的部分,当滑动到剩余部分时,再请求剩余部分的资源,达到了减少同一时间的请求次数</p>
+<h3 id="3-减少HTTP响应数据大小"><a href="#3-减少HTTP响应数据大小" class="headerlink" title="3.减少HTTP响应数据大小"></a>3.减少HTTP响应数据大小</h3><p>​	通过压缩实现,分为有损压缩和无损压缩</p>
+<blockquote>
+<p>虽然HTTP&#x2F;1.1可以进行优化,但优化是有上限的,因此出现了后面的HTTP&#x2F;2.0和HTTP&#x2F;3.0</p>
+</blockquote>
 
     </div>
 
@@ -317,9 +335,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"># 基础</a>
-          </div>
 
         
 
@@ -327,12 +342,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/12/31/%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%BC%96%E7%A8%8B/" rel="prev" title="图形化编程">
-      <i class="fa fa-chevron-left"></i> 图形化编程
+    <a href="/2023/05/14/HTTPS/" rel="prev" title="HTTPS">
+      <i class="fa fa-chevron-left"></i> HTTPS
     </a></div>
       <div class="post-nav-item">
-    <a href="/2023/01/03/MySQL%E7%BA%A6%E6%9D%9F/" rel="next" title="约束">
-      约束 <i class="fa fa-chevron-right"></i>
+    <a href="/2023/05/17/java%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="next" title="java网络编程">
+      java网络编程 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -392,7 +407,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">一.字符串函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E6%95%B0%E5%80%BC%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">二.数值函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%97%A5%E6%9C%9F%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">三.日期函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B-%E6%B5%81%E7%A8%8B%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.</span> <span class="nav-text">四.流程函数</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP-x2F-1-1"><span class="nav-number">1.</span> <span class="nav-text">HTTP&#x2F;1.1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP-x2F-2-0"><span class="nav-number">2.</span> <span class="nav-text">HTTP&#x2F;2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E4%BA%8EHTTP-x2F-1-1"><span class="nav-number">2.1.</span> <span class="nav-text">相对于HTTP&#x2F;1.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">2.2.</span> <span class="nav-text">缺陷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP-x2F-3-0"><span class="nav-number">3.</span> <span class="nav-text">HTTP&#x2F;3.0</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#QUIC"><span class="nav-number">3.0.1.</span> <span class="nav-text">QUIC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP-x2F-1-1%E4%BC%98%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">HTTP&#x2F;1.1优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%81%BF%E5%85%8D%E5%8F%91%E9%80%81HTTP%E8%AF%B7%E6%B1%82"><span class="nav-number">4.1.</span> <span class="nav-text">1.避免发送HTTP请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%87%8F%E5%B0%91HTTP%E8%AF%B7%E6%B1%82%E6%AC%A1%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">2.减少HTTP请求次数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%8F%E5%B0%91%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">4.2.1.</span> <span class="nav-text">减少重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%88%E5%B9%B6%E8%AF%B7%E6%B1%82"><span class="nav-number">4.2.2.</span> <span class="nav-text">合并请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%B6%E6%97%B6%E5%8F%91%E9%80%81%E8%AF%B7%E6%B1%82"><span class="nav-number">4.2.3.</span> <span class="nav-text">延时发送请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%87%8F%E5%B0%91HTTP%E5%93%8D%E5%BA%94%E6%95%B0%E6%8D%AE%E5%A4%A7%E5%B0%8F"><span class="nav-number">4.2.4.</span> <span class="nav-text">3.减少HTTP响应数据大小</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
