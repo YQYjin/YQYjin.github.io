@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="针对网络库优化需求 存下所有Header,header数量,大小不固定 减少系统调用次数 能够复用内存 能够多次读,一次可能不能全部读完  实现 多次读  ​	go net绑定一块缓冲区,读完本次后使指针回退到原位置  netpoll存下全部Header和拷贝出完整的Body  ​	netpoll使用链表存,一个header或body在两个节点上,可以分配足够大的buffer,使header和bo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="性能修炼之道与企业实践">
+<meta property="og:url" content="http://example.com/2023/08/02/%E6%80%A7%E8%83%BD%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93%E4%B8%8E%E4%BC%81%E4%B8%9A%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="针对网络库优化需求 存下所有Header,header数量,大小不固定 减少系统调用次数 能够复用内存 能够多次读,一次可能不能全部读完  实现 多次读  ​	go net绑定一块缓冲区,读完本次后使指针回退到原位置  netpoll存下全部Header和拷贝出完整的Body  ​	netpoll使用链表存,一个header或body在两个节点上,可以分配足够大的buffer,使header和bo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-02T07:57:22.655Z">
+<meta property="article:modified_time" content="2023-08-02T07:57:22.655Z">
+<meta property="article:author" content="YQYjin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/08/02/%E6%80%A7%E8%83%BD%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93%E4%B8%8E%E4%BC%81%E4%B8%9A%E5%AE%9E%E8%B7%B5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>性能修炼之道与企业实践 | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/02/%E6%80%A7%E8%83%BD%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93%E4%B8%8E%E4%BC%81%E4%B8%9A%E5%AE%9E%E8%B7%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          性能修炼之道与企业实践
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-02 15:57:22" itemprop="dateCreated datePublished" datetime="2023-08-02T15:57:22+08:00">2023-08-02</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="针对网络库优化"><a href="#针对网络库优化" class="headerlink" title="针对网络库优化"></a>针对网络库优化</h1><h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ul>
+<li>存下所有Header,header数量,大小不固定</li>
+<li>减少系统调用次数</li>
+<li>能够复用内存</li>
+<li>能够多次读,一次可能不能全部读完</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><ul>
+<li>多次读</li>
+</ul>
+<p>​	go net绑定一块缓冲区,读完本次后使指针回退到原位置</p>
+<ul>
+<li>netpoll存下全部Header和拷贝出完整的Body</li>
+</ul>
+<p>​	netpoll使用链表存,一个header或body在两个节点上,可以分配足够大的buffer,使header和body在一个节点上,限制最大buffer size防止损耗过大</p>
+<p>​	go net对流式友好,小包性能高,netpoll中大包性能高,时延低</p>
+<h1 id="针对协议的优化"><a href="#针对协议的优化" class="headerlink" title="针对协议的优化"></a>针对协议的优化</h1><h2 id="Header解析"><a href="#Header解析" class="headerlink" title="Header解析"></a>Header解析</h2><ul>
+<li>找到Header Line的边界 <code>\r\n</code></li>
+</ul>
+<p>​	在寻找时先找到\n,再检查它前面是不是\r,比直接匹配\r\n效率高;还可以使用SIMD进一步优化,Go语言集成了SIMD优化,SIMD可以并行处理数据,可大幅提高效率</p>
+<ul>
+<li>快速解析</li>
+</ul>
+<p>​	通过Header Key的首字母快速筛查不可能的Key;针对协议中高频Header,单独特殊处理,如host单独申请空间,直接通过.host获取内容</p>
+<ul>
+<li>取&amp;舍</li>
+</ul>
+<p>​	使用核心字段快速解析,使用byte slice快速存储,可以进行内存复用,对应高频header额外存储到成员变量中;但会导致普通header性能低,且没有map结构</p>
+<ul>
+<li>对Header Key规范化</li>
+</ul>
+<p>​	使用表映射的方式进行规范化,使用表进行匹配和查找,可以获取超过的转换效率,但会导致额外的内存开销,而且映射表变更困难</p>
+<h1 id="热点资源池化"><a href="#热点资源池化" class="headerlink" title="热点资源池化"></a>热点资源池化</h1><p>​	请求到达后,使用RequestContext与请求一一对应,贯穿一个请求始终,使用RequestContext池进行复用(可能类似于线程池)</p>
+<p>​	使用热点资源池化可以减少内存分配,提高了内存复用,降低了GC压力,使性能提升</p>
+<p>​	但导致额外的Reset逻辑,因为内存会被复用,仅在请求内有效,当超出请求生命周期可能会出现并发问题,并且导致定位困难</p>
+<h1 id="企业实践"><a href="#企业实践" class="headerlink" title="企业实践"></a>企业实践</h1><ul>
+<li><p>追求性能</p>
+</li>
+<li><p>追求易用,减少误用</p>
+</li>
+</ul>
+<p>​	如果一味追求性能,就会舍弃一些易用性</p>
+<ul>
+<li>打通内部生态</li>
+</ul>
+<p>​	将一些通用逻辑整合到框架内部,方便不同用户使用</p>
+<ul>
+<li>文档建设,用户群建设</li>
+</ul>
+<p>​	将被问道的问题写在文档里,便用用户查阅,避免同一个问题多次解答</p>
+<ul>
+<li>内部HTTP框架: Hertz,达到1万+服务和3千万QPS</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/01/%E9%9D%92%E8%AE%AD%E8%90%A5HTTP/" rel="prev" title="青训营HTTP">
+      <i class="fa fa-chevron-left"></i> 青训营HTTP
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/12/%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92/" rel="next" title="网络交互">
+      网络交互 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%92%88%E5%AF%B9%E7%BD%91%E7%BB%9C%E5%BA%93%E4%BC%98%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">针对网络库优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%92%88%E5%AF%B9%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">针对协议的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Header%E8%A7%A3%E6%9E%90"><span class="nav-number">2.1.</span> <span class="nav-text">Header解析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%83%AD%E7%82%B9%E8%B5%84%E6%BA%90%E6%B1%A0%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">热点资源池化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%81%E4%B8%9A%E5%AE%9E%E8%B7%B5"><span class="nav-number">4.</span> <span class="nav-text">企业实践</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

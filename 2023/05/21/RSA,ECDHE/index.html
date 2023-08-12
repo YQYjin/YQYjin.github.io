@@ -27,10 +27,14 @@
 <meta property="og:site_name" content="月 夜 梦 灵">
 <meta property="og:description" content="​	RSA是HTTPS下层TLS&#x2F;SSL握手过程中的一种密钥交换算法,用于交换会话用于对称加密的密钥 ​	ECDHE支持前向保密,目前被广泛使用">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0.jpg">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/ECDHE%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/RSA%E5%92%8CECDHE%E5%8C%BA%E5%88%AB.png">
 <meta property="article:published_time" content="2023-05-21T12:45:30.926Z">
-<meta property="article:modified_time" content="2023-05-21T12:45:30.927Z">
+<meta property="article:modified_time" content="2023-05-23T09:51:19.164Z">
 <meta property="article:author" content="YQYjin">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0.jpg">
 
 <link rel="canonical" href="http://example.com/2023/05/21/RSA,ECDHE/">
 
@@ -223,6 +227,13 @@
 
               <time title="创建时间：2023-05-21 20:45:30" itemprop="dateCreated datePublished" datetime="2023-05-21T20:45:30+08:00">2023-05-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-23 17:51:19" itemprop="dateModified" datetime="2023-05-23T17:51:19+08:00">2023-05-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -267,7 +278,34 @@
 <h2 id="4-第四次握手"><a href="#4-第四次握手" class="headerlink" title="4.第四次握手"></a>4.第四次握手</h2><p>​	服务器同样发送,”Change Cipher Spec”和”Encrypted Handshake Message(Finished)”,若没有双方都验证加密和解密没有问题,握手完成</p>
 <h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><p>​	RSA密钥协商算法不支持<strong>前向保密</strong></p>
 <p>​	客户端传递的随机数使用服务器公钥加密,若服务器私钥泄露,被第三方截取的TLS密文都会被破解</p>
-<h1 id="ECDHE"><a href="#ECDHE" class="headerlink" title="ECDHE"></a>ECDHE</h1><p>PDF145页</p>
+<h1 id="ECDHE协商算法"><a href="#ECDHE协商算法" class="headerlink" title="ECDHE协商算法"></a>ECDHE协商算法</h1><p>​	ECDHE算法由DH算法演化而来,为非对称加密算法,核心数学思想是离散对数</p>
+<h2 id="DH算法"><a href="#DH算法" class="headerlink" title="DH算法"></a>DH算法</h2><p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0.jpg"></p>
+<p>​	直到底数a,模数p和对数i,可以很容易计算出真数b,反过来真数很难推导出对数,特别是当P是一个很大的质数,即使知道a,b,以目前计算机的能力,几乎无法计算出离散对数,这就是DH算法的数学基础</p>
+<h2 id="DH算法交换密钥"><a href="#DH算法交换密钥" class="headerlink" title="DH算法交换密钥"></a>DH算法交换密钥</h2><ul>
+<li><p>双方生成各自的随机数(私钥)a,b,公开参数P,G分别是模数和底数,然后生成公钥</p>
+</li>
+<li><p>A的公钥为G^a(mod P),B的公钥是G^b(mod P),A,B也是公开的</p>
+</li>
+<li><p>此时A执行 B^a(mod P) 得到k等于B执行 A^b(mod P),这个k便可以作为会话密钥</p>
+</li>
+</ul>
+<p>双方公开了A,B,P,G,但a,b不参与交换,无法被第三方获取,而通过A,B,P,G几乎不可能计算出私钥(a,b),因此DH密钥交换是安全的</p>
+<h2 id="DHE"><a href="#DHE" class="headerlink" title="DHE"></a>DHE</h2><p>​	DH算法根据私钥的生成方式,分为static DH和DHE算法,前者的服务器公钥是不变的,第三方可以根据海量密钥协商过程暴力破解服务器的私钥,造成信息泄露,不具备前向安全性</p>
+<p>​	目前常用为DHE算法,使双方在每次会话时生成的私钥都是随机的临时的,即使一次会话密钥被破解,也不影响其他会话,保证了前向安全性</p>
+<h1 id="ECDHE"><a href="#ECDHE" class="headerlink" title="ECDHE"></a>ECDHE</h1><p>​	由于DHE算法效率不高,需要大量乘法,ECDHE利用ECC椭圆曲线的特定,用更少的计算量计算出公钥和会话密钥</p>
+<p>ECDHE协商算法的TLS同样是四次握手</p>
+<p>​	但是使用ECDHE,在TLS四次握手结束之前,客户端就已经发送了加密HTTP数据,而对于RSA必须完成四次TLS握手才能发送加密应用数据</p>
+<p>​	ECDHE相比RSA省去了一个消息往返的时间,称为”TLS False Start”,提高了传输效率</p>
+<h3 id="第一次握手"><a href="#第一次握手" class="headerlink" title="第一次握手"></a>第一次握手</h3><p>​	发送”Client Hello”,包括客户端的TLS版本号,支持的密码套件,随机数Client Random</p>
+<h3 id="第二次握手"><a href="#第二次握手" class="headerlink" title="第二次握手"></a>第二次握手</h3><p>​	服务器返回”Server Hello”,包括服务器确认的TLS版本号,随机数Server Hello,和从客户端密码套件中选取的密码套件;发送”Certificate”,表明自己的身份,发送证书,因为使用ECDHE,所以发送完证书后发送”Server Key Exchange”消息:</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/ECDHE%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B.png"></p>
+<p>​	最后是”Server Hello Done”,表明结束本次握手</p>
+<p>​	至此,服务器和客户端通过明文共享了<strong>Client Random,Server Random,使用的椭圆曲线,椭圆曲线基点G,服务器椭圆曲线的公钥</strong>,这些信息将用于生成会话密钥</p>
+<h3 id="第三次握手"><a href="#第三次握手" class="headerlink" title="第三次握手"></a>第三次握手</h3><p>​		客户端验证服务器身份是否可信,接着生成客户端的椭圆曲线公钥,用”Client Key Exchange”发送给服务器,此时双方共享:各自的椭圆曲线公钥私钥,椭圆曲线基点G,于是双方可以计算出点(x,y),最终会话密钥为:客户端随机数+服务器随机数+x;</p>
+<p>​	算好密钥后,客户端发送”Change Cipher Spec”消息,告诉服务器后续使用密钥加密</p>
+<p>​	再发送”Encrypted Handshake Message”,将之前的信息做个摘要,在使用对称加密让服务器验证加密是否可用</p>
+<h3 id="第四次握手"><a href="#第四次握手" class="headerlink" title="第四次握手"></a>第四次握手</h3><p>​	服务器操作与第三次握手时客户端操作一致,发送”Change Cipher Spec”和”Encrypted Handshake Message”,如果双方都验证加密和解密没有问题,握手就正式完成</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/RSA%E5%92%8CECDHE%E5%8C%BA%E5%88%AB.png"></p>
 
     </div>
 
@@ -286,7 +324,10 @@
     <a href="/2023/05/17/java%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="prev" title="java网络编程">
       <i class="fa fa-chevron-left"></i> java网络编程
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/23/HTTPS%E4%BC%98%E5%8C%96/" rel="next" title="HTTPS优化">
+      HTTPS优化 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -345,7 +386,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.</span> <span class="nav-text">RSA四次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.1.</span> <span class="nav-text">1.第一次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.2.</span> <span class="nav-text">2.第二次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.3.</span> <span class="nav-text">3.第三次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.4.</span> <span class="nav-text">4.第四次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">1.5.</span> <span class="nav-text">缺陷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ECDHE"><span class="nav-number">2.</span> <span class="nav-text">ECDHE</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.</span> <span class="nav-text">RSA四次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.1.</span> <span class="nav-text">1.第一次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.2.</span> <span class="nav-text">2.第二次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.3.</span> <span class="nav-text">3.第三次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.4.</span> <span class="nav-text">4.第四次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">1.5.</span> <span class="nav-text">缺陷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ECDHE%E5%8D%8F%E5%95%86%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">ECDHE协商算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DH%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">DH算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DH%E7%AE%97%E6%B3%95%E4%BA%A4%E6%8D%A2%E5%AF%86%E9%92%A5"><span class="nav-number">2.2.</span> <span class="nav-text">DH算法交换密钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DHE"><span class="nav-number">2.3.</span> <span class="nav-text">DHE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ECDHE"><span class="nav-number">3.</span> <span class="nav-text">ECDHE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">3.0.1.</span> <span class="nav-text">第一次握手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">3.0.2.</span> <span class="nav-text">第二次握手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">3.0.3.</span> <span class="nav-text">第三次握手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">3.0.4.</span> <span class="nav-text">第四次握手</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -361,14 +402,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1.基本概念​	远程函数调用(RPC,Remote Procedure Calls) ​	RPC需要解决:  函数映射 数据转换成字节流 网络传输  1.1一次RPC的完整过程 IDL (Interface description language)文件  ​	IDL通过一种中立的方式来描述接口，使得在不同平台上运行的对象和用不同语言编写的程序可以相互通信  生成代码  ​	通过编译器工具把IDL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RPC框架">
+<meta property="og:url" content="http://example.com/2023/08/12/RPC%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="1.基本概念​	远程函数调用(RPC,Remote Procedure Calls) ​	RPC需要解决:  函数映射 数据转换成字节流 网络传输  1.1一次RPC的完整过程 IDL (Interface description language)文件  ​	IDL通过一种中立的方式来描述接口，使得在不同平台上运行的对象和用不同语言编写的程序可以相互通信  生成代码  ​	通过编译器工具把IDL">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/2023081217004.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308121716614.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308121737835.png">
+<meta property="article:published_time" content="2023-08-12T08:59:49.019Z">
+<meta property="article:modified_time" content="2023-08-12T11:19:09.865Z">
+<meta property="article:author" content="YQYjin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/2023081217004.png">
+
+<link rel="canonical" href="http://example.com/2023/08/12/RPC%E6%A1%86%E6%9E%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RPC框架 | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/12/RPC%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RPC框架
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-12 16:59:49 / 修改时间：19:19:09" itemprop="dateCreated datePublished" datetime="2023-08-12T16:59:49+08:00">2023-08-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%92%E8%AE%AD%E8%90%A5/" itemprop="url" rel="index"><span itemprop="name">青训营</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h1><p>​	远程函数调用(RPC,Remote Procedure Calls)</p>
+<p>​	RPC需要解决:</p>
+<ul>
+<li>函数映射</li>
+<li>数据转换成字节流</li>
+<li>网络传输</li>
+</ul>
+<h2 id="1-1一次RPC的完整过程"><a href="#1-1一次RPC的完整过程" class="headerlink" title="1.1一次RPC的完整过程"></a>1.1一次RPC的完整过程</h2><ol>
+<li>IDL (Interface description language)文件</li>
+</ol>
+<p>​	IDL通过一种中立的方式来描述接口，使得在不同平台上运行的对象和用不同语言编写的程序可以相互通信</p>
+<ol start="2">
+<li>生成代码</li>
+</ol>
+<p>​	通过编译器工具把IDL文件转换成语言对应的静态库</p>
+<ol start="3">
+<li>编解码</li>
+</ol>
+<p>​	从内存中表示到字节序列的转换称为编码，反之为解码，也常叫做序列化和反序列化</p>
+<ol start="4">
+<li>通信协议</li>
+</ol>
+<p>​	规范了数据在网络中的传输内容和格式。除必须的请求&#x2F;响应数据外，通常还会包含额外的元数据</p>
+<p>5.网络传输</p>
+<p>​	通常基于成熟的网络库走 TCP&#x2F;UDP传输</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/2023081217004.png"></p>
+<h3 id="RPC的好处"><a href="#RPC的好处" class="headerlink" title="RPC的好处"></a>RPC的好处</h3><ul>
+<li>单一职责,有利于分工和运维开发</li>
+<li>可拓展性强</li>
+<li>故障隔离,服务整体可靠性更高</li>
+</ul>
+<h3 id="RPC的问题"><a href="#RPC的问题" class="headerlink" title="RPC的问题"></a>RPC的问题</h3><ul>
+<li>服务宕机时应如何处理</li>
+<li>调用过程中发生网络异常,如何保证消息的可达性</li>
+<li>请求突增无法及时处理怎么办</li>
+</ul>
+<h1 id="2-分层设计"><a href="#2-分层设计" class="headerlink" title="2.分层设计"></a>2.分层设计</h1><p>​	以Apache Thrift为例</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308121716614.png"></p>
+<h2 id="2-1编解码层"><a href="#2-1编解码层" class="headerlink" title="2.1编解码层"></a>2.1编解码层</h2><p>​	客户端和服务器依赖同一份IDL文件,生成不同语言的代码</p>
+<p>​	IDL文件的数据格式有:语言特定的格式,如Java的java.io.Serializable,文本格式,如JSON,XML等,还有二进制编码格式</p>
+<h3 id="2-1-1-TLV编码-二进制编码"><a href="#2-1-1-TLV编码-二进制编码" class="headerlink" title="2.1.1 TLV编码(二进制编码)"></a>2.1.1 TLV编码(二进制编码)</h3><p>​	包括字段: </p>
+<ul>
+<li>Tag: 标签,表示类型</li>
+<li>Lenght: 长度</li>
+<li>Value: 值,value也可以是一个TLV结构</li>
+</ul>
+<p>Tag有时可以确定长度,就不需要Lenght字段,如Tag为int64,则长度已经是固定的</p>
+<h3 id="2-1-2-编码格式考量"><a href="#2-1-2-编码格式考量" class="headerlink" title="2.1.2 编码格式考量"></a>2.1.2 编码格式考量</h3><ul>
+<li>兼容性:考虑兼容性问题,是否支持新增字段而不影响老的服务</li>
+<li>通用性:是否跨平台,跨语言</li>
+<li>性能:从时间和空间两个方面考虑</li>
+</ul>
+<h2 id="2-2协议层"><a href="#2-2协议层" class="headerlink" title="2.2协议层"></a>2.2协议层</h2><p>​	协议有:</p>
+<ul>
+<li>特殊结束符,通过一个特殊字符表示每个协议单元的结束,如HTTP以\r\n结尾</li>
+<li>边长协议,以定长和不定长两部分组成,定长部分描述不定长部分的长度</li>
+</ul>
+<h3 id="2-2-1-协议构造"><a href="#2-2-1-协议构造" class="headerlink" title="2.2.1 协议构造"></a>2.2.1 协议构造</h3><p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308121737835.png"></p>
+<p>​	解析时,通过MagicNumber确定协议类别,通过PayloadCodec获取编码格式,再通过解码获取Payload</p>
+<h2 id="2-3网络通信层"><a href="#2-3网络通信层" class="headerlink" title="2.3网络通信层"></a>2.3网络通信层</h2><p>​	通过Sockets API</p>
+<p>​	实际应用中,使用网络库来操作,简单易用,指标有:</p>
+<ul>
+<li>提供易用API,封装底层Socket API,连接管理和事件分发</li>
+<li>功能:支持多种协议,如TCP,UDP,UDS等,可以优雅退出和具备异常处理等</li>
+<li>性能:应用层buffer减少copy,高性能定时器和对象池等</li>
+</ul>
+<h1 id="3-关键指标"><a href="#3-关键指标" class="headerlink" title="3.关键指标"></a>3.关键指标</h1><h2 id="3-1-稳定性"><a href="#3-1-稳定性" class="headerlink" title="3.1 稳定性"></a>3.1 稳定性</h2><ul>
+<li>熔断:保护调用方,防止被调用的服务影响到整个链路</li>
+<li>限流:保护被调用方,防止大流量把服务压垮</li>
+<li>超时控制: 避免浪费资源在不可用的节点上</li>
+</ul>
+<p>使用负载均衡,使服务被均匀调用;当调用失败时,通过重试来增加请求成功率</p>
+<p>长尾请求:响应明显高于一般请求</p>
+<p>​	通过注册中间件,来控制服务的稳定性</p>
+<h2 id="3-2易用性"><a href="#3-2易用性" class="headerlink" title="3.2易用性"></a>3.2易用性</h2><p>​	易用性要保证:</p>
+<ul>
+<li>开箱即用:合理的默认参数,丰富的文档</li>
+<li>周边工具:生产代码工具,脚手架工具等</li>
+</ul>
+<h2 id="3-3-扩展性"><a href="#3-3-扩展性" class="headerlink" title="3.3 扩展性"></a>3.3 扩展性</h2><p>​	要尽可能提供多的扩展点,如代码生成工具支持插件拓展</p>
+<h2 id="3-4-观测性"><a href="#3-4-观测性" class="headerlink" title="3.4 观测性"></a>3.4 观测性</h2><p>​	内置观测性服务</p>
+<p>​	三件套:	Log,Metric和Tracing</p>
+<h2 id="3-5-高性能"><a href="#3-5-高性能" class="headerlink" title="3.5 高性能"></a>3.5 高性能</h2><p>​	目标:高吞吐,低延迟</p>
+<p>​	手段:</p>
+<ul>
+<li>连接池</li>
+<li>多路复用</li>
+<li>高性能编解码协议</li>
+<li>高性能网络库</li>
+</ul>
+<p>​	高性能的具体考量根据应用场景的不同而存在差异</p>
+<h1 id="4-企业实践"><a href="#4-企业实践" class="headerlink" title="4.企业实践"></a>4.企业实践</h1><p>​	为什么要自研网络库?</p>
+<p>​	原生网络库无法感知连接状态,在使用连接池时,当存在失效连接时影响连接池的复用</p>
+<p>​	原生库存在goroutine暴涨的风险,影响性能</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/12/%E4%BC%81%E4%B8%9A%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%85%A5/" rel="prev" title="企业网络接入">
+      <i class="fa fa-chevron-left"></i> 企业网络接入
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">1.基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1%E4%B8%80%E6%AC%A1RPC%E7%9A%84%E5%AE%8C%E6%95%B4%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">1.1一次RPC的完整过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RPC%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="nav-number">1.1.1.</span> <span class="nav-text">RPC的好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RPC%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.</span> <span class="nav-text">RPC的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%88%86%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">2.分层设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1%E7%BC%96%E8%A7%A3%E7%A0%81%E5%B1%82"><span class="nav-number">2.1.</span> <span class="nav-text">2.1编解码层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-TLV%E7%BC%96%E7%A0%81-%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E7%A0%81"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1 TLV编码(二进制编码)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E8%80%83%E9%87%8F"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2 编码格式考量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2%E5%8D%8F%E8%AE%AE%E5%B1%82"><span class="nav-number">2.2.</span> <span class="nav-text">2.2协议层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-%E5%8D%8F%E8%AE%AE%E6%9E%84%E9%80%A0"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 协议构造</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%B1%82"><span class="nav-number">2.3.</span> <span class="nav-text">2.3网络通信层</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%85%B3%E9%94%AE%E6%8C%87%E6%A0%87"><span class="nav-number">3.</span> <span class="nav-text">3.关键指标</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 稳定性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2%E6%98%93%E7%94%A8%E6%80%A7"><span class="nav-number">3.2.</span> <span class="nav-text">3.2易用性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E6%89%A9%E5%B1%95%E6%80%A7"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 扩展性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E8%A7%82%E6%B5%8B%E6%80%A7"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 观测性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E9%AB%98%E6%80%A7%E8%83%BD"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 高性能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E4%BC%81%E4%B8%9A%E5%AE%9E%E8%B7%B5"><span class="nav-number">4.</span> <span class="nav-text">4.企业实践</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

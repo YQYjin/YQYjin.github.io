@@ -2334,7 +2334,34 @@
 <h2 id="4-第四次握手"><a href="#4-第四次握手" class="headerlink" title="4.第四次握手"></a>4.第四次握手</h2><p>​	服务器同样发送,”Change Cipher Spec”和”Encrypted Handshake Message(Finished)”,若没有双方都验证加密和解密没有问题,握手完成</p>
 <h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><p>​	RSA密钥协商算法不支持<strong>前向保密</strong></p>
 <p>​	客户端传递的随机数使用服务器公钥加密,若服务器私钥泄露,被第三方截取的TLS密文都会被破解</p>
-<h1 id="ECDHE"><a href="#ECDHE" class="headerlink" title="ECDHE"></a>ECDHE</h1><p>PDF145页</p>
+<h1 id="ECDHE协商算法"><a href="#ECDHE协商算法" class="headerlink" title="ECDHE协商算法"></a>ECDHE协商算法</h1><p>​	ECDHE算法由DH算法演化而来,为非对称加密算法,核心数学思想是离散对数</p>
+<h2 id="DH算法"><a href="#DH算法" class="headerlink" title="DH算法"></a>DH算法</h2><p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0.jpg"></p>
+<p>​	直到底数a,模数p和对数i,可以很容易计算出真数b,反过来真数很难推导出对数,特别是当P是一个很大的质数,即使知道a,b,以目前计算机的能力,几乎无法计算出离散对数,这就是DH算法的数学基础</p>
+<h2 id="DH算法交换密钥"><a href="#DH算法交换密钥" class="headerlink" title="DH算法交换密钥"></a>DH算法交换密钥</h2><ul>
+<li><p>双方生成各自的随机数(私钥)a,b,公开参数P,G分别是模数和底数,然后生成公钥</p>
+</li>
+<li><p>A的公钥为G^a(mod P),B的公钥是G^b(mod P),A,B也是公开的</p>
+</li>
+<li><p>此时A执行 B^a(mod P) 得到k等于B执行 A^b(mod P),这个k便可以作为会话密钥</p>
+</li>
+</ul>
+<p>双方公开了A,B,P,G,但a,b不参与交换,无法被第三方获取,而通过A,B,P,G几乎不可能计算出私钥(a,b),因此DH密钥交换是安全的</p>
+<h2 id="DHE"><a href="#DHE" class="headerlink" title="DHE"></a>DHE</h2><p>​	DH算法根据私钥的生成方式,分为static DH和DHE算法,前者的服务器公钥是不变的,第三方可以根据海量密钥协商过程暴力破解服务器的私钥,造成信息泄露,不具备前向安全性</p>
+<p>​	目前常用为DHE算法,使双方在每次会话时生成的私钥都是随机的临时的,即使一次会话密钥被破解,也不影响其他会话,保证了前向安全性</p>
+<h1 id="ECDHE"><a href="#ECDHE" class="headerlink" title="ECDHE"></a>ECDHE</h1><p>​	由于DHE算法效率不高,需要大量乘法,ECDHE利用ECC椭圆曲线的特定,用更少的计算量计算出公钥和会话密钥</p>
+<p>ECDHE协商算法的TLS同样是四次握手</p>
+<p>​	但是使用ECDHE,在TLS四次握手结束之前,客户端就已经发送了加密HTTP数据,而对于RSA必须完成四次TLS握手才能发送加密应用数据</p>
+<p>​	ECDHE相比RSA省去了一个消息往返的时间,称为”TLS False Start”,提高了传输效率</p>
+<h3 id="第一次握手"><a href="#第一次握手" class="headerlink" title="第一次握手"></a>第一次握手</h3><p>​	发送”Client Hello”,包括客户端的TLS版本号,支持的密码套件,随机数Client Random</p>
+<h3 id="第二次握手"><a href="#第二次握手" class="headerlink" title="第二次握手"></a>第二次握手</h3><p>​	服务器返回”Server Hello”,包括服务器确认的TLS版本号,随机数Server Hello,和从客户端密码套件中选取的密码套件;发送”Certificate”,表明自己的身份,发送证书,因为使用ECDHE,所以发送完证书后发送”Server Key Exchange”消息:</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/ECDHE%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B.png"></p>
+<p>​	最后是”Server Hello Done”,表明结束本次握手</p>
+<p>​	至此,服务器和客户端通过明文共享了<strong>Client Random,Server Random,使用的椭圆曲线,椭圆曲线基点G,服务器椭圆曲线的公钥</strong>,这些信息将用于生成会话密钥</p>
+<h3 id="第三次握手"><a href="#第三次握手" class="headerlink" title="第三次握手"></a>第三次握手</h3><p>​		客户端验证服务器身份是否可信,接着生成客户端的椭圆曲线公钥,用”Client Key Exchange”发送给服务器,此时双方共享:各自的椭圆曲线公钥私钥,椭圆曲线基点G,于是双方可以计算出点(x,y),最终会话密钥为:客户端随机数+服务器随机数+x;</p>
+<p>​	算好密钥后,客户端发送”Change Cipher Spec”消息,告诉服务器后续使用密钥加密</p>
+<p>​	再发送”Encrypted Handshake Message”,将之前的信息做个摘要,在使用对称加密让服务器验证加密是否可用</p>
+<h3 id="第四次握手"><a href="#第四次握手" class="headerlink" title="第四次握手"></a>第四次握手</h3><p>​	服务器操作与第三次握手时客户端操作一致,发送”Change Cipher Spec”和”Encrypted Handshake Message”,如果双方都验证加密和解密没有问题,握手就正式完成</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/RSA%E5%92%8CECDHE%E5%8C%BA%E5%88%AB.png"></p>
 ]]></content>
       <categories>
         <category>计算机网络</category>
@@ -2432,6 +2459,1149 @@
 ]]></content>
       <categories>
         <category>工程</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>CF记录</title>
+    <url>/2023/07/17/CF%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h2 id="Codeforces-Round-882-Div-2"><a href="#Codeforces-Round-882-Div-2" class="headerlink" title="Codeforces Round 882(Div. 2)"></a>Codeforces Round 882(Div. 2)</h2><ul>
+<li>A</li>
+<li>C</li>
+</ul>
+<h2 id="Educational-Codeforces-Round-151"><a href="#Educational-Codeforces-Round-151" class="headerlink" title="Educational Codeforces Round 151"></a>Educational Codeforces Round 151</h2><ul>
+<li>D 前缀和</li>
+</ul>
+<h2 id="Codeforces-Round-886-Div-4"><a href="#Codeforces-Round-886-Div-4" class="headerlink" title="Codeforces Round 886 (Div.4)"></a>Codeforces Round 886 (Div.4)</h2><h3 id="D-Balanced-Round"><a href="#D-Balanced-Round" class="headerlink" title="D - Balanced Round"></a><a href="https://codeforces.com/contest/1850/problem/D">D - Balanced Round</a></h3><ul>
+<li>题意:从数组中删除最少的数,使剩下的数组中连续的两个数之间的差不超过k</li>
+<li>我的解法: 通过递归,找到不合法的地方,分别抛弃左侧和右侧,记录抛弃的格式,再对剩下的进行递归,直到整个数组合法;在Test1和Test2中通过,但在Test3中超时</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">recur</span><span class="params">(ll arr[],ll k,ll drop,<span class="type">int</span> left,<span class="type">int</span> right)</span></span>&#123;</span><br><span class="line">    <span class="comment">//剪枝</span></span><br><span class="line">    <span class="keyword">if</span>(drop&gt;=ans)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">bool</span> isEnd=<span class="literal">true</span>;</span><br><span class="line">    <span class="comment">//找到差值大于k的地方</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=left+<span class="number">1</span>;i&lt;=right;++i)&#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[i]-arr[i<span class="number">-1</span>]&gt;k)&#123;</span><br><span class="line">            ll leftLen=i-left;</span><br><span class="line">            ll rightLen=right-i+<span class="number">1</span>;</span><br><span class="line">            <span class="built_in">recur</span>(arr,k,drop+rightLen,left,i<span class="number">-1</span>);</span><br><span class="line">            <span class="built_in">recur</span>(arr,k,drop+leftLen,i,right);</span><br><span class="line">            isEnd=<span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(isEnd) &#123;</span><br><span class="line">        ans = <span class="built_in">min</span>(ans, drop);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cf886c</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> t;</span><br><span class="line">    cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        ans=<span class="number">200000</span>;</span><br><span class="line">        <span class="type">static</span> ll arr[<span class="number">200001</span>];</span><br><span class="line">        ll n,k;</span><br><span class="line">        cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">        <span class="keyword">for</span>(ll i=<span class="number">1</span>;i&lt;=n;++i)&#123;</span><br><span class="line">            cin&gt;&gt;arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(arr+<span class="number">1</span>, arr+n+<span class="number">1</span>);</span><br><span class="line">        <span class="built_in">recur</span>(arr,k,<span class="number">0</span>,<span class="number">1</span>,n);</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>题解:题意可理解为找到最长的合法区间,然后删除其他所有数字,因此可以遍历数组,找到最长的合法区间,总长度减去该区间长度即为题解</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	cin&gt;&gt;t;</span><br><span class="line">	<span class="keyword">while</span>(t--)&#123;</span><br><span class="line">		cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)cin&gt;&gt;a[i];</span><br><span class="line">		<span class="built_in">sort</span>(a,a+n);</span><br><span class="line">		temp=<span class="number">1</span>;ans=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]-a[i<span class="number">-1</span>]&lt;=k)temp++;</span><br><span class="line">			<span class="keyword">else</span> temp=<span class="number">1</span>;</span><br><span class="line">			ans=<span class="built_in">max</span>(ans,temp);</span><br><span class="line">		&#125;</span><br><span class="line">		cout&lt;&lt;n-ans&lt;&lt;<span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="E-Cardboard-for-Pictures"><a href="#E-Cardboard-for-Pictures" class="headerlink" title="E - Cardboard for Pictures"></a><a href="https://codeforces.com/contest/1850/problem/E">E - Cardboard for Pictures</a></h3><ul>
+<li>题意:简单的二分查找</li>
+<li>题解:通过二分查找即解决,出现的问题是数据过大,即使使用 longlong 可会出现越界问题</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isLeft</span><span class="params">(ll mid,ll n,ll c,ll arr[])</span></span>&#123;</span><br><span class="line">    ll sum=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">        sum+=(arr[i]+<span class="number">2</span>*mid)*(arr[i]+<span class="number">2</span>*mid);</span><br><span class="line">        <span class="comment">//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span></span><br><span class="line">        <span class="comment">//在此处,若将判断放在循环外部,会出现越界问题,导致判断出错</span></span><br><span class="line">        <span class="keyword">if</span>(sum&gt;c)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cf886d</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> t;</span><br><span class="line">    cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        ll n,c;</span><br><span class="line">        <span class="type">static</span> ll arr[<span class="number">200001</span>];</span><br><span class="line">        cin&gt;&gt;n&gt;&gt;c;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            cin&gt;&gt;arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">        ll left=<span class="number">0</span>,right=<span class="number">1e9</span>,mid;</span><br><span class="line">        <span class="keyword">while</span>(left&lt;=right)&#123;</span><br><span class="line">            mid=(right-left)/<span class="number">2</span>+left;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">isLeft</span>(mid,n,c,arr)) &#123;</span><br><span class="line">                left = mid+<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                right = mid<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;left<span class="number">-1</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Codeforces-Round-888-Div-3"><a href="#Codeforces-Round-888-Div-3" class="headerlink" title="Codeforces Round 888 (Div. 3)"></a><a href="https://codeforces.com/contest/1851">Codeforces Round 888 (Div. 3)</a></h1><h2 id="B-Parity-Sort"><a href="#B-Parity-Sort" class="headerlink" title="B - Parity Sort"></a><a href="https://codeforces.com/contest/1851/problem/B">B - Parity Sort</a></h2><ul>
+<li>输入一个数组,可以交换同为偶数或奇数的两个数,问可否使数组为非递增序列</li>
+<li>对一个数组排序,然后比较原数组与排序后的数组,若相同下标处不同为偶数或奇数,则</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> t; cin&gt;&gt;t;</span><br><span class="line"><span class="keyword">while</span>(t--)&#123;</span><br><span class="line">	<span class="type">int</span> n; cin&gt;&gt;n; <span class="type">int</span> a[n], b[n]; string ans=<span class="string">&quot;YES&quot;</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;a[i], b[i]=a[i];</span><br><span class="line">	<span class="built_in">sort</span>(a, a+n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++) </span><br><span class="line">	<span class="keyword">if</span>(a[i]%<span class="number">2</span> != b[i]%<span class="number">2</span>)&#123;</span><br><span class="line">		ans=<span class="string">&quot;NO&quot;</span>;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Day2项目实践|社区话题页面</title>
+    <url>/2023/07/26/Day2%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5_%E7%A4%BE%E5%8C%BA%E8%AF%9D%E9%A2%98%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h1 id="基础复现"><a href="#基础复现" class="headerlink" title="基础复现"></a>基础复现</h1><h2 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h2><ul>
+<li>展示话题和回帖列表</li>
+<li>不考虑前端实现,只实现本地Web服务</li>
+<li>话题和回帖数据使用文件存储</li>
+</ul>
+<h3 id="用例说明"><a href="#用例说明" class="headerlink" title="用例说明"></a>用例说明</h3><p>​	通过ER图来标识，主要有两个实体Topic和Post，其中Topic包含属性id，title，content和date而Post包括id，topic_id，content和date</p>
+<h3 id="组件工具"><a href="#组件工具" class="headerlink" title="组件工具"></a>组件工具</h3><ul>
+<li><a href="https://github.com/gin-gonic/gin#installation">Gin 高性能goWeb框架</a></li>
+<li>Go Mod 使用以下指令:<code>go mod init</code>+ <code>go get gopkg.in/gin-gonic/gin.v1@v1.3.0</code>,指令在go.mod文件的路径下执行，若出现网络错误，则执行<code>go env -w GOPROXY=https://goproxy.cn</code>来使用国内代理</li>
+</ul>
+<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><ul>
+<li>通过话题ID查询话题信息</li>
+<li>通过话题ID查询所有该话题下的ID</li>
+</ul>
+<p>​	可以通过全扫描查询，为优化效率，使用索引</p>
+<h3 id="功能分层"><a href="#功能分层" class="headerlink" title="功能分层"></a>功能分层</h3><p>​	本项目总体分为三层,分别为数据层repository,服务层service和控制层controller</p>
+<ul>
+<li>数据层:本层为最底层,定义Topic结构体,Post结构体,索引等,根据传入路径读取信息并初始化话题索引和帖子列表索引,根据话题ID查询话题信息和帖子列表</li>
+<li>服务层:借助数据层提供的服务实现本层服务,在本次定义页面信息结构体和信息流结构体(用于在流程中暂存数据),通过操作信息流对象,检查传入话题ID是否合法,根据话题ID查询话题信息和帖子列表,使用信息流将查询到的数据打包为页面信息</li>
+<li>控制层:借助服务层提供的服务实现数据查询和打包,定义PageData结构体,包括状态码,状态信息,页面数据等信息,根据传入的话题ID字符串查询数据,并将数据和状态信息打包发送</li>
+</ul>
+<h2 id="代码开发"><a href="#代码开发" class="headerlink" title="代码开发"></a>代码开发</h2><h4 id="repository"><a href="#repository" class="headerlink" title="repository"></a>repository</h4><ul>
+<li>在查询时,通过postDao结构体实现单例,通过单例查询体高查询效率</li>
+</ul>
+<blockquote>
+<p>代码地址:<strong><a href="https://github.com/YQYjin/GoProject/blob/master/src/project1_origin/repository.go">repository.go</a></strong></p>
+</blockquote>
+<h4 id="service"><a href="#service" class="headerlink" title="service"></a>service</h4><blockquote>
+<p>代码地址:<strong><a href="https://github.com/YQYjin/GoProject/blob/master/src/project1_origin/Service.go">service.go</a></strong></p>
+</blockquote>
+<h4 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h4><blockquote>
+<p>代码地址:<strong><a href="https://github.com/YQYjin/GoProject/blob/master/src/project1_origin/controller.go">controller.go</a></strong></p>
+</blockquote>
+<h2 id="测试运行"><a href="#测试运行" class="headerlink" title="测试运行"></a>测试运行</h2><blockquote>
+<p>主函数代码:<a href="https://github.com/YQYjin/GoProject/blob/master/src/project1_origin/main.go">main.go</a></p>
+</blockquote>
+<p>核心代码解释:</p>
+<ul>
+<li><p><code>r := gin.Default()</code>: 这行代码创建了一个Gin的默认引擎实例，该实例用于处理HTTP请求和路由。</p>
+</li>
+<li><p><code>r.GET(&quot;/topic/:topicId&quot;, func(c *gin.Context) &#123; ... &#125;)</code>: 这是一个路由定义，它指定了一个处理GET请求的路由。<code>&quot;/topic/:topicId&quot;</code> 是一个路由路径，其中 <code>:topicId</code> 表示一个参数占位符，它允许在该位置匹配任何非空字符串。例如，如果请求的URL为<code>/topic/123</code>，那么<code>123</code> 将被作为 <code>topicId</code> 的值传递给后面的处理函数。</p>
+</li>
+<li><p><code>func(c *gin.Context) &#123; ... &#125;</code>: 这是一个匿名函数（也称为闭包），是真正处理HTTP请求的代码块。在Gin框架中，所有的请求处理函数都需要具有这样的签名，即接受一个 <code>*gin.Context</code> 类型的参数。<code>gin.Context</code> 对象封装了该HTTP请求的所有信息，并提供了许多有用的方法来处理请求和构建响应。</p>
+</li>
+<li><p><code>topicId := c.Param(&quot;topicId&quot;)</code>: 这行代码从请求中获取URL参数 <code>topicId</code> 的值，并将其存储在一个本地变量 <code>topicId</code> 中。<code>c.Param()</code> 方法用于提取URL中的参数值。</p>
+</li>
+<li><p><code>data := QueryPageInfo(topicId)</code>: 这行代码调用一个自定义的函数 <code>QueryPageInfo()</code>，并将之前获取的 <code>topicId</code> 作为参数传递给该函数。<code>QueryPageInfo()</code> 函数用于根据提供的 <code>topicId</code> 查询相应的页面信息。</p>
+</li>
+<li><p><code>c.JSON(200, data)</code>: 这行代码使用 <code>c.JSON()</code> 方法将处理函数的返回数据 <code>data</code> 以JSON格式作为HTTP响应返回给客户端。在这里，HTTP状态码设置为<code>200</code>，表示请求成功。</p>
+</li>
+</ul>
+<p>可能的问题及解决:</p>
+<ul>
+<li>若无法找到包 gin,可以在go.mod文件所在目录下执行控制台命令: <code>go get -u github.com/gin-gonic/gin</code>即可自动下载并导入gin</li>
+<li>运行后通过浏览器打开:<a href="http://localhost:8080/topic/1,%E5%8D%B3%E5%8F%AF%E6%9F%A5%E8%AF%A2%E8%AF%9D%E9%A2%98ID%E4%B8%BA1%E7%9A%84%E8%AF%9D%E9%A2%98%E4%BF%A1%E6%81%AF%E5%92%8C%E4%B8%8B%E5%B1%9E%E6%89%80%E6%9C%89%E5%B8%96%E5%AD%90%E4%BF%A1%E6%81%AF">http://localhost:8080/topic/1,即可查询话题ID为1的话题信息和下属所有帖子信息</a></li>
+</ul>
+<h1 id="作业实现"><a href="#作业实现" class="headerlink" title="作业实现"></a>作业实现</h1><h2 id="发布帖子"><a href="#发布帖子" class="headerlink" title="发布帖子"></a>发布帖子</h2><p>​	为了发布一个帖子,需要一个前端界面来编写并发送帖子信息,使用ajax收发报文,script脚本如下所示:</p>
+<ul>
+<li>通过输入框获取发布帖子的话题ID和内容</li>
+<li>通过Date().getTime()获取提交表单时的时间作为发帖时间</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="variable language_">document</span>).<span class="title function_">ready</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">// 监听表单提交事件</span></span><br><span class="line">        $(<span class="string">&quot;#loginForm&quot;</span>).<span class="title function_">submit</span>(<span class="keyword">function</span> (<span class="params">event</span>) &#123;</span><br><span class="line">            event.<span class="title function_">preventDefault</span>(); <span class="comment">// 阻止表单的默认提交行为</span></span><br><span class="line">            <span class="keyword">var</span> topicId = $(<span class="string">&quot;#topicId&quot;</span>).<span class="title function_">val</span>();</span><br><span class="line">            <span class="keyword">var</span> postContent = $(<span class="string">&quot;#postContent&quot;</span>).<span class="title function_">val</span>();</span><br><span class="line">            <span class="keyword">var</span> time = <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getTime</span>();</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(topicId + <span class="string">&quot; &quot;</span> + postContent);</span><br><span class="line">            <span class="keyword">var</span> postData = &#123;</span><br><span class="line">                <span class="attr">topicId</span>: topicId,</span><br><span class="line">                <span class="attr">content</span>: postContent,</span><br><span class="line">                <span class="attr">create_time</span>: time</span><br><span class="line">            &#125;;</span><br><span class="line">            $.<span class="title function_">ajax</span>(&#123;</span><br><span class="line">                <span class="attr">type</span>: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">                <span class="attr">url</span>: <span class="string">&quot;http://localhost:8080/post&quot;</span>,  <span class="comment">// 替换为实际的后台处理URL</span></span><br><span class="line">                <span class="attr">data</span>: postData,</span><br><span class="line">                <span class="attr">success</span>: <span class="keyword">function</span> (<span class="params">response</span>) &#123;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Success&quot;</span> + response);</span><br><span class="line">                    <span class="keyword">if</span> (response == <span class="string">&#x27;success&#x27;</span>) &#123;</span><br><span class="line">                       <span class="title function_">alert</span>(<span class="string">&quot;发帖成功&quot;</span>)</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="title function_">alert</span>(<span class="string">&quot;发帖失败&quot;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">error</span>: <span class="keyword">function</span> (<span class="params">error</span>) &#123;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Error:&quot;</span> + error);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>​	页面预览:</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E7%A4%BA%E4%BE%8B1.png"></p>
+<p>​	设置静态文件目录,防止出现跨域,HTML文件目录为工程目录下的assets目录中</p>
+<p>​	<code>r.Static(&quot;/assets&quot;, &quot;../assets&quot;)</code></p>
+<p>​	此时浏览器打开<a href="http://localhost:8080/assets/post.html%E5%8D%B3%E5%8F%AF%E6%89%93%E5%BC%80post.html%E6%96%87%E4%BB%B6">http://localhost:8080/assets/post.html即可打开post.html文件</a></p>
+<p>​	服务器需要接受服务器发送的信息，因此需要为添加POST方法，用于接收数据并处理;通过c.PostForm获取请求报文中相应字段的内容,并调用下层方法进行下一步处理,处理成功后返回success信息</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">r.POST(<span class="string">&quot;post&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		topicId := c.PostForm(<span class="string">&quot;topicId&quot;</span>)</span><br><span class="line">		content := c.PostForm(<span class="string">&quot;content&quot;</span>)</span><br><span class="line">		create_time := c.PostForm(<span class="string">&quot;create_time&quot;</span>)</span><br><span class="line">		<span class="comment">//使用协程进行添加,防止阻塞</span></span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			err := packPostInfo(topicId, content, create_time)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		<span class="built_in">println</span>(<span class="string">&quot;接收到的帖子信息为:&quot;</span>, topicId, <span class="string">&quot; &quot;</span>, content, <span class="string">&quot; &quot;</span>, create_time)</span><br><span class="line">		c.JSON(<span class="number">200</span>, <span class="string">&quot;success&quot;</span>)</span><br><span class="line">	&#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> HTML文件代码:<strong><a href="https://github.com/YQYjin/GoProject/blob/master/assets/post.html">post.html</a></strong></p>
+</blockquote>
+<h3 id="控制层方法"><a href="#控制层方法" class="headerlink" title="控制层方法"></a>控制层方法</h3><p>​	在控制层中对信息进行初步处理,将传入的字符串类型的话题ID和时间转为int64类型,并为Post类型对象,然后由服务层进行下一步处理.</p>
+<ul>
+<li>使用协程来执行发帖操作,防止阻塞,优化效率</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">packPostInfo</span><span class="params">(topicId <span class="type">string</span>, content <span class="type">string</span>, create_time <span class="type">string</span>)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">	<span class="comment">//将传入的字符串id转换为int64</span></span><br><span class="line">	topicId_int, err := strconv.ParseInt(topicId, <span class="number">10</span>, <span class="number">64</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">println</span>(err.Error())</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//将时间字符串转为int64</span></span><br><span class="line">	create_time_int, err := strconv.ParseInt(create_time, <span class="number">10</span>, <span class="number">64</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">println</span>(err.Error())</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	post := &amp;Post&#123;</span><br><span class="line">		TopicId: topicId_int,</span><br><span class="line">		Content: content,</span><br><span class="line">		Date:    create_time_int,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//添加帖子ID(服务层方法)并进行下一步操作</span></span><br><span class="line">	err = paperPostInfo(post)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">println</span>(err.Error())</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="服务层"><a href="#服务层" class="headerlink" title="服务层"></a>服务层</h3><p>​	在服务层中,使用单例执行添加操作</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">paperPostInfo</span><span class="params">(post *Post)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">	err := NewPostDaoInstance().addPost(post)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据层"><a href="#数据层" class="headerlink" title="数据层"></a>数据层</h3><p>​	在数据层方法中为该帖子添加帖子ID,然后将帖子添加到帖子索引中,实现发帖</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *PostDao)</span></span> addPost(post *Post) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="comment">//更新最大帖子ID</span></span><br><span class="line">	maxPostId++</span><br><span class="line">	post.Id = maxPostId</span><br><span class="line">	<span class="comment">//将帖子放入对应话题下的列表中,更新索引</span></span><br><span class="line">	<span class="comment">//更新索引时加锁,防止多线程同时写入</span></span><br><span class="line">	indexLock.Lock()</span><br><span class="line">	postIndexMap[post.TopicId] = <span class="built_in">append</span>(postIndexMap[post.TopicId], post)</span><br><span class="line">	indexLock.Unlock()</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;成功添加帖子:&quot;</span>, <span class="string">&quot;topicId:&quot;</span>, post.TopicId, <span class="string">&quot;content:&quot;</span>, post.Content, <span class="string">&quot;date:&quot;</span>, post.Date)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地ID生成唯一"><a href="#本地ID生成唯一" class="headerlink" title="本地ID生成唯一"></a>本地ID生成唯一</h2><p>​	为了使本地生成的ID唯一,使用自增ID的方法,在数据层中维护一个maxPostId对象,在初始化索引时找到已存在的最大帖子ID,在发布帖子时,使maxPostId增1后作为新帖子的ID,以保证本地ID生成唯一</p>
+<h2 id="更新索引"><a href="#更新索引" class="headerlink" title="更新索引"></a>更新索引</h2><p>​	由于处理POST请求使用协程,可能会出现并发问题,因此在向索引表中添加内容前,为索引表加锁,添加完成后释放锁,以避免并发冲突,需要在原索引对象中添加锁</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	topicIndexMap <span class="keyword">map</span>[<span class="type">int64</span>]*Topic</span><br><span class="line">	postIndexMap  <span class="keyword">map</span>[<span class="type">int64</span>][]*Post</span><br><span class="line">	indexLock     sync.Mutex</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><blockquote>
+<p>​	<strong><a href="https://github.com/YQYjin/GoProject/tree/master/src/project1_hw">作业代码</a></strong></p>
+</blockquote>
+<p>​	本次在原有项目基础上实现了发帖功能,熟练了对gin框架服务器的构建和使用,也对Go语言并发处理,服务流程设计有了初步认识,对处理Go项目中出现的各种问题积累了经验.</p>
+<h3 id="可能的问题"><a href="#可能的问题" class="headerlink" title="可能的问题"></a>可能的问题</h3><ul>
+<li>导入自定义包</li>
+</ul>
+<p>​	在GoLand下导入自定义包,包应放置在项目目录下的src目录中,要保证包中函数能被包外调用,需要将函数首字母大写.</p>
+<p>​	若向main包中导入src中的porject_hw包,需要在main包的go.mod中添加:<code>require project1_hw v0.0.0</code>以及<code>replace project1_hw =&gt; ../src/project1_hw </code>,其中  replace后的参数为包名, &#x3D;&gt;后的参数为包所在的相对路径</p>
+<p>​	然后在文件中添加 <code>import &quot;project1_hw&quot;</code>即可导入该包</p>
+]]></content>
+      <categories>
+        <category>青训营</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>HTTPS优化</title>
+    <url>/2023/05/23/HTTPS%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>155</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Go多线程</title>
+    <url>/2023/07/26/Go%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h1><h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>​	多线程在一个核上运行称为并发,在多核上运行称为并行,Go语言有Goroutine,为协程,用户态,有Go语言控制,是轻量级线程,KB级别.而线程是内核态,一个线程可以运行多个协程,线程是MB级别.</p>
+<ul>
+<li><p>启动协程</p>
+<p>使用关键字<code>go</code>+<code>函数名</code>,即可创建该函数的协程</p>
+</li>
+</ul>
+<h2 id="通信-CSP"><a href="#通信-CSP" class="headerlink" title="通信(CSP)"></a>通信(CSP)</h2><p>​	Go提倡通过通信共享内存而不是通过共享内存来实现通信,因此要通过通道来实现不同协程间的通信,通道类似队列,先入先出.但Go也保留使用共享内存实现通信的功能,该功能需要加锁获取临界区权限,这样会发生竞争,影响并发效率</p>
+<h2 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h2><p>​	通过<code>make(chan 元素类型,[缓冲大小])</code>来创建一个通道,若不添加第二个参数则创建无缓冲通道,否则创建一个有缓冲通道,带有指定大小的缓冲区</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E6%9C%89%E6%97%A0%E7%BC%93%E5%AD%98%E9%80%9A%E9%81%93.png"></p>
+<h2 id="生产消费模型示例"><a href="#生产消费模型示例" class="headerlink" title="生产消费模型示例"></a>生产消费模型示例</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	src := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">	dest := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">2</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">defer</span> <span class="built_in">close</span>(src)</span><br><span class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">			src &lt;- i</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">defer</span> <span class="built_in">close</span>(dest)</span><br><span class="line">		<span class="keyword">for</span> i := <span class="keyword">range</span> src &#123;</span><br><span class="line">			dest &lt;- i * i</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">    <span class="comment">//实现第一个协程生成数组,第二个协程计算数字的平方,通过通道读取结果</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="keyword">range</span> dest &#123;</span><br><span class="line">		<span class="built_in">println</span>(i)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Lock锁"><a href="#Lock锁" class="headerlink" title="Lock锁"></a>Lock锁</h2><p>​	通过加锁来实现并发安全,通过以下方式创建变量并声明锁,然后通过<code>lock.Lock()</code>即可为该变量加锁</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span>(</span><br><span class="line">    x <span class="type">int64</span></span><br><span class="line">    lock sync.Mutex</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="WaitGroup并发同步"><a href="#WaitGroup并发同步" class="headerlink" title="WaitGroup并发同步"></a>WaitGroup并发同步</h2><p>​	为了实现线程同步,可以使用time.sleep()方法,但更好的方法是通过WatiGroup进行优化</p>
+<p>​	WaitGroup用于在执行多个 goroutine 时等待它们全部完成后再继续执行主程序。协调多个 goroutine 之间的同步，以确保所有 goroutine 都已完成其任务。</p>
+<p><code>WaitGroup</code> 包含以下几个主要方法：</p>
+<ol>
+<li><code>Add(delta int)</code>: 用于增加等待的 goroutine 的数量。通常在启动一个新的 goroutine 之前调用 <code>Add</code> 方法，将等待计数器加一。</li>
+<li><code>Done()</code>: 表示一个等待的 goroutine 已完成其任务。在 goroutine 完成其工作后调用 <code>Done</code> 方法，将等待计数器减一。</li>
+<li><code>Wait()</code>: 阻塞主程序的执行，直到所有的 goroutine 都调用了 <code>Done</code> 方法，并且等待计数器归零。</li>
+</ol>
+<h1 id="依赖管理"><a href="#依赖管理" class="headerlink" title="依赖管理"></a>依赖管理</h1><p>​	开发项目中要学会站在巨人的肩膀上,使用已经开发完成的组件来帮助开发,避免重复发明轮子需要导入依赖,框架等,因此需要合理地管理依赖库,目前广泛应用Go Module</p>
+<p>​	依赖管理的目标是解决不同环境(项目)的依赖版本不同以及控制依赖库的版本</p>
+<h3 id="GOPATH"><a href="#GOPATH" class="headerlink" title="GOPATH"></a>GOPATH</h3><p>​	Go语言的环境变量,该目录下</p>
+<ul>
+<li>bin: 项目编译的二进制文件</li>
+<li>pkg:项目编译的中间产物,加速编译</li>
+<li>src:项目源码</li>
+</ul>
+<p>​	弊端是:若项目A和B依赖于同一package的不同版本,在升级过程中package函数可能发生改变,导致两个项目无法同时构建成功</p>
+<h3 id="Go-Vendor"><a href="#Go-Vendor" class="headerlink" title="Go Vendor"></a>Go Vendor</h3><p>​	添加vendor,为每一个项目引入一份依赖副本,解决版本不同的问题</p>
+<p>​	存在的问题是,package A和package B又依赖了不同的下一层package,而他们又不兼容,就会再次导致冲突</p>
+<h3 id="Go-Module"><a href="#Go-Module" class="headerlink" title="Go Module"></a>Go Module</h3><p>​	通过go.mod文件管理依赖包版本,通过<code>go get/go mod</code>指令工具管理依赖包</p>
+<p>​	依赖管理三要素:</p>
+<ol>
+<li>配置文件,描述依赖 — go.mod</li>
+<li>中心仓库管理依赖库 — Proxy</li>
+<li>本地工具 — go get和go mod</li>
+</ol>
+]]></content>
+      <categories>
+        <category>青训营</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>RPC框架</title>
+    <url>/2023/08/12/RPC%E6%A1%86%E6%9E%B6/</url>
+    <content><![CDATA[<h1 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h1><p>​	远程函数调用(RPC,Remote Procedure Calls)</p>
+<p>​	RPC需要解决:</p>
+<ul>
+<li>函数映射</li>
+<li>数据转换成字节流</li>
+<li>网络传输</li>
+</ul>
+<h2 id="1-1一次RPC的完整过程"><a href="#1-1一次RPC的完整过程" class="headerlink" title="1.1一次RPC的完整过程"></a>1.1一次RPC的完整过程</h2><ol>
+<li>IDL (Interface description language)文件</li>
+</ol>
+<p>​	IDL通过一种中立的方式来描述接口，使得在不同平台上运行的对象和用不同语言编写的程序可以相互通信</p>
+<ol start="2">
+<li>生成代码</li>
+</ol>
+<p>​	通过编译器工具把IDL文件转换成语言对应的静态库</p>
+<ol start="3">
+<li>编解码</li>
+</ol>
+<p>​	从内存中表示到字节序列的转换称为编码，反之为解码，也常叫做序列化和反序列化</p>
+<ol start="4">
+<li>通信协议</li>
+</ol>
+<p>​	规范了数据在网络中的传输内容和格式。除必须的请求&#x2F;响应数据外，通常还会包含额外的元数据</p>
+<p>5.网络传输</p>
+<p>​	通常基于成熟的网络库走 TCP&#x2F;UDP传输</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/2023081217004.png"></p>
+<h3 id="RPC的好处"><a href="#RPC的好处" class="headerlink" title="RPC的好处"></a>RPC的好处</h3><ul>
+<li>单一职责,有利于分工和运维开发</li>
+<li>可拓展性强</li>
+<li>故障隔离,服务整体可靠性更高</li>
+</ul>
+<h3 id="RPC的问题"><a href="#RPC的问题" class="headerlink" title="RPC的问题"></a>RPC的问题</h3><ul>
+<li>服务宕机时应如何处理</li>
+<li>调用过程中发生网络异常,如何保证消息的可达性</li>
+<li>请求突增无法及时处理怎么办</li>
+</ul>
+<h1 id="2-分层设计"><a href="#2-分层设计" class="headerlink" title="2.分层设计"></a>2.分层设计</h1><p>​	以Apache Thrift为例</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308121716614.png"></p>
+<h2 id="2-1编解码层"><a href="#2-1编解码层" class="headerlink" title="2.1编解码层"></a>2.1编解码层</h2><p>​	客户端和服务器依赖同一份IDL文件,生成不同语言的代码</p>
+<p>​	IDL文件的数据格式有:语言特定的格式,如Java的java.io.Serializable,文本格式,如JSON,XML等,还有二进制编码格式</p>
+<h3 id="2-1-1-TLV编码-二进制编码"><a href="#2-1-1-TLV编码-二进制编码" class="headerlink" title="2.1.1 TLV编码(二进制编码)"></a>2.1.1 TLV编码(二进制编码)</h3><p>​	包括字段: </p>
+<ul>
+<li>Tag: 标签,表示类型</li>
+<li>Lenght: 长度</li>
+<li>Value: 值,value也可以是一个TLV结构</li>
+</ul>
+<p>Tag有时可以确定长度,就不需要Lenght字段,如Tag为int64,则长度已经是固定的</p>
+<h3 id="2-1-2-编码格式考量"><a href="#2-1-2-编码格式考量" class="headerlink" title="2.1.2 编码格式考量"></a>2.1.2 编码格式考量</h3><ul>
+<li>兼容性:考虑兼容性问题,是否支持新增字段而不影响老的服务</li>
+<li>通用性:是否跨平台,跨语言</li>
+<li>性能:从时间和空间两个方面考虑</li>
+</ul>
+<h2 id="2-2协议层"><a href="#2-2协议层" class="headerlink" title="2.2协议层"></a>2.2协议层</h2><p>​	协议有:</p>
+<ul>
+<li>特殊结束符,通过一个特殊字符表示每个协议单元的结束,如HTTP以\r\n结尾</li>
+<li>边长协议,以定长和不定长两部分组成,定长部分描述不定长部分的长度</li>
+</ul>
+<h3 id="2-2-1-协议构造"><a href="#2-2-1-协议构造" class="headerlink" title="2.2.1 协议构造"></a>2.2.1 协议构造</h3><p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308121737835.png"></p>
+<p>​	解析时,通过MagicNumber确定协议类别,通过PayloadCodec获取编码格式,再通过解码获取Payload</p>
+<h2 id="2-3网络通信层"><a href="#2-3网络通信层" class="headerlink" title="2.3网络通信层"></a>2.3网络通信层</h2><p>​	通过Sockets API</p>
+<p>​	实际应用中,使用网络库来操作,简单易用,指标有:</p>
+<ul>
+<li>提供易用API,封装底层Socket API,连接管理和事件分发</li>
+<li>功能:支持多种协议,如TCP,UDP,UDS等,可以优雅退出和具备异常处理等</li>
+<li>性能:应用层buffer减少copy,高性能定时器和对象池等</li>
+</ul>
+<h1 id="3-关键指标"><a href="#3-关键指标" class="headerlink" title="3.关键指标"></a>3.关键指标</h1><h2 id="3-1-稳定性"><a href="#3-1-稳定性" class="headerlink" title="3.1 稳定性"></a>3.1 稳定性</h2><ul>
+<li>熔断:保护调用方,防止被调用的服务影响到整个链路</li>
+<li>限流:保护被调用方,防止大流量把服务压垮</li>
+<li>超时控制: 避免浪费资源在不可用的节点上</li>
+</ul>
+<p>使用负载均衡,使服务被均匀调用;当调用失败时,通过重试来增加请求成功率</p>
+<p>长尾请求:响应明显高于一般请求</p>
+<p>​	通过注册中间件,来控制服务的稳定性</p>
+<h2 id="3-2易用性"><a href="#3-2易用性" class="headerlink" title="3.2易用性"></a>3.2易用性</h2><p>​	易用性要保证:</p>
+<ul>
+<li>开箱即用:合理的默认参数,丰富的文档</li>
+<li>周边工具:生产代码工具,脚手架工具等</li>
+</ul>
+<h2 id="3-3-扩展性"><a href="#3-3-扩展性" class="headerlink" title="3.3 扩展性"></a>3.3 扩展性</h2><p>​	要尽可能提供多的扩展点,如代码生成工具支持插件拓展</p>
+<h2 id="3-4-观测性"><a href="#3-4-观测性" class="headerlink" title="3.4 观测性"></a>3.4 观测性</h2><p>​	内置观测性服务</p>
+<p>​	三件套:	Log,Metric和Tracing</p>
+<h2 id="3-5-高性能"><a href="#3-5-高性能" class="headerlink" title="3.5 高性能"></a>3.5 高性能</h2><p>​	目标:高吞吐,低延迟</p>
+<p>​	手段:</p>
+<ul>
+<li>连接池</li>
+<li>多路复用</li>
+<li>高性能编解码协议</li>
+<li>高性能网络库</li>
+</ul>
+<p>​	高性能的具体考量根据应用场景的不同而存在差异</p>
+<h1 id="4-企业实践"><a href="#4-企业实践" class="headerlink" title="4.企业实践"></a>4.企业实践</h1><p>​	为什么要自研网络库?</p>
+<p>​	原生网络库无法感知连接状态,在使用连接池时,当存在失效连接时影响连接池的复用</p>
+<p>​	原生库存在goroutine暴涨的风险,影响性能</p>
+]]></content>
+      <categories>
+        <category>青训营</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Web应用开发</title>
+    <url>/2023/07/23/Web%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<h1 id="Blog开发"><a href="#Blog开发" class="headerlink" title="Blog开发"></a>Blog开发</h1>]]></content>
+      <categories>
+        <category>工程</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>企业网络接入</title>
+    <url>/2023/08/12/%E4%BC%81%E4%B8%9A%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%85%A5/</url>
+    <content><![CDATA[<h1 id="1-域名系统"><a href="#1-域名系统" class="headerlink" title="1.域名系统"></a>1.域名系统</h1><h2 id="1-1-Host管理"><a href="#1-1-Host管理" class="headerlink" title="1.1 Host管理"></a>1.1 Host管理</h2><p>​	使用Host主机表来管理域名到地址的映射</p>
+<p>​	使用Host模式出现的问题:</p>
+<ul>
+<li>随着用户规模增长,流量和负载增加,引起负担增加</li>
+<li>名称冲突</li>
+<li>分发靠人工,时效性很差</li>
+</ul>
+<h2 id="1-2-使用域名系统"><a href="#1-2-使用域名系统" class="headerlink" title="1.2 使用域名系统"></a>1.2 使用域名系统</h2><p>关于域名空间:</p>
+<ul>
+<li>域名空间被组成成树形结构,通过划分zone方法进行分层授权</li>
+<li>全球公共域名空间仅对应一棵树</li>
+<li>根域名服务器是查询起点</li>
+</ul>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308121528935.png"></p>
+<p>使用域名系统需要购买域名并进行配置迁移,域名需要进行备案</p>
+<p>如何开放外部用户访问:租赁一个外网IP,将网址映射到该IP上,并将该IP绑定到一台物理机上,并发布公网route</p>
+<h2 id="1-3-自建DNS服务器"><a href="#1-3-自建DNS服务器" class="headerlink" title="1.3 自建DNS服务器"></a>1.3 自建DNS服务器</h2><p>​	原因:内网域名解析也需要到公网获取,效率低,而且外部用户可以看到内网IP地址,容易被黑客攻击</p>
+<p>​	在企业角度,搭建权威DNS即可,LocalDNS可选</p>
+<h3 id="1-3-1权威DNS系统架构"><a href="#1-3-1权威DNS系统架构" class="headerlink" title="1.3.1权威DNS系统架构"></a>1.3.1权威DNS系统架构</h3><p>​	权威DNS系统架构包括:</p>
+<ul>
+<li>DNS Query</li>
+<li>DNS Response</li>
+<li>DNS Update</li>
+<li>DNS Notify</li>
+<li>DNS XFR</li>
+</ul>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308121540520.png"></p>
+<p>请求时,用于先向LocalDNS发起请求,LocalDNS服务器再向我们的自建DNS服务器发起请求,最终得到IP地址</p>
+<p>内网可以之间请求内部的权威DNS服务器</p>
+<h2 id="2-接入HTTP"><a href="#2-接入HTTP" class="headerlink" title="2.接入HTTP"></a>2.接入HTTP</h2><h2 id="2-1-常见加密"><a href="#2-1-常见加密" class="headerlink" title="2.1 常见加密"></a>2.1 常见加密</h2><ul>
+<li>对称加密,公用一份密钥</li>
+<li>非对称加密,有私钥和公钥,公钥加密只能私钥解密,若使用私钥加密只能用公钥解密</li>
+</ul>
+<p>​	HTTPS:通信建立前使用非对称加密,通过公钥,私钥进行加密通信交换密钥,通信建立后使用对称加密,通过密钥加密通信,非对称加密速度慢,但可以安全交换密钥,对称加密速度快但无法安全交换密钥,因此使用混合加密模式</p>
+<h2 id="2-2-数字证书"><a href="#2-2-数字证书" class="headerlink" title="2.2 数字证书"></a>2.2 数字证书</h2><p>​	数字证书唯一,由CA(数字证书认证机构)颁发,只要证书是可信的,公钥和私钥就是可信的,即通过数字证书验证公钥和私钥是否被伪造</p>
+<p> 本质还是数字签名算法,由CA持有私钥并颁发公钥,不同的是CA颁发的公钥已事先存储在客户端中,不会在通信过程中被篡改</p>
+<p>​	数字证书通过证书链认证</p>
+<h2 id="2-3-接入全站加锁"><a href="#2-3-接入全站加锁" class="headerlink" title="2.3 接入全站加锁"></a>2.3 接入全站加锁</h2><p>​	背景:源站容量低,经过节点越多,丢包等问题就会越多,导致卡顿和响应慢</p>
+<p>​	解决方案:</p>
+<ul>
+<li>增加源站容量(静态加速)</li>
+<li>DCDN加速(动态加锁)</li>
+<li>全站加速:增加源站容量并使用CDN</li>
+</ul>
+<p>​	用户首次登录抖音并注册时,使用的是动态加速DCDN</p>
+<p>​	用户打开某个特定的短视频加载后观看是静态加速CDN</p>
+<p>​	用户打卡头条官网进行网页浏览是静态加速CDN+动态加速CDN</p>
+<h1 id="3-四层负载均衡"><a href="#3-四层负载均衡" class="headerlink" title="3.四层负载均衡"></a>3.四层负载均衡</h1><p>​	服务多而杂,只使用一台物理机接入IP会导致出现问题,而且若该物理机故障,所有服务都不可用</p>
+<p>​	什么是负载均衡:</p>
+<ul>
+<li>基于IP+端口,利用某种算法加报文转发给某个后端服务器,实现负载均衡地落到每一个后端服务器上</li>
+</ul>
+<p>​	三个主要功能: 解耦VIP和RS,NAT和防攻击</p>
+<h2 id="3-1-常见调度算法原理"><a href="#3-1-常见调度算法原理" class="headerlink" title="3.1 常见调度算法原理"></a>3.1 常见调度算法原理</h2><ul>
+<li>RR轮查询</li>
+<li>加强RR轮查询</li>
+<li>最小连接</li>
+<li>五元组hash</li>
+<li>一致性hash</li>
+</ul>
+<h1 id="4-七层负载均衡"><a href="#4-七层负载均衡" class="headerlink" title="4.七层负载均衡"></a>4.七层负载均衡</h1><p>​	四层负载均衡对IP只能bind一个端口,若有多个外部站点需要使用,该如何解决</p>
+<p>​	开源七层负载均衡:Nginx,模块化设计,具有较好的拓展性和可靠性,支持热部署</p>
+]]></content>
+      <categories>
+        <category>青训营</category>
+      </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2023/06/07/%E5%AE%89%E5%85%A8%E6%80%A7/</url>
+    <content><![CDATA[<h1 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h1><h2 id="作业代码"><a href="#作业代码" class="headerlink" title="作业代码"></a>作业代码</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 数据库安全性作业</span><br><span class="line">-- 1.授权</span><br><span class="line">-- 操作整个库</span><br><span class="line">create user &#x27;U1&#x27;@&#x27;localhost&#x27; identified by &#x27;000000&#x27;;</span><br><span class="line">grant all privileges on oildepot.* to &#x27;U1&#x27;@&#x27;localhost&#x27;;</span><br><span class="line">-- 查询整个库，修改油品类别表中油品价格 列层级</span><br><span class="line">create user &#x27;U2&#x27;@&#x27;localhost&#x27; identified by &#x27;000000&#x27;;</span><br><span class="line">grant select on oildepot.* to &#x27;U2&#x27;@&#x27;localhost&#x27; ;</span><br><span class="line">grant update(Price),select on oildepot.oil to &#x27;U2&#x27;@&#x27;localhost&#x27; ;</span><br><span class="line">-- 查询油库表、油品表、油品储量表，能插入数据到销售信息表</span><br><span class="line">create user &#x27;U3&#x27;@&#x27;localhost&#x27; identified by &#x27;000000&#x27;;</span><br><span class="line">grant select on oildepot.oil to &#x27;U3&#x27;@&#x27;localhost&#x27; ;</span><br><span class="line">grant select on oildepot.oildepots to &#x27;U3&#x27;@&#x27;localhost&#x27; ;</span><br><span class="line">grant select on oildepot.storage to &#x27;U3&#x27;@&#x27;localhost&#x27; ;</span><br><span class="line">grant insert on oildepot.sell to &#x27;U3&#x27;@&#x27;localhost&#x27; ;</span><br><span class="line">-- 插入数据到进货信息表，和修改油品储量信息表中的数据,并允许 U4 将此权限再授予其他用户</span><br><span class="line">create user &#x27;U4&#x27;@&#x27;localhost&#x27; identified by &#x27;000000&#x27;;</span><br><span class="line">grant insert on oildepot.stock to &#x27;U4&#x27;@&#x27;localhost&#x27; with grant option ;</span><br><span class="line">grant update,select on oildepot.storage to &#x27;U4&#x27;@&#x27;localhost&#x27; with grant option;</span><br><span class="line">-- 创建用户U5。登录U4，将u4的权限授予U5，并验证</span><br><span class="line">create user &#x27;U5&#x27;@&#x27;localhost&#x27; identified by &#x27;000000&#x27;;</span><br><span class="line">grant insert on oildepot.stock to &#x27;U5&#x27;@&#x27;localhost&#x27; with grant option ;</span><br><span class="line">grant update,select on oildepot.storage to &#x27;U5&#x27;@&#x27;localhost&#x27; with grant option;</span><br><span class="line">-- grant &#x27;U4&#x27;@&#x27;localhost&#x27; to &#x27;U5&#x27;@&#x27;localhost&#x27;;</span><br><span class="line">show grants for &#x27;U4&#x27;@&#x27;localhost&#x27;;</span><br><span class="line">-- 创建用户U6，授予权限。使U6登录后能创建视图，u6创建一个视图，视图的内容是2022年魏公村油库每个油品的销售额</span><br><span class="line">create user &#x27;U6&#x27;@&#x27;localhost&#x27; identified by &#x27;000000&#x27;;</span><br><span class="line">grant select,create view on oildepot.* to &#x27;U6&#x27;@&#x27;localhost&#x27;;</span><br><span class="line">create view sale_view</span><br><span class="line">as select oil.ID as &#x27;油品编号&#x27;, Name as &#x27;油品名称&#x27;, asum as &#x27;销售额&#x27; from</span><br><span class="line">    (select sell.ID,sum(sell.Purchases*sell.Price*sell.Discount) as asum</span><br><span class="line">     from sell join oil on sell.ID=oil.ID</span><br><span class="line">     where Time like &#x27;2023%&#x27;</span><br><span class="line">     group by sell.ID) as a</span><br><span class="line">        join oil on a.ID=oil.ID</span><br><span class="line">   order by oil.ID desc;</span><br><span class="line">-- 用户U7，授予权限使U7能运行查询第6题中的视图</span><br><span class="line">create user &#x27;U7&#x27;@&#x27;localhost&#x27; identified by &#x27;000000&#x27;;</span><br><span class="line">grant show view,select on oildepot.* to &#x27;U7&#x27;@&#x27;localhost&#x27;;</span><br><span class="line">-- 收回用户 U4 的权限</span><br><span class="line">revoke all on *.* from &#x27;U4&#x27;@&#x27;localhost&#x27;;</span><br><span class="line">show grants for &#x27;U4&#x27;@&#x27;localhost&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建用户必须有全局CREATE USER权限</li>
+<li>identified by 设置密码</li>
+</ul>
+<h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ALTER user &#x27;root&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;123456&#x27; ;</span><br><span class="line">使用CMD命令修改</span><br><span class="line">Mysqladmin -u root -p password 新密码</span><br></pre></td></tr></table></figure>
+
+<h2 id="更改用户名"><a href="#更改用户名" class="headerlink" title="更改用户名"></a>更改用户名</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RENAME USER  u2@localhost to u1111@localhost;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除账号"><a href="#删除账号" class="headerlink" title="删除账号"></a>删除账号</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DROP USER user@host ;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/Mysql%E6%9D%83%E9%99%90.png"></p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/mysql%E6%9D%83%E9%99%902.png"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>性能修炼之道与企业实践</title>
+    <url>/2023/08/02/%E6%80%A7%E8%83%BD%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93%E4%B8%8E%E4%BC%81%E4%B8%9A%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<h1 id="针对网络库优化"><a href="#针对网络库优化" class="headerlink" title="针对网络库优化"></a>针对网络库优化</h1><h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ul>
+<li>存下所有Header,header数量,大小不固定</li>
+<li>减少系统调用次数</li>
+<li>能够复用内存</li>
+<li>能够多次读,一次可能不能全部读完</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><ul>
+<li>多次读</li>
+</ul>
+<p>​	go net绑定一块缓冲区,读完本次后使指针回退到原位置</p>
+<ul>
+<li>netpoll存下全部Header和拷贝出完整的Body</li>
+</ul>
+<p>​	netpoll使用链表存,一个header或body在两个节点上,可以分配足够大的buffer,使header和body在一个节点上,限制最大buffer size防止损耗过大</p>
+<p>​	go net对流式友好,小包性能高,netpoll中大包性能高,时延低</p>
+<h1 id="针对协议的优化"><a href="#针对协议的优化" class="headerlink" title="针对协议的优化"></a>针对协议的优化</h1><h2 id="Header解析"><a href="#Header解析" class="headerlink" title="Header解析"></a>Header解析</h2><ul>
+<li>找到Header Line的边界 <code>\r\n</code></li>
+</ul>
+<p>​	在寻找时先找到\n,再检查它前面是不是\r,比直接匹配\r\n效率高;还可以使用SIMD进一步优化,Go语言集成了SIMD优化,SIMD可以并行处理数据,可大幅提高效率</p>
+<ul>
+<li>快速解析</li>
+</ul>
+<p>​	通过Header Key的首字母快速筛查不可能的Key;针对协议中高频Header,单独特殊处理,如host单独申请空间,直接通过.host获取内容</p>
+<ul>
+<li>取&amp;舍</li>
+</ul>
+<p>​	使用核心字段快速解析,使用byte slice快速存储,可以进行内存复用,对应高频header额外存储到成员变量中;但会导致普通header性能低,且没有map结构</p>
+<ul>
+<li>对Header Key规范化</li>
+</ul>
+<p>​	使用表映射的方式进行规范化,使用表进行匹配和查找,可以获取超过的转换效率,但会导致额外的内存开销,而且映射表变更困难</p>
+<h1 id="热点资源池化"><a href="#热点资源池化" class="headerlink" title="热点资源池化"></a>热点资源池化</h1><p>​	请求到达后,使用RequestContext与请求一一对应,贯穿一个请求始终,使用RequestContext池进行复用(可能类似于线程池)</p>
+<p>​	使用热点资源池化可以减少内存分配,提高了内存复用,降低了GC压力,使性能提升</p>
+<p>​	但导致额外的Reset逻辑,因为内存会被复用,仅在请求内有效,当超出请求生命周期可能会出现并发问题,并且导致定位困难</p>
+<h1 id="企业实践"><a href="#企业实践" class="headerlink" title="企业实践"></a>企业实践</h1><ul>
+<li><p>追求性能</p>
+</li>
+<li><p>追求易用,减少误用</p>
+</li>
+</ul>
+<p>​	如果一味追求性能,就会舍弃一些易用性</p>
+<ul>
+<li>打通内部生态</li>
+</ul>
+<p>​	将一些通用逻辑整合到框架内部,方便不同用户使用</p>
+<ul>
+<li>文档建设,用户群建设</li>
+</ul>
+<p>​	将被问道的问题写在文档里,便用用户查阅,避免同一个问题多次解答</p>
+<ul>
+<li>内部HTTP框架: Hertz,达到1万+服务和3千万QPS</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>数赛准备</title>
+    <url>/2023/07/31/%E6%95%B0%E8%B5%9B%E5%87%86%E5%A4%87/</url>
+    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><ul>
+<li>Matlab,和队友同一版本</li>
+<li>Mathpix,收费</li>
+<li>AxGlyph,收费</li>
+</ul>
+<h1 id="找数据"><a href="#找数据" class="headerlink" title="找数据"></a>找数据</h1><ul>
+<li>知网或谷歌学术平台搜索</li>
+<li>国家统计局找</li>
+<li>awesome-public-datasets,github项目</li>
+<li>EPSDATA平台</li>
+</ul>
+<h1 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h1><ul>
+<li>缺失值<ul>
+<li>缺失太多,就删除该指标,如年龄缺失40%</li>
+<li>简单处理:均值,众数插补;定量数据,身高年龄等用均值;定性数据,关于性别,文化程度等,用频次最高的补,适用于对个体精度不高的数据</li>
+<li>Newton插值法:使用于只追求函数值精确而不关心变化的数据,缺点是区间边缘震荡,使用性较强但不适合对求导有需求的题目</li>
+<li>样条插值法:用光滑的曲线去插值,适用于精度要求高,没有突变的数据</li>
+</ul>
+</li>
+<li>异常值<ul>
+<li>去掉明显和替他数值差异很大的值,然后作为缺失值处理</li>
+<li>通过正态分布3α原则判断数据值是否在(u-3α,u+3α)之内,不在则为异常值,适用于整体符合正态分布的数据,其他分布如泊松分布不适用</li>
+<li>画箱型图,从小到大排序,找下四分位数Q1和上四分位数Q2,再求四分位距IQR&#x3D;Q3-Q1,一般设区间[Q1-1.5*IQR,Q3+1.5*IQR]为正常值,普遍使用于所有题目</li>
+</ul>
+</li>
+</ul>
+<h1 id="如何建模"><a href="#如何建模" class="headerlink" title="如何建模"></a>如何建模</h1><ul>
+<li>比赛开始后先查文献,以他人现有成果为基础</li>
+</ul>
+<h2 id="论文结构"><a href="#论文结构" class="headerlink" title="论文结构"></a>论文结构</h2><ul>
+<li>摘要:最重要部分,写明问题研究的问题,用了什么方法,得到什么结果和每一步的大概步骤</li>
+<li>问题重述,不要复制粘贴避免查重</li>
+<li>模型假设和符号说明,好的假设事半功倍,省略不必要的内容,如太阳投影长度跟自转关系大,可省略公转</li>
+<li>模型建立:<ul>
+<li>查资料后用自己的话复述一个简单的模型,然后根据要求再一步步修改,说清楚每个公式和变量的含义</li>
+<li>求解:求解过程可以把资料上的话用自己的话复述,加上图片等</li>
+<li>不同小问:不是每一问都需要一个模型,若区别不大,可以针对每一问进行改进,不需要重新建模</li>
+<li>模型优缺点和改进方法,不必须</li>
+<li>参考文献,注意格式</li>
+<li>附录:把查到的代码重构防止查重</li>
+</ul>
+</li>
+</ul>
+<h1 id="写论文"><a href="#写论文" class="headerlink" title="写论文"></a>写论文</h1><blockquote>
+<p>​	<strong><a href="https://www.bilibili.com/video/BV1Rq4y1S7S8?p=9">论文排版</a></strong></p>
+</blockquote>
+<blockquote>
+<p>​	<strong><a href="https://www.bilibili.com/video/BV1Rq4y1S7S8?p=10">论文标题怎么写</a></strong></p>
+</blockquote>
+<blockquote>
+<p>​	<strong><a href="https://www.bilibili.com/video/BV1Rq4y1S7S8?p=11">摘要怎么写</a></strong></p>
+</blockquote>
+<h1 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h1><h2 id="线性规划"><a href="#线性规划" class="headerlink" title="线性规划"></a>线性规划</h2><p>​	所有变量都是一次方</p>
+<h2 id="非线性规划"><a href="#非线性规划" class="headerlink" title="非线性规划"></a>非线性规划</h2><p>​	至少有一个变量不是一次方,多次方,三角函数等</p>
+<h1 id="多目标规划"><a href="#多目标规划" class="headerlink" title="多目标规划"></a>多目标规划</h1><p>​	题目中不止有一个目标,前面规划问题只有一个目标,比如产量最大,而多目标规划有多个目标,比如尽量使用更多生产设备和产品1产量不超过产品2的产量</p>
+<p>​	要衡量每个目标的完成情况并在主观上区分三个目标的重要性</p>
+<p>​	引入三个概念:正负偏差变量,绝对约束和目标约束,优先因子</p>
+<ul>
+<li>正负偏差变量用于衡量每个目标的完成情况</li>
+</ul>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%A7%84%E5%88%92.png"></p>
+<ul>
+<li>绝对约束和目标约束</li>
+</ul>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%BB%9D%E5%AF%B9%E7%BA%A6%E6%9D%9F%E5%92%8C%E7%9B%AE%E6%A0%87%E7%BA%A6%E6%9D%9F.png"></p>
+<ul>
+<li>优先因子</li>
+</ul>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E4%BC%98%E5%85%88%E5%9B%A0%E5%AD%90.png"></p>
+<p>​	目标函数中的P1,P2,P3即为优先因子,P1越大,则d1+就需要更小才能使P1*d1+ 值不变,即d1+更重要</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308010955892.png"></p>
+<p>​	求解方法:fgoalattain函数,Lingo求解或序贯算法</p>
+<ul>
+<li><strong>当出现使XXX最大&#x2F;最小,同时 “尽量” XXX时,考虑使用多目标规划</strong></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>网络交互</title>
+    <url>/2023/08/12/%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92/</url>
+    <content><![CDATA[<h1 id="1-网络是怎么交互的"><a href="#1-网络是怎么交互的" class="headerlink" title="1.网络是怎么交互的"></a>1.网络是怎么交互的</h1><h2 id="1-2-路由"><a href="#1-2-路由" class="headerlink" title="1.2 路由"></a>1.2 路由</h2><p>​	通过路由来接入服务器,通过配置默认路由或匹配详细路由确定路径\</p>
+<ul>
+<li><p>路由不一定是对称的,来回的路由路径不一定是相同的</p>
+</li>
+<li><p>路由工作在传输层协议</p>
+</li>
+<li><p>路由不更改IP地址,而是更改MAC地址来确定下一跳,找到发包口</p>
+</li>
+<li><p>发包需要指定网卡</p>
+</li>
+</ul>
+<h2 id="1-3ARP协议"><a href="#1-3ARP协议" class="headerlink" title="1.3ARP协议"></a>1.3ARP协议</h2><p>​	通过ARP协议来找到下一跳的MAC</p>
+<ul>
+<li>通过广播并接受响应来确定下一跳的MAC地址,注意只有逻辑同网段才能发送ARP</li>
+<li>ARP请求广播,ARP应答单播</li>
+<li>添加设备时发送一个免费ARP,防止IP冲突</li>
+</ul>
+<h2 id="1-4-IP协议"><a href="#1-4-IP协议" class="headerlink" title="1.4 IP协议"></a>1.4 IP协议</h2><ul>
+<li>IP地址是唯一表示,互联网通用,客户端一个,服务端也只有一个</li>
+<li>IPv4不够用则通过IPv6解决</li>
+</ul>
+<h2 id="1-5-NAT"><a href="#1-5-NAT" class="headerlink" title="1.5 NAT"></a>1.5 NAT</h2><ul>
+<li>内部使用NAT服务器,在内网中再分配地址,客户端通过NAT接入外部网络</li>
+<li>NAT改变 IP地址和端口地址,避免多个内网客户端访问同一个目标地址和端口,而源端口一致导致冲突</li>
+</ul>
+<h1 id="2-网络传输"><a href="#2-网络传输" class="headerlink" title="2. 网络传输"></a>2. 网络传输</h1><h2 id="2-1数据包"><a href="#2-1数据包" class="headerlink" title="2.1数据包"></a>2.1数据包</h2><ul>
+<li>填充完数据包后需要进行封装,按层次封装,解包顺序和封装顺序相反</li>
+</ul>
+<h2 id="2-2-请求DNS"><a href="#2-2-请求DNS" class="headerlink" title="2.2 请求DNS"></a>2.2 请求DNS</h2><ul>
+<li>客户端发送网址的解析请求</li>
+<li>DNS服务器通过递归迭代来解析网址,有根域服务器,顶级域服务器和权威服务器</li>
+</ul>
+<h2 id="2-3-UDP"><a href="#2-3-UDP" class="headerlink" title="2.3 UDP"></a>2.3 UDP</h2><ul>
+<li>UDP本身相对简单</li>
+<li>通过UDP自己实现一个协议较为困难,从根本上来讲要解决怎么保证协议可靠的问题<ul>
+<li>发包每次发多少?怎么避免分片</li>
+<li>怎么知道是否丢包</li>
+<li>怎么权衡传输效率和质量</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-4-TCP"><a href="#2-4-TCP" class="headerlink" title="2.4 TCP"></a>2.4 TCP</h2><ul>
+<li><p>TCP通过三次握手建立连接,三次握手的目标是确定会话双方都可以正确发送和接受信息</p>
+</li>
+<li><p>TCP传输:包括sequence number表示发送方发送的序列号,acknowledge number:是发送方期望接受方下一次发送的sequence number</p>
+</li>
+<li><p>SYN&#x2F;FIN传输不携带数据,但会使packet seq会加1,但ACK传输不会增加packet seq</p>
+</li>
+<li><p>通过seq num和ack num来确定消息被成功接收</p>
+</li>
+<li><p>滑动窗口,流量控制</p>
+</li>
+</ul>
+<h2 id="2-5-HTTP1-1"><a href="#2-5-HTTP1-1" class="headerlink" title="2.5 HTTP1.1"></a>2.5 HTTP1.1</h2><p>​	相对于HTTP&#x2F;1.0使用长连接和管道传输和缓存</p>
+<h2 id="2-6-HTTPS"><a href="#2-6-HTTPS" class="headerlink" title="2.6 HTTPS"></a>2.6 HTTPS</h2><p>HTTPS在HTTP基础上发展而来,通过在HTTP和TCP网络层之间加入<strong>SSL&#x2F;TLS</strong>安全协议,解决了HTTP的三大风险</p>
+<ul>
+<li>信息加密:将信息加密,解决窃听风险;</li>
+<li>校验机制:验证报文是否被篡改,解决篡改风险</li>
+<li>身份证书:验证通信双方身份,解决伪装风险</li>
+</ul>
+<h1 id="3-网络架构如何为抖音提速"><a href="#3-网络架构如何为抖音提速" class="headerlink" title="3.网络架构如何为抖音提速"></a>3.网络架构如何为抖音提速</h1><h2 id="3-1HTTP2-0"><a href="#3-1HTTP2-0" class="headerlink" title="3.1HTTP2.0"></a>3.1HTTP2.0</h2><p>​	通过HTTP2.0来为服务提速,HTTP2.0使用多路复用来提高效率</p>
+<ul>
+<li>在同一个TCP连接通道中存在多个stream,以串行的形式复用,从外表来看是并发请求资源</li>
+<li>存在TCP队头阻塞问题</li>
+</ul>
+<h2 id="3-2-QUIC-x2F-HTTP3-0"><a href="#3-2-QUIC-x2F-HTTP3-0" class="headerlink" title="3.2 QUIC&#x2F;HTTP3.0"></a>3.2 QUIC&#x2F;HTTP3.0</h2><p>​	HTTP&#x2F;3.0将HTTP下层协议从<strong>TCP协议改为UDP协议</strong>,通过基于UDP的QUIC协议也可以实现类似TCP的可靠性传输</p>
+<ul>
+<li><p>解决了TCP队头阻塞的问题</p>
+</li>
+<li><p>具有弱网优势,因为弱网环境丢包率高</p>
+</li>
+</ul>
+<h2 id="3-3数据中心分布"><a href="#3-3数据中心分布" class="headerlink" title="3.3数据中心分布"></a>3.3数据中心分布</h2><p>​	数据分布在核心机房和边缘机房中</p>
+<h2 id="3-4-动态API"><a href="#3-4-动态API" class="headerlink" title="3.4 动态API"></a>3.4 动态API</h2><p>​	通过动态API进行路径优化(DSA)</p>
+<h1 id="4-网络架构如何为抖音提质"><a href="#4-网络架构如何为抖音提质" class="headerlink" title="4.网络架构如何为抖音提质"></a>4.网络架构如何为抖音提质</h1><h2 id="4-1-容灾"><a href="#4-1-容灾" class="headerlink" title="4.1 容灾"></a>4.1 容灾</h2><p>​	容灾包括故障发生,故障感知,自动切换和服务恢复</p>
+<ul>
+<li><p>专线容灾,在两个机房之间通过专线连接进行容灾</p>
+</li>
+<li><p>外网容灾,通过互联网连接两个机房</p>
+</li>
+<li><p>全局容灾,在解析时若发现某个机房不可用,就自动排除该机房,感知故障后,在确定另一个机房可以承担负载后,将请求自动解析到另一个机房中</p>
+</li>
+<li><p>主动降级容灾,预装SDK,若发生故障实现降级容灾,避免客户端访问故障机房.若场景无法嵌入SDK,就无法使用这种容灾</p>
+</li>
+</ul>
+<h2 id="4-2故障排查"><a href="#4-2故障排查" class="headerlink" title="4.2故障排查"></a>4.2故障排查</h2><p>​	出现了容灾系统无法解决的故障,就要排查故障并处理,步骤分为:故障明确,故障止损和分段排查</p>
+<h3 id="4-2-1-故障明确"><a href="#4-2-1-故障明确" class="headerlink" title="4.2.1 故障明确"></a>4.2.1 故障明确</h3><ul>
+<li>出现什么故障,什么业务故障,什么接口故障等</li>
+<li>故障体现在哪里</li>
+<li>是否是修改导致的故障</li>
+</ul>
+<h3 id="4-2-2-故障止损"><a href="#4-2-2-故障止损" class="headerlink" title="4.2.2 故障止损"></a>4.2.2 故障止损</h3><ul>
+<li>先止损再排查</li>
+<li>有容灾就通过容灾止损,没有容灾就进行降级</li>
+</ul>
+<h3 id="4-2-3-分段排除"><a href="#4-2-3-分段排除" class="headerlink" title="4.2.3 分段排除"></a>4.2.3 分段排除</h3><ul>
+<li>客户端排查</li>
+<li>服务端排查</li>
+<li>中间链路排查</li>
+</ul>
+]]></content>
+      <categories>
+        <category>青训营</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>计网1</title>
+    <url>/2023/07/10/%E8%AE%A1%E7%BD%911/</url>
+    <content><![CDATA[<h1 id="1-1什么是Internet"><a href="#1-1什么是Internet" class="headerlink" title="1.1什么是Internet"></a>1.1什么是Internet</h1><ul>
+<li><p>PDU:协议数据单元 </p>
+</li>
+<li><p>协议规范: 语法,语义,时序,动作</p>
+</li>
+</ul>
+<h1 id="1-2网络边缘"><a href="#1-2网络边缘" class="headerlink" title="1.2网络边缘"></a>1.2网络边缘</h1><ul>
+<li><p>网络边缘:主机,应用程序等       </p>
+</li>
+<li><p>网络核心:路由器,网络的网络等,作用是:<strong>数据交换的作用</strong>,使数据能被正确发送和接受</p>
+</li>
+</ul>
+<p>​	客户端服务器模式(C&#x2F;S模型),缺点是服务器宕机时损失较大,可拓展性比较差,当请求达到一定阈值时效率断崖式下降</p>
+<p>​	对等模式(peer to peeer),很少或者没用专门的服务器,每个节点既是客户端又是服务器,可拓展性较好</p>
+<h2 id="TCP服务"><a href="#TCP服务" class="headerlink" title="TCP服务"></a>TCP服务</h2><p>TCP下层传输提供的服务是不可靠的,TCP通过自身使其对上层提供的服务是可靠的</p>
+<ul>
+<li>可靠地,按顺序地传输数据<ul>
+<li>确认接受到的数据,数据损坏时重传,不错不丢不重复不失序</li>
+</ul>
+</li>
+<li>流量控制<ul>
+<li>控制发送数据的速度,协调发送方和接受方的速度</li>
+</ul>
+</li>
+<li>拥塞控制<ul>
+<li>网络拥塞时降低发送速度</li>
+</ul>
+</li>
+</ul>
+<h1 id="1-3网络核心"><a href="#1-3网络核心" class="headerlink" title="1.3网络核心"></a>1.3网络核心</h1><h2 id="1-线-电-路交换"><a href="#1-线-电-路交换" class="headerlink" title="1.线(电)路交换"></a>1.线(电)路交换</h2><ul>
+<li>线路交换独享资源,独占一条线路,建立连接后可以保证性能,但若没有数据发送,就会浪费改线路资源</li>
+<li>常用于传统电话等</li>
+<li>不适合在计算机之间通信,因为计算机通信具有很强的突发性</li>
+</ul>
+<p>线路交换的每一条线路是通过分割带宽实现的,分割方式有 频分,时分,波分(光通信)</p>
+<ul>
+<li>频分(FDM)是分配线路中的可通信频率,信号的不同频率分为不同的线路</li>
+<li>时分(TDM)是分配时间片,将一个周期分割,每一部分代表一个线路</li>
+<li>波分(WDM)分割波段,,每个线路使用一个小波段,在光通信时使用</li>
+</ul>
+<h3 id="计算传输时间"><a href="#计算传输时间" class="headerlink" title="计算传输时间"></a>计算传输时间</h3><p>T&#x3D;建立连接所需时间+发送时间(文件大小&#x2F;带宽)+传播延时(物理信号在线路中传输时间,距离较小时可忽略)</p>
+<p>一个bit在传输中持续的时间&#x3D; 发送时间(1bit&#x2F;带宽)+传输延时(距离&#x2F;光速)</p>
+<h2 id="2-分组交换"><a href="#2-分组交换" class="headerlink" title="2.分组交换"></a>2.分组交换</h2><ul>
+<li>线路资源共享,按需使用,一旦使用就使用全部带宽</li>
+<li>以分组为单位进行存储-转发方式,到达一个节点后线先存储到该节点后再发送到下一个节点,最终传送到目标主机</li>
+<li>若不使用存储转发,那么会占用主机到目标主机之间的全部线路,造成浪费,使用存储-转发方式,则只占用两个节点间的线路</li>
+</ul>
+<h3 id="计算传输时间-1"><a href="#计算传输时间-1" class="headerlink" title="计算传输时间"></a>计算传输时间</h3><p>假设带宽为R bps,分组大小为L bits,主机之间有n个节点</p>
+<p>T&#x3D;(n+1)*(L&#x2F;R)…….n个节点需要n+1次存储转发,存储时间和转发时间只用计算一次,因为发送和接收是同时进行的</p>
+<h3 id="排队延迟和丢失"><a href="#排队延迟和丢失" class="headerlink" title="排队延迟和丢失"></a>排队延迟和丢失</h3><p>若到达速率大于链路的输出速率,分组将排队等待传输,若路由器(节点)缓存已慢,则后续分组后被抛弃</p>
+<h3 id="网络核心关键功能"><a href="#网络核心关键功能" class="headerlink" title="网络核心关键功能"></a>网络核心关键功能</h3><ul>
+<li>路由:决定分组采用的原到目标的路径(路由算法)，路由表会不断变化，导致路径也发生变化</li>
+<li>转发:将分组从路由器的输入链路转移到输出链路</li>
+</ul>
+<p>​	分组交换使用统计多路复用,划分时间片没有固定的模式,根据实际情况进行划分,与时分复用的区别是时分使用固定的划分方式</p>
+<h3 id="数据报（datagram）和虚电路（virtual-circuit）"><a href="#数据报（datagram）和虚电路（virtual-circuit）" class="headerlink" title="数据报（datagram）和虚电路（virtual circuit）"></a>数据报（datagram）和虚电路（virtual circuit）</h3><p>数据报：</p>
+<ul>
+<li>在通信前无需建立连接，有数据就传输</li>
+<li>每一个分组都独立路由，若路径不一样，可能失序</li>
+<li>路由器根据分组的目标地址进行路由，路由不维护主机间的通信</li>
+</ul>
+<p>虚电路：</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E8%99%9A%E7%94%B5%E8%B7%AF.png"></p>
+<ul>
+<li><p>通过查虚电路表确定路径，两个主机在通信前需要建立虚电路，确定虚电路表项，虚电路号也可能变化</p>
+</li>
+<li><p>虚电路需要维护两主机间的连接</p>
+</li>
+</ul>
+<h1 id="1-4接入网和物理媒体"><a href="#1-4接入网和物理媒体" class="headerlink" title="1.4接入网和物理媒体"></a>1.4接入网和物理媒体</h1><ul>
+<li>接入方式:<ul>
+<li>住宅接入网络: modem调制解调器,DSL,ADSL,线缆网络(FDM,共享带宽)</li>
+<li>单位接入网络(学习,公司等)</li>
+<li>无线接入网</li>
+</ul>
+</li>
+</ul>
+<h1 id="1-5Internet结构和ISP"><a href="#1-5Internet结构和ISP" class="headerlink" title="1.5Internet结构和ISP"></a>1.5Internet结构和ISP</h1><ul>
+<li><p>设备通过接入ISP接入互联网,接入ISP都是互联的</p>
+</li>
+<li><p>每个接入ISP都连接到全局ISP,不同运营商有不同的全局ISP,不同的全局ISP再连接到一起,形成网络的网络</p>
+</li>
+</ul>
+<h2 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构:"></a>网络结构:</h2><ul>
+<li><p>中心:第一层ISP,国家或国际覆盖,速率极高,与其他一层ISP对等连接或通过IXP相连,与大量第二层ISP和其他客户网络不对等连接</p>
+</li>
+<li><p>中心通过多层下级ISP连接到Local ISP到达客户</p>
+</li>
+</ul>
+<h2 id="ISP连接方式"><a href="#ISP连接方式" class="headerlink" title="ISP连接方式:"></a>ISP连接方式:</h2><ul>
+<li>POP: 高层ISP面向客户网络的接入点,非对等连接,涉及费用结算.一个低层ISP可接入多个高层ISP</li>
+<li>对等接入: ISP对等连接,不涉及费用结算</li>
+<li>IXP:多个对等ISP的互联互通处,对等连接,通常不涉及费用结算</li>
+<li>ICP专网,同时和各级ISP连接</li>
+</ul>
+<h1 id="1-6分组延迟-丢失和吞吐量"><a href="#1-6分组延迟-丢失和吞吐量" class="headerlink" title="1.6分组延迟,丢失和吞吐量"></a>1.6分组延迟,丢失和吞吐量</h1><ul>
+<li>分组丢失:分组到达速率超过链路输出能力,节点已满,后续到达的节点被丢弃</li>
+<li>分组延迟:在节点中等待被发送的时间,排队</li>
+</ul>
+<h2 id="四种延迟"><a href="#四种延迟" class="headerlink" title="四种延迟"></a>四种延迟</h2><ol>
+<li><p>处理延迟:检查是否出错(bit级差错),以及根据数据头部决定数据发送的路径</p>
+</li>
+<li><p>排队延迟:到达节点到从节点发送的延迟</p>
+<ul>
+<li>流量强度I&#x3D;La&#x2F;R (R:带宽,L:分组的大小,a:单位时间内要通过链路的分组数量)</li>
+</ul>
+</li>
+<li><p>传输延迟:将分组发送到链路上的时间,由带宽和分组大小决定</p>
+</li>
+<li><p>传播延迟:物理信号在链路中的传播时间,由链路长度和传播速度决定</p>
+</li>
+</ol>
+<p>每一跳的总时间&#x3D;处理延迟+排队延迟+传输延迟+传播延迟</p>
+<h2 id="延迟检测"><a href="#延迟检测" class="headerlink" title="延迟检测"></a>延迟检测</h2><ul>
+<li>每个分组有TTL(time to leave)存活时间,每到一个节点减一,减为0时抛弃并向主机发送ICMP控制报文</li>
+<li>检测延迟时,将TTL设为1可以检测第一个节点的延迟,设为2可以检测第二个等等,就可以得到往返延迟\</li>
+<li>如何判断结束检测:检测次数足够大使可以到达目标主机,设置特殊的端口,到达对方主机时,发送ICMP报文,报告端口被占用无法接受数据,即目标端口不可达,就可以判断检测结束</li>
+</ul>
+<h1 id="1-7协议层次和服务模型"><a href="#1-7协议层次和服务模型" class="headerlink" title="1.7协议层次和服务模型"></a>1.7协议层次和服务模型</h1><p>​	层次化模型,每一层提供多个服务,通过层间接口向上层提供服务</p>
+<ul>
+<li>服务:低层实体向上层实体提供它们之间通信的能力</li>
+<li>原语:上层使用下层服务的形式,高层使用下层的服务,低层向上层提供服务都通过服务访问原语进行交互</li>
+<li>服务访问点SAP:下层实体支撑上层多个实体,SAP用于区分不同的上层实体</li>
+</ul>
+<h2 id="数据单元DU"><a href="#数据单元DU" class="headerlink" title="数据单元DU"></a>数据单元DU</h2><p>上层发送SDU(服务数据单元),通过SAP到达本层,把SDU加上本层的头部,形成本层PDU(协议数据单元)</p>
+<p>若SDU较大,则将SDU分解成为小部分,各自加上本层的头部,形成本层PDU</p>
+<p>若SDU较小,将多个SDU合并,加上本层头部,形成本次PDU</p>
+<h2 id="分层处理的好处"><a href="#分层处理的好处" class="headerlink" title="分层处理的好处"></a>分层处理的好处</h2><ul>
+<li>分而治之,结构清晰,大问题分解为小问题,便于独立设计和解决</li>
+<li>保持接口不变,每一层可以在不影响其他层的情况下进行升级或改变</li>
+</ul>
+<p>问题:</p>
+<ul>
+<li>分层后,子系统间需要交换信息,效率会降低</li>
+</ul>
+<h2 id="层次"><a href="#层次" class="headerlink" title="层次"></a>层次</h2><ul>
+<li>物理层: 单位 bit ,将数据转换为物理信号或反转,发送和接收</li>
+<li>链路层: 基于物理层提供的服务,传输以 frame 帧为单位的数据,将bit组合成帧,<strong>在相邻两点间传输</strong>,</li>
+<li>网络层: 基于链路层提供的服务,以 分组 为单位提供源主机和目标主机的<strong>端到端</strong>(非相连)之间的传输,IP协议</li>
+<li>传输层:基于网络层,把数据进行<strong>进程间的区分</strong>,把网络层不可靠的服务通过TCP向上层提供可靠的服务(或其他协议如UDP)</li>
+<li>应用层:基于传输层,实现网络应用,如FTP,HTTP等</li>
+</ul>
+<h2 id="ISO-x2F-OSI参考模型"><a href="#ISO-x2F-OSI参考模型" class="headerlink" title="ISO&#x2F;OSI参考模型"></a>ISO&#x2F;OSI参考模型</h2><ul>
+<li>相对于上述层次,在应用层和传输层之间增加了表示层和会话层</li>
+<li>互联网协议栈没有这两层,若需要则通过应用自身实现</li>
+</ul>
+<h2 id="封装和解封装"><a href="#封装和解封装" class="headerlink" title="封装和解封装"></a>封装和解封装</h2><p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E5%B0%81%E8%A3%85.png"></p>
+<ul>
+<li>网络接口层指连接链路层</li>
+<li>数据从应用经过每一层时,都添加该层的头部,标志各自的信息,进行封装</li>
+<li>解封装时根据头部的信息,将数据分配给响应的目标</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>计网2</title>
+    <url>/2023/07/14/%E8%AE%A1%E7%BD%912/</url>
+    <content><![CDATA[<h1 id="2-1-应用原理"><a href="#2-1-应用原理" class="headerlink" title="2.1 应用原理"></a>2.1 应用原理</h1><p>可能的应用架构:</p>
+<ul>
+<li>C&#x2F;S模式<ul>
+<li>可拓展性差</li>
+</ul>
+</li>
+<li>对等模式(p2p) 在该架构中也有客户端和服务器之分,但可以既作为客户端又作为服务器<ul>
+<li>管理困难</li>
+</ul>
+</li>
+<li>混合模式</li>
+</ul>
+<p>用户连接到服务器时,在服务器注册自己的IP来标识自身</p>
+<h2 id="分布式通信"><a href="#分布式通信" class="headerlink" title="分布式通信"></a>分布式通信</h2><h3 id="进程标识和寻址问题"><a href="#进程标识和寻址问题" class="headerlink" title="进程标识和寻址问题"></a>进程标识和寻址问题</h3><ul>
+<li><p>标识应唯一来标识自己,且包含地址信息</p>
+</li>
+<li><p>需要: 主机IP,协议UDP&#x2F;TCP,端口port;进程之间可以通过两个端节点标识</p>
+</li>
+</ul>
+<h3 id="传输层-应用层的服务提供"><a href="#传输层-应用层的服务提供" class="headerlink" title="传输层-应用层的服务提供"></a>传输层-应用层的服务提供</h3><ul>
+<li>(地点)通过层间SAP(TCP&#x2F;IP:socket),(形式)调用应用程序接口API(TCP&#x2F;IP: socket API),来调用下层提供的服务</li>
+<li>层间接口需要携带:<ul>
+<li>1.要传输的报文SDU;2.来源:源进程的IP+TCP&#x2F;UDP和端口;3.目标:对方的IP+TCP&#x2F;UDP和端口</li>
+</ul>
+</li>
+<li>传输层实体根据层间接口的信息对数据进行封装,数据+头部</li>
+<li>若每次都传输上述数据,对于频繁进行数据交换的进程会造成数据冗余(不必要的收发方标识),使用Socket来解决该问题,建立TCP socket,使进程间通信持续一段时间,数据穿过层间接口时只需标识IP和TCP端口,使穿过层间接口的信息量最小,代表是本地四元组标识(源IP,源port,目标IP,目标port),不必在每一个报文发送时都指导该四元组</li>
+<li>UDP socket,不需要建立连接,因此只用一个整数表示本应用实体的表示,但传输报文时需提供对方IP和port,传输时需要三个信息:报文,UDP socket,对方IP和port</li>
+<li>UDP使用二元组(IP,port)表示,只用标志目标,不需要表示自身</li>
+</ul>
+<h3 id="如何使用下层服务-实现进程之间交换报文"><a href="#如何使用下层服务-实现进程之间交换报文" class="headerlink" title="如何使用下层服务,实现进程之间交换报文"></a>如何使用下层服务,实现进程之间交换报文</h3><p>​	定义应用层协议:报文格式,解释,时序等,编制程序使用OS提供的API调用下层服务,定义了在不同端系统上的应用进程如何交换报文</p>
+<h3 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h3><ul>
+<li>数据丢失率</li>
+<li>延迟</li>
+<li>吞吐</li>
+<li>安全性</li>
+</ul>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><ol>
+<li>可靠的传输服务;</li>
+<li>流量控制;</li>
+<li>拥塞控制;</li>
+<li>面向连接;</li>
+</ol>
+<p>但不能提供时间保证,最小吞吐保证和安全</p>
+<h3 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h3><ol>
+<li>不可靠数据传输服务</li>
+<li>不提供:流量控制,拥塞控制,时间,带宽保证,连接</li>
+<li>UDP速度快,延迟低,IP也不提供上述服务,但只能区分主机到主机,不能区分进程</li>
+</ol>
+<p>TCP和UDP都不进行加密,通过明文传输,SSL在TCP上实现,提供加密TCP连接,保证安全性,完整性检测,端到端鉴别</p>
+<h1 id="2-2-Web-and-HTTP"><a href="#2-2-Web-and-HTTP" class="headerlink" title="2.2 Web and HTTP"></a>2.2 Web and HTTP</h1><h2 id="URL-通用资源定位符-唯一标识"><a href="#URL-通用资源定位符-唯一标识" class="headerlink" title="URL:通用资源定位符,唯一标识"></a>URL:通用资源定位符,唯一标识</h2><p>格式:协议名+用户+口令+主机名+路径名+端口号</p>
+<p>协议确定是用http还是ftp等协议,匿名访问可以省略用户名和口令,协议有默认端口号,非特殊情况不需要指定</p>
+<h2 id="HTTP-超文本传输协议"><a href="#HTTP-超文本传输协议" class="headerlink" title="HTTP:超文本传输协议"></a>HTTP:超文本传输协议</h2><ul>
+<li>Web应用层协议</li>
+<li>采用C&#x2F;S模型</li>
+</ul>
+<h2 id="往返时间RTT"><a href="#往返时间RTT" class="headerlink" title="往返时间RTT"></a>往返时间RTT</h2><p>一个小的分组从客户端到服务器再回到客户端的时间(忽略传输时间)</p>
+<p>一个RTT用来发起TCP连接,再有一个RTT用来HTTP请求并等待HTTP响应</p>
+<p>总的文件传输时间: 2个RTT加上传输时间</p>
+<h2 id="流水线"><a href="#流水线" class="headerlink" title="流水线"></a>流水线</h2><p>若有10个URL,非流水线处理为发出一个请求,收到响应后再发送下一个请求</p>
+<p>而流水线形式为所有URL都发送,不需要等待前一个返回再进行下一个</p>
+<h2 id="提交表单的形式"><a href="#提交表单的形式" class="headerlink" title="提交表单的形式"></a>提交表单的形式</h2><ul>
+<li>post方式,网页通常包括表单输入,包含在实体主体中的输入被提交到服务器</li>
+<li>URL方式,通过GET方法获取</li>
+</ul>
+<p>还有HEAD,PUT,DELETE等,不同HTTP版本也有区别</p>
+<h2 id="Web缓存"><a href="#Web缓存" class="headerlink" title="Web缓存"></a>Web缓存</h2><p>​	不访问原始服务器就满足需求,加快速度,减少服务器负担,28原理,80%的人访问20%的资源,将这些资源缓存,可以提高效率.缓存对于原始服务器是客户端,而对于用户则作为服务器</p>
+<p>​	缓存示例:</p>
+<p>​                                                  	<img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%BC%93%E5%AD%98%E7%A4%BA%E4%BE%8B.png"></p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%BC%93%E5%AD%98%E7%A4%BA%E4%BE%8B3.png"></p>
+<p>增大带宽以减少排队等待时间,但费用增加</p>
+<p>具体讲解:P14 1:11:0</p>
+<h1 id="2-5-DNS"><a href="#2-5-DNS" class="headerlink" title="2.5 DNS"></a>2.5 DNS</h1><p>​	域名解析系统,最重要的功能是将提供的域名(或别名)解析为IP地址,运行在UDP协议的53号端口上,解析时,从顶到下开始,从根名字服务器到顶级域服务器再向下,直至IP地址</p>
+<h2 id="层次化"><a href="#层次化" class="headerlink" title="层次化"></a>层次化</h2><ul>
+<li><p>通过层次化命名,解决重名问题,NDS采用层次树状结构命名</p>
+</li>
+<li><p>将Internet分为几百个顶级域,顶级域分为通用的(.com;.edu)和国家的(.cn .us)</p>
+</li>
+<li><p>每个域下再化为多个子域</p>
+</li>
+<li><p>叶子节点是主机</p>
+</li>
+</ul>
+<p>​	一个域管理其下的子域,域与物理网络无关,域的划分是逻辑上的而不是物理上的</p>
+<h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>​	问题:可靠性问题(单点故障),扩展性问题(通信容量),维护问题</p>
+<p>​	TLD服务器(顶级域服务器),负责顶级域名和所有国家级顶级域名,如Network solutions公司维护 com TLD服务器</p>
+<p>​	服务器通过资源记录维护:域名-IP地址的映射关系,位置在服务器的分布式数据库中,格式为RR格式,包括以下字段:</p>
+<ul>
+<li>Class:资源类型,对应Internet,值为IN,即DNS不止处理互联网内容</li>
+<li>TTL:资源生存时间(对于自身的资源,TTL为无限大,而对于从其他服务器获取的资源,则TTL是一个有限值,即作为缓存的生存时间), </li>
+<li>Domain_name: 存储域名到IP地址的映射关系 </li>
+<li>Value:值</li>
+<li>Type:记录资源类别,值有 A,CNAME,NS,MX</li>
+</ul>
+<p>​	解析大致过程:本地调用解析器,解析器向名称服务器发送请求(已预先配置好名称服务器的地址),服务器返回响应信息.若local server没有缓存信息,从下往上走到有信息的服务器(最高到根DNS服务器),再从有信息的服务器向下查询,最后返回结果.</p>
+<p>​	DNS查询和响应报文给格式相同</p>
+<h1 id="2-6-P2P"><a href="#2-6-P2P" class="headerlink" title="2.6 P2P"></a>2.6 P2P</h1><p>​	C&#x2F;S模式中,下载时间受服务器上载时间和客户端下载时间限制,总下载时间为两者中的最大值,由于服务器上载带宽有限,随着请求增多,效率会快速下降 </p>
+<p>​	P2P中随着请求增加,Peer节点数也会增加,下载时间的增加非常缓慢,效率大于C&#x2F;S模式,高度动态,难以管理</p>
+<h2 id="管理模式"><a href="#管理模式" class="headerlink" title="管理模式"></a>管理模式</h2><h3 id="非结构化P2P"><a href="#非结构化P2P" class="headerlink" title="非结构化P2P"></a>非结构化P2P</h3><ul>
+<li>相互通信间的peer节点间构成覆盖网,两个节点间形成一条边,是逻辑上的,非物理的,节点间的关系是任意的</li>
+<li>集中化目录:目录服务器中存储集中化目录,通过查询集中化目录建立连接,节点上线或下线时需要向服务器报告,并说明自身存储的资源,存在单点故障问题</li>
+<li>完全分布式:没有某个节点维护其他节点信息,没有中心服务器;泛洪查询:查询时,先查询自身邻居,邻居再向邻居的邻居查询,有资源的节点应答,通过设置TTL限制查询距离</li>
+<li>混合式:peer间划分为组,组长之间对等,组员向组长发出查询,若组内有,则从组内获取,若组内没有,则组长向其他组长发出查询,组长通过哈希值来唯一标识文件</li>
+<li>BitTorrent:请求过多时,不是先来后到来分配,而是每个周期评估每个节点对自身的贡献(即该节点向自己提供过资源),先疏通贡献高的节点,再向后改为随机选择节点</li>
+</ul>
+<h3 id="结构化P2P"><a href="#结构化P2P" class="headerlink" title="结构化P2P"></a>结构化P2P</h3><ul>
+<li>节点之间不是任意的,维护的是树状,环状等结构,对每个节点唯一标识,通过节点间的关于可以快速查询</li>
+<li>了解即可</li>
+</ul>
+<h1 id="2-7-CDN"><a href="#2-7-CDN" class="headerlink" title="2.7 CDN"></a>2.7 CDN</h1><p>​	如何向大量用户提供互联网杀手级业务(带宽占用大,如视频业务等),如何满足异构性(不同的用户的能力不同,如有线网无线网,设备处理能力等)</p>
+<ul>
+<li>压缩</li>
+<li>流化技术</li>
+</ul>
+<p>​	靠单一服务器提升带宽无法解决该问题,有距离远,单点故障,流量浪费(重复资源)</p>
+<p>​	通过CDN实现,全网部署缓存节点,预先缓存,为用户就近提供服务,可以将CDN服务器深入部署到接入网(local isp内部),数量多接近用户但管理困难,另一种是部署在少数(10个左右)关键位置,如距离数据中心机房距离近(距离1st ISP距离近),也可以提供较好的服务</p>
+<p>​	OTT挑战:在拥塞的互联网上复制内容,从哪个CDN节点获取,CDN中存储了什么内容,用户会做出什么请求</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>计网:传输层</title>
+    <url>/2023/07/24/%E8%AE%A1%E7%BD%91%E4%BC%A0%E8%BE%93%E5%B1%82/</url>
+    <content><![CDATA[<h1 id="1-多路复用"><a href="#1-多路复用" class="headerlink" title="1.多路复用"></a>1.多路复用</h1><ul>
+<li>TCP 报文通过携带 源IP,源Port,目标IP和目标Port,TCP使用4元组的形式发送信息,实现复用和解复用</li>
+<li>UDP 报文通过一个cad,指向目标端口和IP等信息,自身端口和IP存储在socket中</li>
+<li>UDP复用:即使报文的源IP和端口不同,都会被发送到目标IP和端口,无连接</li>
+<li>发送方多路复用:从多个套接字接收来自多个进程的报文,根据套接字对应的IP地址和端口号对报文进行封装</li>
+<li>接收方解复用:根据报文头部信息的IP地址和端口号将报文段发送给正确的套接字和对应的进程</li>
+</ul>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>UDP的好处:</p>
+<ul>
+<li>不建立连接,延迟低</li>
+<li>简单</li>
+<li>报文段头部很小,减少开支</li>
+<li>无拥塞控制和流量控制,可以尽可能快地发送报文</li>
+</ul>
+<p>​	UDP校验和,检测差错,发送方将报文段内容视作16bit整数,校验和为报文段的加法和(1的补运算),发送方将校验和放在UDP的校验和字段,接收方计算并比较校验和,不一致则出现差错,但一致也可能出现差错,如残存错误</p>
+<p>​	检验和时,若有进位,则进位回滚,校验和是两个16bit整数相加,进位回滚后的反码</p>
+<h1 id="2-可靠数据传输-rdt-原理"><a href="#2-可靠数据传输-rdt-原理" class="headerlink" title="2.可靠数据传输(rdt)原理"></a>2.可靠数据传输(rdt)原理</h1>]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>青训营HTTP</title>
+    <url>/2023/08/01/%E9%9D%92%E8%AE%AD%E8%90%A5HTTP/</url>
+    <content><![CDATA[<h1 id="HTTP介绍"><a href="#HTTP介绍" class="headerlink" title="HTTP介绍"></a>HTTP介绍</h1><p>​	HTTP即超文本传输协议(Hypertext Transfer Protocol)马,超链接,图片,视频等都属于超文本##</p>
+<h2 id="为什么需要协议"><a href="#为什么需要协议" class="headerlink" title="为什么需要协议"></a>为什么需要协议</h2><ul>
+<li>需要明确的边界,信息的开始和结束</li>
+<li>能够携带信息,包括什么信息,信息的类型等</li>
+</ul>
+<h2 id="协议里有什么"><a href="#协议里有什么" class="headerlink" title="协议里有什么"></a>协议里有什么</h2><ul>
+<li><p>请求行&#x2F;状态行</p>
+<ul>
+<li>请求行包括方法名(GET,POST等),URL和协议版本</li>
+<li>状态行包括协议版本,状态码,状态码描述等</li>
+</ul>
+</li>
+<li><p>请求头&#x2F;相应头</p>
+</li>
+<li><p>请求体&#x2F;相应体</p>
+</li>
+</ul>
+<h2 id="请求流程"><a href="#请求流程" class="headerlink" title="请求流程"></a>请求流程</h2><p>​	客户端业务层-&gt;中间件层-&gt;协议编码解码层-&gt;传输层-&gt;服务器传输层</p>
+<p>​	服务器传输层-&gt;编码解码层-&gt;路由层-&gt;中间件层-&gt;服务器业务层-&gt;</p>
+<h2 id="HTTP的演化"><a href="#HTTP的演化" class="headerlink" title="HTTP的演化"></a>HTTP的演化</h2><h3 id="HTTP-x2F-1-1"><a href="#HTTP-x2F-1-1" class="headerlink" title="HTTP&#x2F;1.1"></a>HTTP&#x2F;1.1</h3><p>​	相对于HTTP&#x2F;1.0使用长连接和管道传输</p>
+<p>​	存在的性能瓶颈:</p>
+<ul>
+<li>头部不压缩,只压缩Body,首部信息越大延迟越大</li>
+<li>发送重复的头部信息浪费大</li>
+<li>存在响应的队头阻塞</li>
+<li>没有请求优先级</li>
+<li>请求只能由客户端发出,服务器只能被动响应</li>
+</ul>
+<h3 id="HTTP-x2F-2-0"><a href="#HTTP-x2F-2-0" class="headerlink" title="HTTP&#x2F;2.0"></a>HTTP&#x2F;2.0</h3><p>HTTP&#x2F;2.0基于HTTPS</p>
+<h4 id="相对于HTTP-x2F-1-1"><a href="#相对于HTTP-x2F-1-1" class="headerlink" title="相对于HTTP&#x2F;1.1"></a>相对于HTTP&#x2F;1.1</h4><ul>
+<li><p>头部压缩</p>
+</li>
+<li><p>二进制格式</p>
+</li>
+<li><p>并发传输</p>
+</li>
+<li><p>服务器可主动推送资源</p>
+</li>
+</ul>
+<p>​	服务器和客户端都可建立Stream,服务器的Stream ID必须是偶数,客户端必须是奇数;若客户端请求一个HTML文件,但需要CSS文件来渲染,使用HTTP&#x2F;2.0就不需要再发送一次请求获取CSS,服务器主动发送CSS文件,提高效率</p>
+<h4 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h4><p>​	HTTP&#x2F;2.0解决了HTTP&#x2F;1.1的响应队头阻塞,解决了HTTP层的队头阻塞问题,但仍存在队头阻塞问题;由于HTTP&#x2F;2.0基于TCP协议,TCP必须保证接受到的字节数据完整且连续,若存在字节缺失,则后面收到的信息全部阻塞到缓冲区中,直到重新发送该缺失字节</p>
+<p>​	所以一旦丢包,就会触发TCP重传,在<strong>一个TCP连接中的所有HTTP请求都必须等待该包被重传</strong></p>
+<h2 id="HTTP-x2F-3-0"><a href="#HTTP-x2F-3-0" class="headerlink" title="HTTP&#x2F;3.0"></a>HTTP&#x2F;3.0</h2><p>​	HTTP&#x2F;3.0将HTTP下层协议从<strong>TCP协议改为UDP协议</strong>,通过基于UDP的QUIC协议也可以实现类似TCP的可靠性传输</p>
+<p>​	QUIC有以下三个特点:</p>
+<ul>
+<li><p>无队头阻塞</p>
+</li>
+<li><p>更快建立连接</p>
+</li>
+<li><p>连接迁移</p>
+</li>
+</ul>
+<h1 id="HTTP框架的设计与实现"><a href="#HTTP框架的设计与实现" class="headerlink" title="HTTP框架的设计与实现"></a>HTTP框架的设计与实现</h1><h2 id="分层设计"><a href="#分层设计" class="headerlink" title="分层设计"></a>分层设计</h2><p>​	HTTP协议专注于OSI七层网络的第四层往上,应用层,表示层和会话层,即TCP&#x2F;IP四层概念模型的应用层</p>
+<p>​	分层设计:高内聚,低耦合,易复用和高拓展性</p>
+<p>​	一个切实可行的复杂系统势必是从一个切实可行的简单系统发展而来的。从头开始设计的复杂系统根本不切实可行，无法修修补补让它切实可行。你必须由一个切实可行的简单系统重新开始。</p>
+<h2 id="应用层设计"><a href="#应用层设计" class="headerlink" title="应用层设计"></a>应用层设计</h2><ul>
+<li>提供合理的API<ul>
+<li>可理解性:使用ctx.Body(),不要用ctx.BodyA(),A意义不明</li>
+<li>简单性</li>
+<li>冗余性</li>
+<li>兼容性</li>
+<li>可测性</li>
+<li>可见性</li>
+</ul>
+</li>
+</ul>
+<h2 id="中间件设计"><a href="#中间件设计" class="headerlink" title="中间件设计"></a>中间件设计</h2><h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><ul>
+<li>配合 Handler实现一个完整的请求处理生命周期</li>
+<li>拥有预处理逻辑与后处理逻辑</li>
+<li>可以注册多中间件</li>
+<li>对上层模块用户逻辑模块易用</li>
+</ul>
+<h3 id="洋葱模型"><a href="#洋葱模型" class="headerlink" title="洋葱模型"></a>洋葱模型</h3><p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308011459349.png"></p>
+<ul>
+<li>中间件类似调用函数</li>
+<li>用户不主动调用下一个处理函数则自动调用,帮助index递增</li>
+<li>令index为最大值就可以中值调用</li>
+</ul>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308011503930.png"></p>
+<ul>
+<li>若不在一个调用链上,需要手动调用Next</li>
+</ul>
+<h2 id="路由设计"><a href="#路由设计" class="headerlink" title="路由设计"></a>路由设计</h2><p>​	框架路径实际上就是为URL匹配相应的处理函数,比如静态路由,参数路由,匹配HTTP方法等.</p>
+<ul>
+<li>用map实现路由,只适用于静态路由</li>
+<li>用前缀匹配树优化等</li>
+</ul>
+<p>如何匹配HTTP方法?</p>
+<ul>
+<li>构建map,外层map使用Method(string)作为key,路由树作为value,然后在路由树中寻找</li>
+</ul>
+<h2 id="协议层设计"><a href="#协议层设计" class="headerlink" title="协议层设计"></a>协议层设计</h2><ul>
+<li>抽象出合适的接口</li>
+</ul>
+<h2 id="网络层设计"><a href="#网络层设计" class="headerlink" title="网络层设计"></a>网络层设计</h2><ul>
+<li>BIO:阻塞</li>
+<li>NIO:非阻塞:netpoll,网络库管理buffer</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>高质量代码</title>
+    <url>/2023/07/29/%E9%AB%98%E8%B4%A8%E9%87%8F%E4%BB%A3%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="高质量代码"><a href="#高质量代码" class="headerlink" title="高质量代码"></a>高质量代码</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
+<li><p>正确可靠,简洁清晰,易读易维护</p>
+</li>
+<li><p>简单性:消除多余的复杂性,以简单清晰的逻辑编写代码</p>
+</li>
+<li><p>可读性:代码是给人看的,编写可维护的代码第一步是确保代码可读</p>
+</li>
+<li><p>生产力:团队整体效率</p>
+</li>
+</ul>
+<h2 id="编写规范"><a href="#编写规范" class="headerlink" title="编写规范"></a>编写规范</h2><ul>
+<li>代码格式化:推荐使用gofmt或goimports自动格式化工具来格式化代码</li>
+</ul>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><ul>
+<li>解释代码作用</li>
+<li>解释代码是如何做的</li>
+<li>应解释代码实现原理</li>
+<li>应解释代码为什么这么实现</li>
+<li>解释代码限制条件,在什么情况下会出错</li>
+<li>公共符号必须要注释,所有库函数必须注释</li>
+</ul>
+<h3 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h3><ul>
+<li><p>变量</p>
+<ul>
+<li><p>简洁胜于冗长</p>
+</li>
+<li><p>缩略词全大写,但当其位于变量开头且不需要导出时,应使用全小写</p>
+</li>
+<li><p>变量距离其被使用的地方越远,则需要携带越多上下文信息,使得在不同地方可以辨别出其含义</p>
+</li>
+</ul>
+</li>
+<li><p>函数名</p>
+<ul>
+<li><p>函数名不携带包名上下文信息</p>
+</li>
+<li><p>函数名尽量简短</p>
+</li>
+<li><p>若函数功能和包名有差异,应当体现在函数名中</p>
+</li>
+<li><p>如在http包中,将函数命名为Serve要优于ServerHTTP,因为包名已经体现HTTP了</p>
+</li>
+</ul>
+</li>
+<li><p>包名</p>
+<ul>
+<li>只包含小写字母,不包含下划线等字符</li>
+<li>不要与标准库同名</li>
+<li>不要使用常用变量名作为包名</li>
+<li>使用单数形式而不是复数</li>
+<li>谨慎使用缩写,使用缩写要是公认的,不出现歧义</li>
+</ul>
+</li>
+<li><p>控制流程</p>
+<ul>
+<li>避免if else嵌套,避免不需要的判断</li>
+<li>尽量保持正常代码路径为最小缩进,优先处理非正常情况,应尽早返回或继续循环减少嵌套,每步处理一个异常,然后再处理其他异常,而不是一直if else嵌套判断</li>
+</ul>
+</li>
+<li><p>错误和异常处理</p>
+<ul>
+<li><p>可以使用fmt.Errorf中的%w关键字来关联错误信息</p>
+</li>
+<li><p>判断错误是否是特定错误,使用errors.Is</p>
+</li>
+<li><p>在错误链上获取特定错误,使用errors.As</p>
+</li>
+<li><p>不建议在业务代码中使用panic,若问题可以屏蔽,建议使用error</p>
+</li>
+<li><p>在程序启动界面,如init和main中,可使用panic</p>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>青训营</category>
       </categories>
   </entry>
 </search>

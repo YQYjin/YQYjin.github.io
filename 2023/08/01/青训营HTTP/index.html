@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="HTTP介绍​	HTTP即超文本传输协议(Hypertext Transfer Protocol)马,超链接,图片,视频等都属于超文本## 为什么需要协议 需要明确的边界,信息的开始和结束 能够携带信息,包括什么信息,信息的类型等  协议里有什么 请求行&#x2F;状态行  请求行包括方法名(GET,POST等),URL和协议版本 状态行包括协议版本,状态码,状态码描述等   请求头&#x2F;相">
+<meta property="og:type" content="article">
+<meta property="og:title" content="青训营HTTP">
+<meta property="og:url" content="http://example.com/2023/08/01/%E9%9D%92%E8%AE%AD%E8%90%A5HTTP/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="HTTP介绍​	HTTP即超文本传输协议(Hypertext Transfer Protocol)马,超链接,图片,视频等都属于超文本## 为什么需要协议 需要明确的边界,信息的开始和结束 能够携带信息,包括什么信息,信息的类型等  协议里有什么 请求行&#x2F;状态行  请求行包括方法名(GET,POST等),URL和协议版本 状态行包括协议版本,状态码,状态码描述等   请求头&#x2F;相">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308011459349.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308011503930.png">
+<meta property="article:published_time" content="2023-08-01T03:06:15.735Z">
+<meta property="article:modified_time" content="2023-08-01T15:03:38.089Z">
+<meta property="article:author" content="YQYjin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308011459349.png">
+
+<link rel="canonical" href="http://example.com/2023/08/01/%E9%9D%92%E8%AE%AD%E8%90%A5HTTP/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>青训营HTTP | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/01/%E9%9D%92%E8%AE%AD%E8%90%A5HTTP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          青训营HTTP
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-01 11:06:15 / 修改时间：23:03:38" itemprop="dateCreated datePublished" datetime="2023-08-01T11:06:15+08:00">2023-08-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="HTTP介绍"><a href="#HTTP介绍" class="headerlink" title="HTTP介绍"></a>HTTP介绍</h1><p>​	HTTP即超文本传输协议(Hypertext Transfer Protocol)马,超链接,图片,视频等都属于超文本##</p>
+<h2 id="为什么需要协议"><a href="#为什么需要协议" class="headerlink" title="为什么需要协议"></a>为什么需要协议</h2><ul>
+<li>需要明确的边界,信息的开始和结束</li>
+<li>能够携带信息,包括什么信息,信息的类型等</li>
+</ul>
+<h2 id="协议里有什么"><a href="#协议里有什么" class="headerlink" title="协议里有什么"></a>协议里有什么</h2><ul>
+<li><p>请求行&#x2F;状态行</p>
+<ul>
+<li>请求行包括方法名(GET,POST等),URL和协议版本</li>
+<li>状态行包括协议版本,状态码,状态码描述等</li>
+</ul>
+</li>
+<li><p>请求头&#x2F;相应头</p>
+</li>
+<li><p>请求体&#x2F;相应体</p>
+</li>
+</ul>
+<h2 id="请求流程"><a href="#请求流程" class="headerlink" title="请求流程"></a>请求流程</h2><p>​	客户端业务层-&gt;中间件层-&gt;协议编码解码层-&gt;传输层-&gt;服务器传输层</p>
+<p>​	服务器传输层-&gt;编码解码层-&gt;路由层-&gt;中间件层-&gt;服务器业务层-&gt;</p>
+<h2 id="HTTP的演化"><a href="#HTTP的演化" class="headerlink" title="HTTP的演化"></a>HTTP的演化</h2><h3 id="HTTP-x2F-1-1"><a href="#HTTP-x2F-1-1" class="headerlink" title="HTTP&#x2F;1.1"></a>HTTP&#x2F;1.1</h3><p>​	相对于HTTP&#x2F;1.0使用长连接和管道传输</p>
+<p>​	存在的性能瓶颈:</p>
+<ul>
+<li>头部不压缩,只压缩Body,首部信息越大延迟越大</li>
+<li>发送重复的头部信息浪费大</li>
+<li>存在响应的队头阻塞</li>
+<li>没有请求优先级</li>
+<li>请求只能由客户端发出,服务器只能被动响应</li>
+</ul>
+<h3 id="HTTP-x2F-2-0"><a href="#HTTP-x2F-2-0" class="headerlink" title="HTTP&#x2F;2.0"></a>HTTP&#x2F;2.0</h3><p>HTTP&#x2F;2.0基于HTTPS</p>
+<h4 id="相对于HTTP-x2F-1-1"><a href="#相对于HTTP-x2F-1-1" class="headerlink" title="相对于HTTP&#x2F;1.1"></a>相对于HTTP&#x2F;1.1</h4><ul>
+<li><p>头部压缩</p>
+</li>
+<li><p>二进制格式</p>
+</li>
+<li><p>并发传输</p>
+</li>
+<li><p>服务器可主动推送资源</p>
+</li>
+</ul>
+<p>​	服务器和客户端都可建立Stream,服务器的Stream ID必须是偶数,客户端必须是奇数;若客户端请求一个HTML文件,但需要CSS文件来渲染,使用HTTP&#x2F;2.0就不需要再发送一次请求获取CSS,服务器主动发送CSS文件,提高效率</p>
+<h4 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h4><p>​	HTTP&#x2F;2.0解决了HTTP&#x2F;1.1的响应队头阻塞,解决了HTTP层的队头阻塞问题,但仍存在队头阻塞问题;由于HTTP&#x2F;2.0基于TCP协议,TCP必须保证接受到的字节数据完整且连续,若存在字节缺失,则后面收到的信息全部阻塞到缓冲区中,直到重新发送该缺失字节</p>
+<p>​	所以一旦丢包,就会触发TCP重传,在<strong>一个TCP连接中的所有HTTP请求都必须等待该包被重传</strong></p>
+<h2 id="HTTP-x2F-3-0"><a href="#HTTP-x2F-3-0" class="headerlink" title="HTTP&#x2F;3.0"></a>HTTP&#x2F;3.0</h2><p>​	HTTP&#x2F;3.0将HTTP下层协议从<strong>TCP协议改为UDP协议</strong>,通过基于UDP的QUIC协议也可以实现类似TCP的可靠性传输</p>
+<p>​	QUIC有以下三个特点:</p>
+<ul>
+<li><p>无队头阻塞</p>
+</li>
+<li><p>更快建立连接</p>
+</li>
+<li><p>连接迁移</p>
+</li>
+</ul>
+<h1 id="HTTP框架的设计与实现"><a href="#HTTP框架的设计与实现" class="headerlink" title="HTTP框架的设计与实现"></a>HTTP框架的设计与实现</h1><h2 id="分层设计"><a href="#分层设计" class="headerlink" title="分层设计"></a>分层设计</h2><p>​	HTTP协议专注于OSI七层网络的第四层往上,应用层,表示层和会话层,即TCP&#x2F;IP四层概念模型的应用层</p>
+<p>​	分层设计:高内聚,低耦合,易复用和高拓展性</p>
+<p>​	一个切实可行的复杂系统势必是从一个切实可行的简单系统发展而来的。从头开始设计的复杂系统根本不切实可行，无法修修补补让它切实可行。你必须由一个切实可行的简单系统重新开始。</p>
+<h2 id="应用层设计"><a href="#应用层设计" class="headerlink" title="应用层设计"></a>应用层设计</h2><ul>
+<li>提供合理的API<ul>
+<li>可理解性:使用ctx.Body(),不要用ctx.BodyA(),A意义不明</li>
+<li>简单性</li>
+<li>冗余性</li>
+<li>兼容性</li>
+<li>可测性</li>
+<li>可见性</li>
+</ul>
+</li>
+</ul>
+<h2 id="中间件设计"><a href="#中间件设计" class="headerlink" title="中间件设计"></a>中间件设计</h2><h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><ul>
+<li>配合 Handler实现一个完整的请求处理生命周期</li>
+<li>拥有预处理逻辑与后处理逻辑</li>
+<li>可以注册多中间件</li>
+<li>对上层模块用户逻辑模块易用</li>
+</ul>
+<h3 id="洋葱模型"><a href="#洋葱模型" class="headerlink" title="洋葱模型"></a>洋葱模型</h3><p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308011459349.png"></p>
+<ul>
+<li>中间件类似调用函数</li>
+<li>用户不主动调用下一个处理函数则自动调用,帮助index递增</li>
+<li>令index为最大值就可以中值调用</li>
+</ul>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308011503930.png"></p>
+<ul>
+<li>若不在一个调用链上,需要手动调用Next</li>
+</ul>
+<h2 id="路由设计"><a href="#路由设计" class="headerlink" title="路由设计"></a>路由设计</h2><p>​	框架路径实际上就是为URL匹配相应的处理函数,比如静态路由,参数路由,匹配HTTP方法等.</p>
+<ul>
+<li>用map实现路由,只适用于静态路由</li>
+<li>用前缀匹配树优化等</li>
+</ul>
+<p>如何匹配HTTP方法?</p>
+<ul>
+<li>构建map,外层map使用Method(string)作为key,路由树作为value,然后在路由树中寻找</li>
+</ul>
+<h2 id="协议层设计"><a href="#协议层设计" class="headerlink" title="协议层设计"></a>协议层设计</h2><ul>
+<li>抽象出合适的接口</li>
+</ul>
+<h2 id="网络层设计"><a href="#网络层设计" class="headerlink" title="网络层设计"></a>网络层设计</h2><ul>
+<li>BIO:阻塞</li>
+<li>NIO:非阻塞:netpoll,网络库管理buffer</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/31/%E6%95%B0%E8%B5%9B%E5%87%86%E5%A4%87/" rel="prev" title="数赛准备">
+      <i class="fa fa-chevron-left"></i> 数赛准备
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/02/%E6%80%A7%E8%83%BD%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93%E4%B8%8E%E4%BC%81%E4%B8%9A%E5%AE%9E%E8%B7%B5/" rel="next" title="性能修炼之道与企业实践">
+      性能修炼之道与企业实践 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">HTTP介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.1.</span> <span class="nav-text">为什么需要协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E9%87%8C%E6%9C%89%E4%BB%80%E4%B9%88"><span class="nav-number">1.2.</span> <span class="nav-text">协议里有什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">请求流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP%E7%9A%84%E6%BC%94%E5%8C%96"><span class="nav-number">1.4.</span> <span class="nav-text">HTTP的演化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-x2F-1-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">HTTP&#x2F;1.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-x2F-2-0"><span class="nav-number">1.4.2.</span> <span class="nav-text">HTTP&#x2F;2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E4%BA%8EHTTP-x2F-1-1"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">相对于HTTP&#x2F;1.1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">缺陷</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-x2F-3-0"><span class="nav-number">1.5.</span> <span class="nav-text">HTTP&#x2F;3.0</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">HTTP框架的设计与实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.1.</span> <span class="nav-text">分层设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.2.</span> <span class="nav-text">应用层设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.3.</span> <span class="nav-text">中间件设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">2.3.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.3.2.</span> <span class="nav-text">洋葱模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.4.</span> <span class="nav-text">路由设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.5.</span> <span class="nav-text">协议层设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.6.</span> <span class="nav-text">网络层设计</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

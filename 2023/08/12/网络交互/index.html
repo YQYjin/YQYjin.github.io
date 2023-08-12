@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1.网络是怎么交互的1.2 路由​	通过路由来接入服务器,通过配置默认路由或匹配详细路由确定路径\  路由不一定是对称的,来回的路由路径不一定是相同的  路由工作在传输层协议  路由不更改IP地址,而是更改MAC地址来确定下一跳,找到发包口  发包需要指定网卡   1.3ARP协议​	通过ARP协议来找到下一跳的MAC  通过广播并接受响应来确定下一跳的MAC地址,注意只有逻辑同网段才能发送ARP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络交互">
+<meta property="og:url" content="http://example.com/2023/08/12/%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="1.网络是怎么交互的1.2 路由​	通过路由来接入服务器,通过配置默认路由或匹配详细路由确定路径\  路由不一定是对称的,来回的路由路径不一定是相同的  路由工作在传输层协议  路由不更改IP地址,而是更改MAC地址来确定下一跳,找到发包口  发包需要指定网卡   1.3ARP协议​	通过ARP协议来找到下一跳的MAC  通过广播并接受响应来确定下一跳的MAC地址,注意只有逻辑同网段才能发送ARP">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-12T02:53:26.469Z">
+<meta property="article:modified_time" content="2023-08-12T03:27:24.902Z">
+<meta property="article:author" content="YQYjin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/08/12/%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络交互 | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/12/%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络交互
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-12 10:53:26 / 修改时间：11:27:24" itemprop="dateCreated datePublished" datetime="2023-08-12T10:53:26+08:00">2023-08-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%92%E8%AE%AD%E8%90%A5/" itemprop="url" rel="index"><span itemprop="name">青训营</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-网络是怎么交互的"><a href="#1-网络是怎么交互的" class="headerlink" title="1.网络是怎么交互的"></a>1.网络是怎么交互的</h1><h2 id="1-2-路由"><a href="#1-2-路由" class="headerlink" title="1.2 路由"></a>1.2 路由</h2><p>​	通过路由来接入服务器,通过配置默认路由或匹配详细路由确定路径\</p>
+<ul>
+<li><p>路由不一定是对称的,来回的路由路径不一定是相同的</p>
+</li>
+<li><p>路由工作在传输层协议</p>
+</li>
+<li><p>路由不更改IP地址,而是更改MAC地址来确定下一跳,找到发包口</p>
+</li>
+<li><p>发包需要指定网卡</p>
+</li>
+</ul>
+<h2 id="1-3ARP协议"><a href="#1-3ARP协议" class="headerlink" title="1.3ARP协议"></a>1.3ARP协议</h2><p>​	通过ARP协议来找到下一跳的MAC</p>
+<ul>
+<li>通过广播并接受响应来确定下一跳的MAC地址,注意只有逻辑同网段才能发送ARP</li>
+<li>ARP请求广播,ARP应答单播</li>
+<li>添加设备时发送一个免费ARP,防止IP冲突</li>
+</ul>
+<h2 id="1-4-IP协议"><a href="#1-4-IP协议" class="headerlink" title="1.4 IP协议"></a>1.4 IP协议</h2><ul>
+<li>IP地址是唯一表示,互联网通用,客户端一个,服务端也只有一个</li>
+<li>IPv4不够用则通过IPv6解决</li>
+</ul>
+<h2 id="1-5-NAT"><a href="#1-5-NAT" class="headerlink" title="1.5 NAT"></a>1.5 NAT</h2><ul>
+<li>内部使用NAT服务器,在内网中再分配地址,客户端通过NAT接入外部网络</li>
+<li>NAT改变 IP地址和端口地址,避免多个内网客户端访问同一个目标地址和端口,而源端口一致导致冲突</li>
+</ul>
+<h1 id="2-网络传输"><a href="#2-网络传输" class="headerlink" title="2. 网络传输"></a>2. 网络传输</h1><h2 id="2-1数据包"><a href="#2-1数据包" class="headerlink" title="2.1数据包"></a>2.1数据包</h2><ul>
+<li>填充完数据包后需要进行封装,按层次封装,解包顺序和封装顺序相反</li>
+</ul>
+<h2 id="2-2-请求DNS"><a href="#2-2-请求DNS" class="headerlink" title="2.2 请求DNS"></a>2.2 请求DNS</h2><ul>
+<li>客户端发送网址的解析请求</li>
+<li>DNS服务器通过递归迭代来解析网址,有根域服务器,顶级域服务器和权威服务器</li>
+</ul>
+<h2 id="2-3-UDP"><a href="#2-3-UDP" class="headerlink" title="2.3 UDP"></a>2.3 UDP</h2><ul>
+<li>UDP本身相对简单</li>
+<li>通过UDP自己实现一个协议较为困难,从根本上来讲要解决怎么保证协议可靠的问题<ul>
+<li>发包每次发多少?怎么避免分片</li>
+<li>怎么知道是否丢包</li>
+<li>怎么权衡传输效率和质量</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-4-TCP"><a href="#2-4-TCP" class="headerlink" title="2.4 TCP"></a>2.4 TCP</h2><ul>
+<li><p>TCP通过三次握手建立连接,三次握手的目标是确定会话双方都可以正确发送和接受信息</p>
+</li>
+<li><p>TCP传输:包括sequence number表示发送方发送的序列号,acknowledge number:是发送方期望接受方下一次发送的sequence number</p>
+</li>
+<li><p>SYN&#x2F;FIN传输不携带数据,但会使packet seq会加1,但ACK传输不会增加packet seq</p>
+</li>
+<li><p>通过seq num和ack num来确定消息被成功接收</p>
+</li>
+<li><p>滑动窗口,流量控制</p>
+</li>
+</ul>
+<h2 id="2-5-HTTP1-1"><a href="#2-5-HTTP1-1" class="headerlink" title="2.5 HTTP1.1"></a>2.5 HTTP1.1</h2><p>​	相对于HTTP&#x2F;1.0使用长连接和管道传输和缓存</p>
+<h2 id="2-6-HTTPS"><a href="#2-6-HTTPS" class="headerlink" title="2.6 HTTPS"></a>2.6 HTTPS</h2><p>HTTPS在HTTP基础上发展而来,通过在HTTP和TCP网络层之间加入<strong>SSL&#x2F;TLS</strong>安全协议,解决了HTTP的三大风险</p>
+<ul>
+<li>信息加密:将信息加密,解决窃听风险;</li>
+<li>校验机制:验证报文是否被篡改,解决篡改风险</li>
+<li>身份证书:验证通信双方身份,解决伪装风险</li>
+</ul>
+<h1 id="3-网络架构如何为抖音提速"><a href="#3-网络架构如何为抖音提速" class="headerlink" title="3.网络架构如何为抖音提速"></a>3.网络架构如何为抖音提速</h1><h2 id="3-1HTTP2-0"><a href="#3-1HTTP2-0" class="headerlink" title="3.1HTTP2.0"></a>3.1HTTP2.0</h2><p>​	通过HTTP2.0来为服务提速,HTTP2.0使用多路复用来提高效率</p>
+<ul>
+<li>在同一个TCP连接通道中存在多个stream,以串行的形式复用,从外表来看是并发请求资源</li>
+<li>存在TCP队头阻塞问题</li>
+</ul>
+<h2 id="3-2-QUIC-x2F-HTTP3-0"><a href="#3-2-QUIC-x2F-HTTP3-0" class="headerlink" title="3.2 QUIC&#x2F;HTTP3.0"></a>3.2 QUIC&#x2F;HTTP3.0</h2><p>​	HTTP&#x2F;3.0将HTTP下层协议从<strong>TCP协议改为UDP协议</strong>,通过基于UDP的QUIC协议也可以实现类似TCP的可靠性传输</p>
+<ul>
+<li><p>解决了TCP队头阻塞的问题</p>
+</li>
+<li><p>具有弱网优势,因为弱网环境丢包率高</p>
+</li>
+</ul>
+<h2 id="3-3数据中心分布"><a href="#3-3数据中心分布" class="headerlink" title="3.3数据中心分布"></a>3.3数据中心分布</h2><p>​	数据分布在核心机房和边缘机房中</p>
+<h2 id="3-4-动态API"><a href="#3-4-动态API" class="headerlink" title="3.4 动态API"></a>3.4 动态API</h2><p>​	通过动态API进行路径优化(DSA)</p>
+<h1 id="4-网络架构如何为抖音提质"><a href="#4-网络架构如何为抖音提质" class="headerlink" title="4.网络架构如何为抖音提质"></a>4.网络架构如何为抖音提质</h1><h2 id="4-1-容灾"><a href="#4-1-容灾" class="headerlink" title="4.1 容灾"></a>4.1 容灾</h2><p>​	容灾包括故障发生,故障感知,自动切换和服务恢复</p>
+<ul>
+<li><p>专线容灾,在两个机房之间通过专线连接进行容灾</p>
+</li>
+<li><p>外网容灾,通过互联网连接两个机房</p>
+</li>
+<li><p>全局容灾,在解析时若发现某个机房不可用,就自动排除该机房,感知故障后,在确定另一个机房可以承担负载后,将请求自动解析到另一个机房中</p>
+</li>
+<li><p>主动降级容灾,预装SDK,若发生故障实现降级容灾,避免客户端访问故障机房.若场景无法嵌入SDK,就无法使用这种容灾</p>
+</li>
+</ul>
+<h2 id="4-2故障排查"><a href="#4-2故障排查" class="headerlink" title="4.2故障排查"></a>4.2故障排查</h2><p>​	出现了容灾系统无法解决的故障,就要排查故障并处理,步骤分为:故障明确,故障止损和分段排查</p>
+<h3 id="4-2-1-故障明确"><a href="#4-2-1-故障明确" class="headerlink" title="4.2.1 故障明确"></a>4.2.1 故障明确</h3><ul>
+<li>出现什么故障,什么业务故障,什么接口故障等</li>
+<li>故障体现在哪里</li>
+<li>是否是修改导致的故障</li>
+</ul>
+<h3 id="4-2-2-故障止损"><a href="#4-2-2-故障止损" class="headerlink" title="4.2.2 故障止损"></a>4.2.2 故障止损</h3><ul>
+<li>先止损再排查</li>
+<li>有容灾就通过容灾止损,没有容灾就进行降级</li>
+</ul>
+<h3 id="4-2-3-分段排除"><a href="#4-2-3-分段排除" class="headerlink" title="4.2.3 分段排除"></a>4.2.3 分段排除</h3><ul>
+<li>客户端排查</li>
+<li>服务端排查</li>
+<li>中间链路排查</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/02/%E6%80%A7%E8%83%BD%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93%E4%B8%8E%E4%BC%81%E4%B8%9A%E5%AE%9E%E8%B7%B5/" rel="prev" title="性能修炼之道与企业实践">
+      <i class="fa fa-chevron-left"></i> 性能修炼之道与企业实践
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/12/%E4%BC%81%E4%B8%9A%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%85%A5/" rel="next" title="企业网络接入">
+      企业网络接入 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%BD%91%E7%BB%9C%E6%98%AF%E6%80%8E%E4%B9%88%E4%BA%A4%E4%BA%92%E7%9A%84"><span class="nav-number">1.</span> <span class="nav-text">1.网络是怎么交互的</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%B7%AF%E7%94%B1"><span class="nav-number">1.1.</span> <span class="nav-text">1.2 路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3ARP%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.2.</span> <span class="nav-text">1.3ARP协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-IP%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.3.</span> <span class="nav-text">1.4 IP协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-NAT"><span class="nav-number">1.4.</span> <span class="nav-text">1.5 NAT</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93"><span class="nav-number">2.</span> <span class="nav-text">2. 网络传输</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="nav-number">2.1.</span> <span class="nav-text">2.1数据包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E8%AF%B7%E6%B1%82DNS"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 请求DNS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-UDP"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 UDP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-TCP"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 TCP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-HTTP1-1"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 HTTP1.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-HTTPS"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 HTTPS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E5%A6%82%E4%BD%95%E4%B8%BA%E6%8A%96%E9%9F%B3%E6%8F%90%E9%80%9F"><span class="nav-number">3.</span> <span class="nav-text">3.网络架构如何为抖音提速</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1HTTP2-0"><span class="nav-number">3.1.</span> <span class="nav-text">3.1HTTP2.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-QUIC-x2F-HTTP3-0"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 QUIC&#x2F;HTTP3.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E5%88%86%E5%B8%83"><span class="nav-number">3.3.</span> <span class="nav-text">3.3数据中心分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E5%8A%A8%E6%80%81API"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 动态API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E5%A6%82%E4%BD%95%E4%B8%BA%E6%8A%96%E9%9F%B3%E6%8F%90%E8%B4%A8"><span class="nav-number">4.</span> <span class="nav-text">4.网络架构如何为抖音提质</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E5%AE%B9%E7%81%BE"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 容灾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5"><span class="nav-number">4.2.</span> <span class="nav-text">4.2故障排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-%E6%95%85%E9%9A%9C%E6%98%8E%E7%A1%AE"><span class="nav-number">4.2.1.</span> <span class="nav-text">4.2.1 故障明确</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-%E6%95%85%E9%9A%9C%E6%AD%A2%E6%8D%9F"><span class="nav-number">4.2.2.</span> <span class="nav-text">4.2.2 故障止损</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-3-%E5%88%86%E6%AE%B5%E6%8E%92%E9%99%A4"><span class="nav-number">4.2.3.</span> <span class="nav-text">4.2.3 分段排除</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
