@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E4%BC%98%E5%85%88%E5%9B%A0%E5%AD%90.png">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/202308010955892.png">
 <meta property="article:published_time" content="2023-07-31T03:22:00.822Z">
-<meta property="article:modified_time" content="2023-08-12T13:01:47.335Z">
+<meta property="article:modified_time" content="2023-08-17T09:14:08.989Z">
 <meta property="article:author" content="YQYjin">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%A7%84%E5%88%92.png">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-12 21:01:47" itemprop="dateModified" datetime="2023-08-12T21:01:47+08:00">2023-08-12</time>
+                <time title="修改时间：2023-08-17 17:14:08" itemprop="dateModified" datetime="2023-08-17T17:14:08+08:00">2023-08-17</time>
               </span>
 
           
@@ -303,7 +303,7 @@
 </blockquote>
 <h1 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h1><h2 id="线性规划"><a href="#线性规划" class="headerlink" title="线性规划"></a>线性规划</h2><p>​	所有变量都是一次方</p>
 <h2 id="非线性规划"><a href="#非线性规划" class="headerlink" title="非线性规划"></a>非线性规划</h2><p>​	至少有一个变量不是一次方,多次方,三角函数等</p>
-<h1 id="多目标规划"><a href="#多目标规划" class="headerlink" title="多目标规划"></a>多目标规划</h1><p>​	题目中不止有一个目标,前面规划问题只有一个目标,比如产量最大,而多目标规划有多个目标,比如尽量使用更多生产设备和产品1产量不超过产品2的产量</p>
+<h2 id="多目标规划"><a href="#多目标规划" class="headerlink" title="多目标规划"></a>多目标规划</h2><p>​	题目中不止有一个目标,前面规划问题只有一个目标,比如产量最大,而多目标规划有多个目标,比如尽量使用更多生产设备和产品1产量不超过产品2的产量</p>
 <p>​	要衡量每个目标的完成情况并在主观上区分三个目标的重要性</p>
 <p>​	引入三个概念:正负偏差变量,绝对约束和目标约束,优先因子</p>
 <ul>
@@ -324,7 +324,36 @@
 <ul>
 <li><strong>当出现使XXX最大&#x2F;最小,同时 “尽量” XXX时,考虑使用多目标规划</strong></li>
 </ul>
-
+<h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2><p>​	可以用Matlab自带的graphshortestpath函数求解</p>
+<p>​	用sparse生成稀疏矩阵来快速计算</p>
+<h2 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h2><p>​	如连通所有顶点且总路径最小</p>
+<h2 id="灰色预算GM-1-1"><a href="#灰色预算GM-1-1" class="headerlink" title="灰色预算GM(1,1)"></a>灰色预算GM(1,1)</h2><p>​	1,1代表:一阶微分方程和一个自变量</p>
+<p>​	对于数据少,看不出明显规律的,适合使用灰色预测</p>
+<p>​	制造累加生成序列来制造规律,看生成序列像什么,用指数曲线乃至一条直线来逼近这个新序列</p>
+<p>​	可以构建一阶常微分方程来求解拟合曲线的函数表达式</p>
+<h2 id="TOPSIS法"><a href="#TOPSIS法" class="headerlink" title="TOPSIS法"></a>TOPSIS法</h2><p>​	有多种可能的结果&#x2F;方案,方案的属性值(评价指标)构成向量</p>
+<p>​	有正理想解和负理想解,正理想解集合了指标的最优值,负理想解集合了指标的最差值</p>
+<p>​	TOPSIS法的核心思想是距离,即距离正理想解最近而与负理想解最远</p>
+<p>适用赛题:</p>
+<ul>
+<li>客观评估类题目</li>
+</ul>
+<h2 id="微分方程传染病预测模型"><a href="#微分方程传染病预测模型" class="headerlink" title="微分方程传染病预测模型"></a>微分方程传染病预测模型</h2><ul>
+<li>不同类型传染病的发病机理和传播途径各有特点</li>
+<li>·有的传染病，在得过一次后可获得免疫力，但有的则不会·有的传染病具有潜伏期，有的则没有</li>
+<li>需要对不同类型的传染病建立相应合适的预测模型</li>
+</ul>
+<h3 id="指数传播模型"><a href="#指数传播模型" class="headerlink" title="指数传播模型"></a>指数传播模型</h3><p>​	假设所研究的区域是封闭区域，在一定时期内人口总量不变，不考虑迕入和迁出</p>
+<p>​	在t时刻患病人数N(t)是随时间连续变化的、可微的函数</p>
+<p>​    每个病人在单位时间内会传染到的人数为大于Q的常数入</p>
+<h3 id="SI模型"><a href="#SI模型" class="headerlink" title="SI模型"></a>SI模型</h3><p>总数固定不考虑生死和迁移</p>
+<p>分为两类人群,易感染者和易感染者</p>
+<p>分析结果的现实意义,写入论文中</p>
+<h3 id="SIS模型"><a href="#SIS模型" class="headerlink" title="SIS模型"></a>SIS模型</h3><p>同时考虑传染和治愈,在SI模型上假设治愈比例,以及假设无免疫性,康复后依旧可被感染</p>
+<h3 id="SIR模型"><a href="#SIR模型" class="headerlink" title="SIR模型"></a>SIR模型</h3><h3 id="马尔科夫预测"><a href="#马尔科夫预测" class="headerlink" title="马尔科夫预测"></a>马尔科夫预测</h3><ul>
+<li>时齐的马尔科夫链，若第n天处于i状态，过了m天后状态j的概率满足：P{Xn+m&#x3D;j|Xn&#x3D;j}&#x3D;Pij（m）</li>
+</ul>
+<h3 id="模拟退火"><a href="#模拟退火" class="headerlink" title="模拟退火"></a>模拟退火</h3>
     </div>
 
     
@@ -404,7 +433,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%BE%E6%95%B0%E6%8D%AE"><span class="nav-number">2.</span> <span class="nav-text">找数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BB%BA%E6%A8%A1"><span class="nav-number">4.</span> <span class="nav-text">如何建模</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E7%BB%93%E6%9E%84"><span class="nav-number">4.1.</span> <span class="nav-text">论文结构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E8%AE%BA%E6%96%87"><span class="nav-number">5.</span> <span class="nav-text">写论文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-number">6.1.</span> <span class="nav-text">线性规划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-number">6.2.</span> <span class="nav-text">非线性规划</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%A7%84%E5%88%92"><span class="nav-number">7.</span> <span class="nav-text">多目标规划</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%BE%E6%95%B0%E6%8D%AE"><span class="nav-number">2.</span> <span class="nav-text">找数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BB%BA%E6%A8%A1"><span class="nav-number">4.</span> <span class="nav-text">如何建模</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E7%BB%93%E6%9E%84"><span class="nav-number">4.1.</span> <span class="nav-text">论文结构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E8%AE%BA%E6%96%87"><span class="nav-number">5.</span> <span class="nav-text">写论文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-number">6.1.</span> <span class="nav-text">线性规划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-number">6.2.</span> <span class="nav-text">非线性规划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%A7%84%E5%88%92"><span class="nav-number">6.3.</span> <span class="nav-text">多目标规划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84"><span class="nav-number">6.4.</span> <span class="nav-text">最短路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-number">6.5.</span> <span class="nav-text">最小生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%81%B0%E8%89%B2%E9%A2%84%E7%AE%97GM-1-1"><span class="nav-number">6.6.</span> <span class="nav-text">灰色预算GM(1,1)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TOPSIS%E6%B3%95"><span class="nav-number">6.7.</span> <span class="nav-text">TOPSIS法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B%E4%BC%A0%E6%9F%93%E7%97%85%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.8.</span> <span class="nav-text">微分方程传染病预测模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E4%BC%A0%E6%92%AD%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.8.1.</span> <span class="nav-text">指数传播模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SI%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.8.2.</span> <span class="nav-text">SI模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SIS%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.8.3.</span> <span class="nav-text">SIS模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SIR%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.8.4.</span> <span class="nav-text">SIR模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%A2%84%E6%B5%8B"><span class="nav-number">6.8.5.</span> <span class="nav-text">马尔科夫预测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB"><span class="nav-number">6.8.6.</span> <span class="nav-text">模拟退火</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -420,14 +449,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

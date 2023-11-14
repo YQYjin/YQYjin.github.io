@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1.数据的生命周期1.1 数据的产生​	以注册为例,注册时填写了用户名和密码等数据,然后点击了注册按钮,数据就向服务器发送过去,这样,数据就从无到有地产生了 1.2 数据的流动​	产生的数据被打包为一条用户注册数据,通过网络发送到后端服务器,到达服务器后经过处理再被发送到数据库中,形成持久化数据; ​	在数据库系统后,还可能存在更多的存储系统,数据会继续流动到这些系统中 1.3 数据的持久化​">
+<meta property="og:type" content="article">
+<meta property="og:title" content="存储与数据库|青训营">
+<meta property="og:url" content="http://example.com/2023/08/13/%E5%AD%98%E5%82%A8%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9D%92%E8%AE%AD%E8%90%A5/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="1.数据的生命周期1.1 数据的产生​	以注册为例,注册时填写了用户名和密码等数据,然后点击了注册按钮,数据就向服务器发送过去,这样,数据就从无到有地产生了 1.2 数据的流动​	产生的数据被打包为一条用户注册数据,通过网络发送到后端服务器,到达服务器后经过处理再被发送到数据库中,形成持久化数据; ​	在数据库系统后,还可能存在更多的存储系统,数据会继续流动到这些系统中 1.3 数据的持久化​">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-13T02:08:33.392Z">
+<meta property="article:modified_time" content="2023-08-13T07:39:35.904Z">
+<meta property="article:author" content="YQYjin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/08/13/%E5%AD%98%E5%82%A8%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9D%92%E8%AE%AD%E8%90%A5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>存储与数据库|青训营 | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/13/%E5%AD%98%E5%82%A8%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9D%92%E8%AE%AD%E8%90%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          存储与数据库|青训营
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-13 10:08:33 / 修改时间：15:39:35" itemprop="dateCreated datePublished" datetime="2023-08-13T10:08:33+08:00">2023-08-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%92%E8%AE%AD%E8%90%A5/" itemprop="url" rel="index"><span itemprop="name">青训营</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <span id="more"></span>
+
+<h1 id="1-数据的生命周期"><a href="#1-数据的生命周期" class="headerlink" title="1.数据的生命周期"></a>1.数据的生命周期</h1><h2 id="1-1-数据的产生"><a href="#1-1-数据的产生" class="headerlink" title="1.1 数据的产生"></a>1.1 数据的产生</h2><p>​	以注册为例,注册时填写了用户名和密码等数据,然后点击了注册按钮,数据就向服务器发送过去,这样,数据就从无到有地产生了</p>
+<h2 id="1-2-数据的流动"><a href="#1-2-数据的流动" class="headerlink" title="1.2 数据的流动"></a>1.2 数据的流动</h2><p>​	产生的数据被打包为一条用户注册数据,通过网络发送到后端服务器,到达服务器后经过处理再被发送到数据库中,形成持久化数据;</p>
+<p>​	在数据库系统后,还可能存在更多的存储系统,数据会继续流动到这些系统中</p>
+<h2 id="1-3-数据的持久化"><a href="#1-3-数据的持久化" class="headerlink" title="1.3 数据的持久化"></a>1.3 数据的持久化</h2><p>​	数据到达数据库后,数据库首先检验数据是否合法,通过检验后,数据在内存中,通过高效的数据结构经过计算,形成可以被持久化的数据结构,最好以<strong>寿命和性能</strong>友好的方式写入存储介质(硬件),形成持久化数据.</p>
+<h1 id="2-存储和数据库"><a href="#2-存储和数据库" class="headerlink" title="2.存储和数据库"></a>2.存储和数据库</h1><h2 id="2-1-存储系统"><a href="#2-1-存储系统" class="headerlink" title="2.1 存储系统"></a>2.1 存储系统</h2><p>​	存储系统是提供了读写,控制类接口,能够安全有效地把数据持久化的软件,就可以称之为存储系统</p>
+<p>​	系统特点:性能敏感,容易受硬件影响</p>
+<p>​	在存储系统中,缓存很重要,贯穿整个存储体系,拷贝很昂贵,应该尽量减少,硬件设备五花八门,需要有抽象的统一接口</p>
+<h2 id="2-2-RAID技术"><a href="#2-2-RAID技术" class="headerlink" title="2.2 RAID技术"></a>2.2 RAID技术</h2><p>​	RAID技术是为了使单机存储系统做到高性能,高性价比和高可靠性</p>
+<p>​	出现的背景:</p>
+<ul>
+<li>单块大容量磁盘价格大于多块小容量磁盘</li>
+<li>单块磁盘的写入性能小于多块磁盘的并发写入性能</li>
+<li>单块磁盘的容错性能有限,不够安全</li>
+</ul>
+<h3 id="2-2-1-RAID-0"><a href="#2-2-1-RAID-0" class="headerlink" title="2.2.1 RAID 0"></a>2.2.1 RAID 0</h3><ul>
+<li>多块磁盘简单组合</li>
+<li>数据条带化存储,提高磁盘带宽</li>
+<li>没有额外的容错设计</li>
+</ul>
+<h3 id="2-2-2-RAID-1"><a href="#2-2-2-RAID-1" class="headerlink" title="2.2.2 RAID 1"></a>2.2.2 RAID 1</h3><ul>
+<li>一块磁盘对应一块额外的镜像磁盘</li>
+<li>空间利用率仅有50%</li>
+<li>容错能力强</li>
+</ul>
+<h3 id="2-2-3-RAID-0-1"><a href="#2-2-3-RAID-0-1" class="headerlink" title="2.2.3 RAID 0+1"></a>2.2.3 RAID 0+1</h3><p>​	RAID 0和 RAID 1是两个极端,通过组合来组成适合的方案</p>
+<ul>
+<li>结合了 0 和 1,根据需求组成不同方案</li>
+</ul>
+<h2 id="2-3-数据库"><a href="#2-3-数据库" class="headerlink" title="2.3 数据库"></a>2.3 数据库</h2><p>数据库和存储系统不一样吗?</p>
+<h3 id="2-3-1-关系型数据库"><a href="#2-3-1-关系型数据库" class="headerlink" title="2.3.1 关系型数据库"></a>2.3.1 关系型数据库</h3><p>​	关系反映了事物(实体)间的关系,以关系代数作为运算的抽象查询语言</p>
+<p>​	SQL是一种方便人们阅读的关系代数的表达方式</p>
+<p>​	关系型数据库是存储系统,但相较于存储系统,它结构化数据友好,支持事物并支持复杂查询语言(SQL等)</p>
+<h3 id="2-3-2-非关系型数据库"><a href="#2-3-2-非关系型数据库" class="headerlink" title="2.3.2 非关系型数据库"></a>2.3.2 非关系型数据库</h3><p>​	非关系型数据库也是存储系统,但一般不要求严格的结构化</p>
+<p>​	半结构化数据友好,可能支持事物,可能支持复杂查询语言</p>
+<h3 id="2-3-3-数据库优点"><a href="#2-3-3-数据库优点" class="headerlink" title="2.3.3 数据库优点"></a>2.3.3 数据库优点</h3><ul>
+<li><p>数据库与经典存储的区别是结构化管理系统,数据写入关系型数据库时,以表的形式管理(自动),而经典存储需要自信定义结构,是分复杂</p>
+</li>
+<li><p>数据库支持<strong>事物</strong>,具有很大的优越性</p>
+</li>
+<li><p>数据库支持复杂查询能力</p>
+</li>
+</ul>
+<h1 id="3-主流产品刨析"><a href="#3-主流产品刨析" class="headerlink" title="3. 主流产品刨析"></a>3. 主流产品刨析</h1><h2 id="3-1-单机存储"><a href="#3-1-单机存储" class="headerlink" title="3.1 单机存储"></a>3.1 单机存储</h2><p>​	单机存储不涉及网络交互</p>
+<p>​	单机存储系统有:本地文件系统和key-value存储</p>
+<h3 id="3-1-1-本地文件系统"><a href="#3-1-1-本地文件系统" class="headerlink" title="3.1.1 本地文件系统"></a>3.1.1 本地文件系统</h3><p>​	Linux的经典哲学:一切皆文件</p>
+<ul>
+<li>文件系统管理单元:文件</li>
+<li>文件系统接口︰文件系统繁多，如Ext2&#x2F;3&#x2F;4，sysfs，rootfs等，但都遵循VFS的统一抽象接口Linux文件系统的</li>
+<li>两大数据结构:<strong>Index Node</strong> &amp; <strong>Directory Entry</strong><ul>
+<li>lndex Node:记录文件元数据，如id、大小、权限、磁盘位置等,inode是一个文件的唯一标识,会被存储到磁盘上,inode的总数在格式化文件系统时就固定了</li>
+<li>Directory Entry:记录文件名、inode指针,层级关系(parent)等,与inode的关系是N:1(hardlink实现)</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-1-2-Key-value-存储"><a href="#3-1-2-Key-value-存储" class="headerlink" title="3.1.2 Key-value 存储"></a>3.1.2 Key-value 存储</h3><ul>
+<li><p>常见使用方式: put(k,v)和get(k)</p>
+</li>
+<li><p>常见数据结构: LSM-Tree,某种程度上牺牲读性能,追求写入性能,使用顺序读写,写性能好</p>
+</li>
+</ul>
+<h2 id="3-2-分布式存储"><a href="#3-2-分布式存储" class="headerlink" title="3.2 分布式存储"></a>3.2 分布式存储</h2><p>​	分布式存储:在单机存储基础上实现了分布式协议,设计大量网络交互</p>
+<h3 id="3-2-1-分布式文件系统"><a href="#3-2-1-分布式文件系统" class="headerlink" title="3.2.1 分布式文件系统"></a>3.2.1 分布式文件系统</h3><p>​	HDFS:堪称大数据时代的基石</p>
+<p>核心特点:</p>
+<ul>
+<li>支持海量数据存储</li>
+<li>高容错性</li>
+<li>弱POSIX语义</li>
+<li>使用x86服务器,性价比高</li>
+</ul>
+<h3 id="3-2-2-分布式对象存储"><a href="#3-2-2-分布式对象存储" class="headerlink" title="3.2.2 分布式对象存储"></a>3.2.2 分布式对象存储</h3><p>​	Ceph: 开源分布式系统里的<strong>万金油</strong></p>
+<p>核心特点:</p>
+<ul>
+<li>支持对象接口,块接口,文件接口,但一切皆对象</li>
+<li>数据写入采用主备复制模型</li>
+<li>数据分布模型采用<a target="_blank" rel="noopener" href="https://blog.csdn.net/gaoZhuanMing/article/details/121683962">CRUSH</a>算法,核心思想是HASH+权重+随机抽签确定存储服务器</li>
+</ul>
+<h2 id="3-3-单机关系型数据库"><a href="#3-3-单机关系型数据库" class="headerlink" title="3.3 单机关系型数据库"></a>3.3 单机关系型数据库</h2><p>​	不涉及网络交互的数据库系统,但事务可以在单机内执行,也可能通过网络交互实现分布式事务</p>
+<p>​	在商业中,Oracle称王,开源产品MySQL和PostgreSQL称霸</p>
+<p>​	关键内存数据结构:B-Tree,B+ -Tree和LRU List等</p>
+<p>​	关键磁盘数据结构:RedoLog,Page等</p>
+<h2 id="3-4-单机非关系型数据库"><a href="#3-4-单机非关系型数据库" class="headerlink" title="3.4 单机非关系型数据库"></a>3.4 单机非关系型数据库</h2><p>​	MongoDB,Redis,Elasticsearch三足鼎立</p>
+<p>​	关系型数据库一般直接使用SQL交互,而非关系型数据库交互方式各不相同,没有约束关系后数据结构千奇百怪,schema相对灵活,非关系型数据库也在尝试支持SQL和事务</p>
+<h2 id="3-5-分布式数据库"><a href="#3-5-分布式数据库" class="headerlink" title="3.5 分布式数据库"></a>3.5 分布式数据库</h2><p>​	单机数据库遇到的问题有:容量问题,弹性问题和性价比问题,因此引入了分布式数据库</p>
+<ul>
+<li>单点容量有限,受硬件限制,使用池化技术,将存储节点池化,动态扩缩容量,与网络交互</li>
+<li>可以换速更改硬件设备,将数据迁移到性能更好的(或更差的)硬件上,弹性好</li>
+<li>同样,使用共享存储池,提高性价比</li>
+</ul>
+<p>​	分布式数据库面临的问题:</p>
+<ul>
+<li>单写而不是多写</li>
+<li>从磁盘弹性到内存弹性</li>
+<li>分布式事务优化</li>
+</ul>
+<h1 id="4-新技术"><a href="#4-新技术" class="headerlink" title="4.新技术"></a>4.新技术</h1><ul>
+<li><p>SPDK—Bypass OS kernel</p>
+</li>
+<li><p>AI相关技术,如AI根据情况决策,使用行存,列存还是行列混存,动态决策</p>
+</li>
+<li><p>高性能硬件</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/12/RPC%E6%A1%86%E6%9E%B6/" rel="prev" title="RPC框架">
+      <i class="fa fa-chevron-left"></i> RPC框架
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/14/Spring+Mybaits/" rel="next" title="Spring+Mybaits">
+      Spring+Mybaits <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.</span> <span class="nav-text">1.数据的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BA%A7%E7%94%9F"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 数据的产生</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E6%95%B0%E6%8D%AE%E7%9A%84%E6%B5%81%E5%8A%A8"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 数据的流动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 数据的持久化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%AD%98%E5%82%A8%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">2.存储和数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 存储系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-RAID%E6%8A%80%E6%9C%AF"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 RAID技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-RAID-0"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 RAID 0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-RAID-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 RAID 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-RAID-0-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.3 RAID 0+1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 关系型数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 非关系型数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-3-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E7%82%B9"><span class="nav-number">2.3.3.</span> <span class="nav-text">2.3.3 数据库优点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E4%B8%BB%E6%B5%81%E4%BA%A7%E5%93%81%E5%88%A8%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">3. 主流产品刨析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%8D%95%E6%9C%BA%E5%AD%98%E5%82%A8"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 单机存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 本地文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-Key-value-%E5%AD%98%E5%82%A8"><span class="nav-number">3.1.2.</span> <span class="nav-text">3.1.2 Key-value 存储</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 分布式存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1 分布式文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-%E5%88%86%E5%B8%83%E5%BC%8F%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2 分布式对象存储</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%8D%95%E6%9C%BA%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 单机关系型数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E5%8D%95%E6%9C%BA%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 单机非关系型数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 分布式数据库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%96%B0%E6%8A%80%E6%9C%AF"><span class="nav-number">4.</span> <span class="nav-text">4.新技术</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

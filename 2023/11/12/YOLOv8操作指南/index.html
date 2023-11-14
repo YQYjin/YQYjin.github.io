@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1.官方文档readme官方源码中的readme路径  模型说明 ultralytics&#x2F;docs&#x2F;models  模式说明(训练,预测)  ultralytics&#x2F;docs&#x2F;modes   模型下载 https:&#x2F;&#x2F;docs.ultralytics.com&#x2F;models&#x2F;yolov8&#x2F;#supported-tasks  类别​	对于不同的任务,模型的内容不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YOLOv8操作指南">
+<meta property="og:url" content="http://example.com/2023/11/12/YOLOv8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="1.官方文档readme官方源码中的readme路径  模型说明 ultralytics&#x2F;docs&#x2F;models  模式说明(训练,预测)  ultralytics&#x2F;docs&#x2F;modes   模型下载 https:&#x2F;&#x2F;docs.ultralytics.com&#x2F;models&#x2F;yolov8&#x2F;#supported-tasks  类别​	对于不同的任务,模型的内容不">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-12T15:01:20.999Z">
+<meta property="article:modified_time" content="2023-11-14T12:11:53.093Z">
+<meta property="article:author" content="YQYjin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/11/12/YOLOv8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>YOLOv8操作指南 | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/12/YOLOv8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          YOLOv8操作指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-12 23:01:20" itemprop="dateCreated datePublished" datetime="2023-11-12T23:01:20+08:00">2023-11-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-14 20:11:53" itemprop="dateModified" datetime="2023-11-14T20:11:53+08:00">2023-11-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-官方文档"><a href="#1-官方文档" class="headerlink" title="1.官方文档"></a>1.官方文档</h1><h2 id="readme"><a href="#readme" class="headerlink" title="readme"></a>readme</h2><p>官方源码中的readme路径</p>
+<ul>
+<li><p>模型说明 <em>ultralytics&#x2F;docs&#x2F;models</em></p>
+</li>
+<li><p>模式说明(训练,预测)  <em>ultralytics&#x2F;docs&#x2F;modes</em></p>
+</li>
+</ul>
+<h2 id="模型下载"><a href="#模型下载" class="headerlink" title="模型下载"></a>模型下载</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.ultralytics.com/models/yolov8/#supported-tasks">https://docs.ultralytics.com/models/yolov8/#supported-tasks</a></li>
+</ul>
+<h2 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h2><p>​	对于不同的任务,模型的内容不一样,一般根据模型名称来区分模型,执行任务时,YOLO会尝试根据模型来确定任务类别</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>模型文件</th>
+<th>家族</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>检测</td>
+<td>yolov8n.pt</td>
+<td>8n、8s、8m、8l、8x</td>
+</tr>
+<tr>
+<td>分割</td>
+<td>yolov8n-seg.pt</td>
+<td>8n、8s、8m、8l、8x</td>
+</tr>
+<tr>
+<td>分类</td>
+<td>yolov8n-cls.pt</td>
+<td>8n、8s、8m、8l、8x</td>
+</tr>
+<tr>
+<td>姿态</td>
+<td>yolov8n-pose.pt</td>
+<td>8n、8s、8m、8l、8x</td>
+</tr>
+</tbody></table>
+<h1 id="2-训练及预测"><a href="#2-训练及预测" class="headerlink" title="2.训练及预测"></a>2.训练及预测</h1><h2 id="启动预测"><a href="#启动预测" class="headerlink" title="启动预测"></a>启动预测</h2><p>​	model:设置模型文件;	soruce:预测图片所在的文件夹(路径)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">args = <span class="built_in">dict</span>(model=<span class="string">&#x27;yolov8n.pt&#x27;</span>, source=ASSETS);</span><br><span class="line">predictor = DetectionPredictor(overrides=args);</span><br><span class="line">predictor.predict_cli();</span><br></pre></td></tr></table></figure>
+
+<p>​	可以选择多种预测模式,包括classify,detect,pose和segment,使用对应的预测器即可,如detect为<code>DetectionPredictor</code></p>
+<h2 id="启动训练"><a href="#启动训练" class="headerlink" title="启动训练"></a>启动训练</h2><p>使用YOLO构建模型</p>
+<ul>
+<li>.yaml文件,则是从yaml中构建一个新模型,从零开始训练<code>model=YOLO(&#39;yolov8n.yaml&#39;)</code></li>
+<li>.pt文件,加载与训练模型<code>model = YOLO(&#39;yolov8n.pt&#39;)</code></li>
+</ul>
+<p>向train()中添加训练参数来自定训练,需要指定<code>参数名=参数值</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model = YOLO(<span class="string">&quot;yolov8n.yaml&quot;</span>)  <span class="comment"># 构建模型</span></span><br><span class="line">model.info()  <span class="comment"># 输出模型信息</span></span><br><span class="line">model.train(data=<span class="string">&quot;coco128.yaml&quot;</span>, epochs=<span class="number">100</span>)  <span class="comment"># 开始训练并设置训练参数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="训练参数"><a href="#训练参数" class="headerlink" title="训练参数"></a>训练参数</h3><p>YOLO模型的训练设置是指用于在数据集上训练模型的各种超参数和配置。这些设置可以影响模型的性能、速度和准确性。一些常见的YOLO训练设置包括批大小、学习率、动量和权重衰减。可能影响训练过程的其他因素包括优化器的选择、损失函数的选择以及训练数据集的大小和组成。重要的是要仔细调整和尝试这些设置，以实现给定任务的最佳性能。</p>
+<table>
+<thead>
+<tr>
+<th>键</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>model</code></td>
+<td><code>None</code></td>
+<td>模型文件路径，例如 yolov8n.pt，yolov8n.yaml</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td><code>None</code></td>
+<td>数据文件路径，例如 coco128.yaml</td>
+</tr>
+<tr>
+<td><code>epochs</code></td>
+<td><code>100</code></td>
+<td>训练的时代数</td>
+</tr>
+<tr>
+<td><code>patience</code></td>
+<td><code>50</code></td>
+<td>用于提前停止训练的观察不到改善的时代数</td>
+</tr>
+<tr>
+<td><code>batch</code></td>
+<td><code>16</code></td>
+<td>每批次的图像数量（-1 为自动批处理）</td>
+</tr>
+<tr>
+<td><code>imgsz</code></td>
+<td><code>640</code></td>
+<td>输入图像的大小（整数形式）</td>
+</tr>
+<tr>
+<td><code>save</code></td>
+<td><code>True</code></td>
+<td>保存训练检查点和预测结果</td>
+</tr>
+<tr>
+<td><code>save_period</code></td>
+<td><code>-1</code></td>
+<td>每 x 时代保存一次检查点（如果小于 1，则禁用）</td>
+</tr>
+<tr>
+<td><code>cache</code></td>
+<td><code>False</code></td>
+<td>True&#x2F;ram、disk 或 False。使用缓存进行数据加载</td>
+</tr>
+<tr>
+<td><code>device</code></td>
+<td><code>None</code></td>
+<td>运行的设备，例如 cuda device&#x3D;0 或 device&#x3D;0,1,2,3 或 device&#x3D;cpu</td>
+</tr>
+<tr>
+<td><code>workers</code></td>
+<td><code>8</code></td>
+<td>数据加载的工作线程数（如果使用 DDP，则每个 RANK 一个线程）</td>
+</tr>
+<tr>
+<td><code>project</code></td>
+<td><code>None</code></td>
+<td>项目名称</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>None</code></td>
+<td>实验名称</td>
+</tr>
+<tr>
+<td><code>exist_ok</code></td>
+<td><code>False</code></td>
+<td>是否覆盖现有实验</td>
+</tr>
+<tr>
+<td><code>pretrained</code></td>
+<td><code>True</code></td>
+<td>（布尔或字符串）是否使用预训练模型（布尔）或从中加载权重的模型（字符串）</td>
+</tr>
+<tr>
+<td><code>optimizer</code></td>
+<td><code>&#39;auto&#39;</code></td>
+<td>要使用的优化器，选项&#x3D;[SGD, Adam, Adamax, AdamW, NAdam, RAdam, RMSProp, auto]</td>
+</tr>
+<tr>
+<td><code>verbose</code></td>
+<td><code>False</code></td>
+<td>是否打印详细输出</td>
+</tr>
+<tr>
+<td><code>seed</code></td>
+<td><code>0</code></td>
+<td>用于可重现性的随机种子</td>
+</tr>
+<tr>
+<td><code>deterministic</code></td>
+<td><code>True</code></td>
+<td>是否启用确定性模式</td>
+</tr>
+<tr>
+<td><code>single_cls</code></td>
+<td><code>False</code></td>
+<td>将多类数据训练为单类</td>
+</tr>
+<tr>
+<td><code>rect</code></td>
+<td><code>False</code></td>
+<td>每批次进行矩形训练，以最小填充</td>
+</tr>
+<tr>
+<td><code>cos_lr</code></td>
+<td><code>False</code></td>
+<td>使用余弦学习率调度器</td>
+</tr>
+<tr>
+<td><code>close_mosaic</code></td>
+<td><code>10</code></td>
+<td>（整数）在最后时期禁用马赛克增强（0 禁用）</td>
+</tr>
+<tr>
+<td><code>resume</code></td>
+<td><code>False</code></td>
+<td>从上次检查点恢复训练</td>
+</tr>
+<tr>
+<td><code>amp</code></td>
+<td><code>True</code></td>
+<td>自动混合精度（AMP）训练，选项&#x3D;[True, False]</td>
+</tr>
+<tr>
+<td><code>fraction</code></td>
+<td><code>1.0</code></td>
+<td>训练的数据集部分（默认为 1.0，所有训练集中的图像）</td>
+</tr>
+<tr>
+<td><code>profile</code></td>
+<td><code>False</code></td>
+<td>在训练期间为日志记录的 ONNX 和 TensorRT 速度启用分析</td>
+</tr>
+<tr>
+<td><code>freeze</code></td>
+<td><code>None</code></td>
+<td>（整数或列表，可选）冻结前 n 层，或在训练期间冻结的层索引列表</td>
+</tr>
+<tr>
+<td><code>lr0</code></td>
+<td><code>0.01</code></td>
+<td>初始学习率（例如，SGD&#x3D;1E-2，Adam&#x3D;1E-3）</td>
+</tr>
+<tr>
+<td><code>lrf</code></td>
+<td><code>0.01</code></td>
+<td>最终学习率（lr0 * lrf）</td>
+</tr>
+<tr>
+<td><code>momentum</code></td>
+<td><code>0.937</code></td>
+<td>SGD 动量&#x2F;Adam beta1</td>
+</tr>
+<tr>
+<td><code>weight_decay</code></td>
+<td><code>0.0005</code></td>
+<td>优化器权重衰减 5e-4</td>
+</tr>
+<tr>
+<td><code>warmup_epochs</code></td>
+<td><code>3.0</code></td>
+<td>预热时代数（小数也可行）</td>
+</tr>
+<tr>
+<td><code>warmup_momentum</code></td>
+<td><code>0.8</code></td>
+<td>预热时的初始动量</td>
+</tr>
+<tr>
+<td><code>warmup_bias_lr</code></td>
+<td><code>0.1</code></td>
+<td>预热时的初始偏置学习率</td>
+</tr>
+<tr>
+<td><code>box</code></td>
+<td><code>7.5</code></td>
+<td>盒损失增益</td>
+</tr>
+<tr>
+<td><code>cls</code></td>
+<td><code>0.5</code></td>
+<td>分类损失增益（与像素成比例）</td>
+</tr>
+<tr>
+<td><code>dfl</code></td>
+<td><code>1.5</code></td>
+<td>dfl 损失增益</td>
+</tr>
+<tr>
+<td><code>pose</code></td>
+<td><code>12.0</code></td>
+<td>姿势损失增益（仅姿势）</td>
+</tr>
+<tr>
+<td><code>kobj</code></td>
+<td><code>2.0</code></td>
+<td>关键点对象损失增益（仅姿势）</td>
+</tr>
+<tr>
+<td><code>label_smoothing</code></td>
+<td><code>0.0</code></td>
+<td>标签平滑（分数）</td>
+</tr>
+<tr>
+<td><code>nbs</code></td>
+<td><code>64</code></td>
+<td>名义批大小</td>
+</tr>
+<tr>
+<td><code>overlap_mask</code></td>
+<td><code>True</code></td>
+<td>训练期间掩码应该重叠（仅分割训练）</td>
+</tr>
+<tr>
+<td><code>mask_ratio</code></td>
+<td><code>4</code></td>
+<td>掩码降采样比例（仅分割训练）</td>
+</tr>
+<tr>
+<td><code>dropout</code></td>
+<td><code>0.0</code></td>
+<td>使用 dropout 正则化（仅分类训练）</td>
+</tr>
+<tr>
+<td><code>val</code></td>
+<td><code>True</code></td>
+<td>在训练期间进行验证&#x2F;测试</td>
+</tr>
+</tbody></table>
+<h1 id="3-评估"><a href="#3-评估" class="headerlink" title="3.评估"></a>3.评估</h1><ul>
+<li>使用python进行评估</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ultralytics <span class="keyword">import</span> YOLO<span class="comment"># Load a model</span></span><br><span class="line">model = YOLO(<span class="string">&#x27;yolov8n.pt&#x27;</span>)  <span class="comment">#加载官方模型</span></span><br><span class="line">model = YOLO(<span class="string">&#x27;path/to/best.pt&#x27;</span>)  <span class="comment"># 加载自己训练的模型# Validate the model</span></span><br><span class="line">metrics = model.val()  <span class="comment"># no arguments needed, dataset and settings remembered</span></span><br><span class="line">metrics.box.<span class="built_in">map</span>    <span class="comment"># map50-95</span></span><br><span class="line">metrics.box.map50  <span class="comment"># map50</span></span><br><span class="line">metrics.box.map75  <span class="comment"># map75</span></span><br><span class="line">metrics.box.maps   <span class="comment"># a list contains map50-95 of each category</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>评估时可以自定一些参数,参数放入<code>.val()</code>中,可选参数列表如下:</li>
+</ul>
+<p>​	YOLO模型的验证设置涉及用于评估模型在验证数据集上性能的各种超参数和配置。这些设置可能会影响模型的性能、速度和准确性。一些常见的YOLO验证设置包括批处理大小、训练期间执行验证的频率以及用于评估模型性能的指标。可能影响验证过程的其他因素包括验证数据集的大小和组成，以及模型正在执行的具体任务。重要的是要仔细调整和尝试这些设置，以确保模型在验证数据集上表现良好，并检测和防止过拟合。	</p>
+<table>
+<thead>
+<tr>
+<th>键</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>data</code></td>
+<td><code>None</code></td>
+<td>数据文件路径，例如 coco128.yaml</td>
+</tr>
+<tr>
+<td><code>imgsz</code></td>
+<td><code>640</code></td>
+<td>输入图像的大小，以整数表示</td>
+</tr>
+<tr>
+<td><code>batch</code></td>
+<td><code>16</code></td>
+<td>每批图像的数量（-1表示自动批处理）</td>
+</tr>
+<tr>
+<td><code>save_json</code></td>
+<td><code>False</code></td>
+<td>将结果保存到JSON文件</td>
+</tr>
+<tr>
+<td><code>save_hybrid</code></td>
+<td><code>False</code></td>
+<td>保存标签的混合版本（标签 + 额外预测）</td>
+</tr>
+<tr>
+<td><code>conf</code></td>
+<td><code>0.001</code></td>
+<td>用于检测的对象置信度阈值</td>
+</tr>
+<tr>
+<td><code>iou</code></td>
+<td><code>0.6</code></td>
+<td>非极大值抑制（NMS）的交并比阈值</td>
+</tr>
+<tr>
+<td><code>max_det</code></td>
+<td><code>300</code></td>
+<td>每个图像的最大检测数</td>
+</tr>
+<tr>
+<td><code>half</code></td>
+<td><code>True</code></td>
+<td>使用半精度（FP16）</td>
+</tr>
+<tr>
+<td><code>device</code></td>
+<td><code>None</code></td>
+<td>运行设备，例如 cuda device&#x3D;0&#x2F;1&#x2F;2&#x2F;3 或 device&#x3D;cpu</td>
+</tr>
+<tr>
+<td><code>dnn</code></td>
+<td><code>False</code></td>
+<td>使用OpenCV DNN进行ONNX推断</td>
+</tr>
+<tr>
+<td><code>plots</code></td>
+<td><code>False</code></td>
+<td>在训练过程中显示图表</td>
+</tr>
+<tr>
+<td><code>rect</code></td>
+<td><code>False</code></td>
+<td>每批进行矩形验证，以实现最小填充</td>
+</tr>
+<tr>
+<td><code>split</code></td>
+<td><code>val</code></td>
+<td>用于验证的数据集拆分，例如 ‘val’、’test’ 或 ‘train’</td>
+</tr>
+</tbody></table>
+<h1 id="4-推理"><a href="#4-推理" class="headerlink" title="4.推理"></a>4.推理</h1><ul>
+<li>使用python进行推理</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Load a model</span></span><br><span class="line">model = YOLO(<span class="string">&#x27;yolov8n.pt&#x27;</span>)  <span class="comment"># pretrained YOLOv8n model</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Run batched inference on a list of images</span></span><br><span class="line">results = model([<span class="string">&#x27;im1.jpg&#x27;</span>, <span class="string">&#x27;im2.jpg&#x27;</span>])  <span class="comment"># return a list of Results objects</span></span><br><span class="line">results = model.predict(<span class="string">&#x27;bus.jpg&#x27;</span>, save=<span class="literal">True</span>, imgsz=<span class="number">320</span>, conf=<span class="number">0.5</span>) <span class="comment">#可修改参数</span></span><br><span class="line"><span class="comment"># Process results list</span></span><br><span class="line"><span class="keyword">for</span> result <span class="keyword">in</span> results:</span><br><span class="line">    boxes = result.boxes  <span class="comment"># Boxes object for bbox outputs</span></span><br><span class="line">    masks = result.masks  <span class="comment"># Masks object for segmentation masks outputs</span></span><br><span class="line">    keypoints = result.keypoints  <span class="comment"># Keypoints object for pose outputs</span></span><br><span class="line">    probs = result.probs  <span class="comment"># Probs object for classification outputs</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可用参数</li>
+</ul>
+<p><code>model.predict()</code>接受多个参数，这些参数可以在推断时传递以覆盖默认设置：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>source</code></td>
+<td><code>str</code></td>
+<td><code>&#39;ultralytics/assets&#39;</code></td>
+<td>图像或视频的源目录</td>
+</tr>
+<tr>
+<td><code>conf</code></td>
+<td><code>float</code></td>
+<td><code>0.25</code></td>
+<td>用于检测的对象置信度阈值</td>
+</tr>
+<tr>
+<td><code>iou</code></td>
+<td><code>float</code></td>
+<td><code>0.7</code></td>
+<td>非极大值抑制（NMS）的交并比阈值</td>
+</tr>
+<tr>
+<td><code>imgsz</code></td>
+<td><code>int</code> 或 <code>tuple</code></td>
+<td><code>640</code></td>
+<td>图像大小，可以是标量或(h, w)列表，例如(640, 480)</td>
+</tr>
+<tr>
+<td><code>half</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>使用半精度（FP16）</td>
+</tr>
+<tr>
+<td><code>device</code></td>
+<td><code>None</code> 或 <code>str</code></td>
+<td><code>None</code></td>
+<td>运行设备，例如 cuda device&#x3D;0&#x2F;1&#x2F;2&#x2F;3 或 device&#x3D;cpu</td>
+</tr>
+<tr>
+<td><code>show</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>如果可能，显示结果</td>
+</tr>
+<tr>
+<td><code>save</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>保存带有结果的图像</td>
+</tr>
+<tr>
+<td><code>save_txt</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>将结果保存为 .txt 文件</td>
+</tr>
+<tr>
+<td><code>save_conf</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>带有置信度分数保存结果</td>
+</tr>
+<tr>
+<td><code>save_crop</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>带有结果的裁剪图像保存</td>
+</tr>
+<tr>
+<td><code>hide_labels</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>隐藏标签</td>
+</tr>
+<tr>
+<td><code>hide_conf</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>隐藏置信度分数</td>
+</tr>
+<tr>
+<td><code>max_det</code></td>
+<td><code>int</code></td>
+<td><code>300</code></td>
+<td>每个图像的最大检测数</td>
+</tr>
+<tr>
+<td><code>vid_stride</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>视频帧速率步长</td>
+</tr>
+<tr>
+<td><code>stream_buffer</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>缓冲所有流式帧（True）或返回最新的帧（False）</td>
+</tr>
+<tr>
+<td><code>line_width</code></td>
+<td><code>None</code> 或 <code>int</code></td>
+<td><code>None</code></td>
+<td>边界框的线宽。如果为None，则按比例缩放到图像大小</td>
+</tr>
+<tr>
+<td><code>visualize</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>可视化模型特征</td>
+</tr>
+<tr>
+<td><code>augment</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>对预测源应用图像增强</td>
+</tr>
+<tr>
+<td><code>agnostic_nms</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>类别无关的NMS</td>
+</tr>
+<tr>
+<td><code>retina_masks</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>使用高分辨率分割掩码</td>
+</tr>
+<tr>
+<td><code>classes</code></td>
+<td><code>None</code> 或 <code>list</code></td>
+<td><code>None</code></td>
+<td>按类过滤结果，例如 classes&#x3D;0 或 classes&#x3D;[0,2,3]</td>
+</tr>
+<tr>
+<td><code>boxes</code></td>
+<td><code>bool</code></td>
+<td><code>True</code></td>
+<td>在分割预测中显示边界框</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/12/DropMessage(%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BA)/" rel="prev" title="DropMessage(人工智能导论)">
+      <i class="fa fa-chevron-left"></i> DropMessage(人工智能导论)
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="nav-number">1.</span> <span class="nav-text">1.官方文档</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#readme"><span class="nav-number">1.1.</span> <span class="nav-text">readme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.2.</span> <span class="nav-text">模型下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB"><span class="nav-number">1.3.</span> <span class="nav-text">类别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%AE%AD%E7%BB%83%E5%8F%8A%E9%A2%84%E6%B5%8B"><span class="nav-number">2.</span> <span class="nav-text">2.训练及预测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E9%A2%84%E6%B5%8B"><span class="nav-number">2.1.</span> <span class="nav-text">启动预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E8%AE%AD%E7%BB%83"><span class="nav-number">2.2.</span> <span class="nav-text">启动训练</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0"><span class="nav-number">2.2.1.</span> <span class="nav-text">训练参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E8%AF%84%E4%BC%B0"><span class="nav-number">3.</span> <span class="nav-text">3.评估</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%8E%A8%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">4.推理</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

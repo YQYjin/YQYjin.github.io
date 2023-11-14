@@ -195,6 +195,772 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/07/10/%E8%AE%A1%E7%BD%911/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/07/10/%E8%AE%A1%E7%BD%911/" class="post-title-link" itemprop="url">计网1</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-07-10 22:59:46" itemprop="dateCreated datePublished" datetime="2023-07-10T22:59:46+08:00">2023-07-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-12 21:03:08" itemprop="dateModified" datetime="2023-08-12T21:03:08+08:00">2023-08-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<h1 id="1-1什么是Internet"><a href="#1-1什么是Internet" class="headerlink" title="1.1什么是Internet"></a>1.1什么是Internet</h1><ul>
+<li><p>PDU:协议数据单元 </p>
+</li>
+<li><p>协议规范: 语法,语义,时序,动作</p>
+</li>
+</ul>
+<h1 id="1-2网络边缘"><a href="#1-2网络边缘" class="headerlink" title="1.2网络边缘"></a>1.2网络边缘</h1><ul>
+<li><p>网络边缘:主机,应用程序等       </p>
+</li>
+<li><p>网络核心:路由器,网络的网络等,作用是:<strong>数据交换的作用</strong>,使数据能被正确发送和接受</p>
+</li>
+</ul>
+<p>​	客户端服务器模式(C&#x2F;S模型),缺点是服务器宕机时损失较大,可拓展性比较差,当请求达到一定阈值时效率断崖式下降</p>
+<p>​	对等模式(peer to peeer),很少或者没用专门的服务器,每个节点既是客户端又是服务器,可拓展性较好</p>
+<h2 id="TCP服务"><a href="#TCP服务" class="headerlink" title="TCP服务"></a>TCP服务</h2><p>TCP下层传输提供的服务是不可靠的,TCP通过自身使其对上层提供的服务是可靠的</p>
+<ul>
+<li>可靠地,按顺序地传输数据<ul>
+<li>确认接受到的数据,数据损坏时重传,不错不丢不重复不失序</li>
+</ul>
+</li>
+<li>流量控制<ul>
+<li>控制发送数据的速度,协调发送方和接受方的速度</li>
+</ul>
+</li>
+<li>拥塞控制<ul>
+<li>网络拥塞时降低发送速度</li>
+</ul>
+</li>
+</ul>
+<h1 id="1-3网络核心"><a href="#1-3网络核心" class="headerlink" title="1.3网络核心"></a>1.3网络核心</h1><h2 id="1-线-电-路交换"><a href="#1-线-电-路交换" class="headerlink" title="1.线(电)路交换"></a>1.线(电)路交换</h2><ul>
+<li>线路交换独享资源,独占一条线路,建立连接后可以保证性能,但若没有数据发送,就会浪费改线路资源</li>
+<li>常用于传统电话等</li>
+<li>不适合在计算机之间通信,因为计算机通信具有很强的突发性</li>
+</ul>
+<p>线路交换的每一条线路是通过分割带宽实现的,分割方式有 频分,时分,波分(光通信)</p>
+<ul>
+<li>频分(FDM)是分配线路中的可通信频率,信号的不同频率分为不同的线路</li>
+<li>时分(TDM)是分配时间片,将一个周期分割,每一部分代表一个线路</li>
+<li>波分(WDM)分割波段,,每个线路使用一个小波段,在光通信时使用</li>
+</ul>
+<h3 id="计算传输时间"><a href="#计算传输时间" class="headerlink" title="计算传输时间"></a>计算传输时间</h3><p>T&#x3D;建立连接所需时间+发送时间(文件大小&#x2F;带宽)+传播延时(物理信号在线路中传输时间,距离较小时可忽略)</p>
+<p>一个bit在传输中持续的时间&#x3D; 发送时间(1bit&#x2F;带宽)+传输延时(距离&#x2F;光速)</p>
+<h2 id="2-分组交换"><a href="#2-分组交换" class="headerlink" title="2.分组交换"></a>2.分组交换</h2><ul>
+<li>线路资源共享,按需使用,一旦使用就使用全部带宽</li>
+<li>以分组为单位进行存储-转发方式,到达一个节点后线先存储到该节点后再发送到下一个节点,最终传送到目标主机</li>
+<li>若不使用存储转发,那么会占用主机到目标主机之间的全部线路,造成浪费,使用存储-转发方式,则只占用两个节点间的线路</li>
+</ul>
+<h3 id="计算传输时间-1"><a href="#计算传输时间-1" class="headerlink" title="计算传输时间"></a>计算传输时间</h3><p>假设带宽为R bps,分组大小为L bits,主机之间有n个节点</p>
+<p>T&#x3D;(n+1)*(L&#x2F;R)…….n个节点需要n+1次存储转发,存储时间和转发时间只用计算一次,因为发送和接收是同时进行的</p>
+<h3 id="排队延迟和丢失"><a href="#排队延迟和丢失" class="headerlink" title="排队延迟和丢失"></a>排队延迟和丢失</h3><p>若到达速率大于链路的输出速率,分组将排队等待传输,若路由器(节点)缓存已慢,则后续分组后被抛弃</p>
+<h3 id="网络核心关键功能"><a href="#网络核心关键功能" class="headerlink" title="网络核心关键功能"></a>网络核心关键功能</h3><ul>
+<li>路由:决定分组采用的原到目标的路径(路由算法)，路由表会不断变化，导致路径也发生变化</li>
+<li>转发:将分组从路由器的输入链路转移到输出链路</li>
+</ul>
+<p>​	分组交换使用统计多路复用,划分时间片没有固定的模式,根据实际情况进行划分,与时分复用的区别是时分使用固定的划分方式</p>
+<h3 id="数据报（datagram）和虚电路（virtual-circuit）"><a href="#数据报（datagram）和虚电路（virtual-circuit）" class="headerlink" title="数据报（datagram）和虚电路（virtual circuit）"></a>数据报（datagram）和虚电路（virtual circuit）</h3><p>数据报：</p>
+<ul>
+<li>在通信前无需建立连接，有数据就传输</li>
+<li>每一个分组都独立路由，若路径不一样，可能失序</li>
+<li>路由器根据分组的目标地址进行路由，路由不维护主机间的通信</li>
+</ul>
+<p>虚电路：</p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E8%99%9A%E7%94%B5%E8%B7%AF.png"></p>
+<ul>
+<li><p>通过查虚电路表确定路径，两个主机在通信前需要建立虚电路，确定虚电路表项，虚电路号也可能变化</p>
+</li>
+<li><p>虚电路需要维护两主机间的连接</p>
+</li>
+</ul>
+<h1 id="1-4接入网和物理媒体"><a href="#1-4接入网和物理媒体" class="headerlink" title="1.4接入网和物理媒体"></a>1.4接入网和物理媒体</h1><ul>
+<li>接入方式:<ul>
+<li>住宅接入网络: modem调制解调器,DSL,ADSL,线缆网络(FDM,共享带宽)</li>
+<li>单位接入网络(学习,公司等)</li>
+<li>无线接入网</li>
+</ul>
+</li>
+</ul>
+<h1 id="1-5Internet结构和ISP"><a href="#1-5Internet结构和ISP" class="headerlink" title="1.5Internet结构和ISP"></a>1.5Internet结构和ISP</h1><ul>
+<li><p>设备通过接入ISP接入互联网,接入ISP都是互联的</p>
+</li>
+<li><p>每个接入ISP都连接到全局ISP,不同运营商有不同的全局ISP,不同的全局ISP再连接到一起,形成网络的网络</p>
+</li>
+</ul>
+<h2 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构:"></a>网络结构:</h2><ul>
+<li><p>中心:第一层ISP,国家或国际覆盖,速率极高,与其他一层ISP对等连接或通过IXP相连,与大量第二层ISP和其他客户网络不对等连接</p>
+</li>
+<li><p>中心通过多层下级ISP连接到Local ISP到达客户</p>
+</li>
+</ul>
+<h2 id="ISP连接方式"><a href="#ISP连接方式" class="headerlink" title="ISP连接方式:"></a>ISP连接方式:</h2><ul>
+<li>POP: 高层ISP面向客户网络的接入点,非对等连接,涉及费用结算.一个低层ISP可接入多个高层ISP</li>
+<li>对等接入: ISP对等连接,不涉及费用结算</li>
+<li>IXP:多个对等ISP的互联互通处,对等连接,通常不涉及费用结算</li>
+<li>ICP专网,同时和各级ISP连接</li>
+</ul>
+<h1 id="1-6分组延迟-丢失和吞吐量"><a href="#1-6分组延迟-丢失和吞吐量" class="headerlink" title="1.6分组延迟,丢失和吞吐量"></a>1.6分组延迟,丢失和吞吐量</h1><ul>
+<li>分组丢失:分组到达速率超过链路输出能力,节点已满,后续到达的节点被丢弃</li>
+<li>分组延迟:在节点中等待被发送的时间,排队</li>
+</ul>
+<h2 id="四种延迟"><a href="#四种延迟" class="headerlink" title="四种延迟"></a>四种延迟</h2><ol>
+<li><p>处理延迟:检查是否出错(bit级差错),以及根据数据头部决定数据发送的路径</p>
+</li>
+<li><p>排队延迟:到达节点到从节点发送的延迟</p>
+<ul>
+<li>流量强度I&#x3D;La&#x2F;R (R:带宽,L:分组的大小,a:单位时间内要通过链路的分组数量)</li>
+</ul>
+</li>
+<li><p>传输延迟:将分组发送到链路上的时间,由带宽和分组大小决定</p>
+</li>
+<li><p>传播延迟:物理信号在链路中的传播时间,由链路长度和传播速度决定</p>
+</li>
+</ol>
+<p>每一跳的总时间&#x3D;处理延迟+排队延迟+传输延迟+传播延迟</p>
+<h2 id="延迟检测"><a href="#延迟检测" class="headerlink" title="延迟检测"></a>延迟检测</h2><ul>
+<li>每个分组有TTL(time to leave)存活时间,每到一个节点减一,减为0时抛弃并向主机发送ICMP控制报文</li>
+<li>检测延迟时,将TTL设为1可以检测第一个节点的延迟,设为2可以检测第二个等等,就可以得到往返延迟\</li>
+<li>如何判断结束检测:检测次数足够大使可以到达目标主机,设置特殊的端口,到达对方主机时,发送ICMP报文,报告端口被占用无法接受数据,即目标端口不可达,就可以判断检测结束</li>
+</ul>
+<h1 id="1-7协议层次和服务模型"><a href="#1-7协议层次和服务模型" class="headerlink" title="1.7协议层次和服务模型"></a>1.7协议层次和服务模型</h1><p>​	层次化模型,每一层提供多个服务,通过层间接口向上层提供服务</p>
+<ul>
+<li>服务:低层实体向上层实体提供它们之间通信的能力</li>
+<li>原语:上层使用下层服务的形式,高层使用下层的服务,低层向上层提供服务都通过服务访问原语进行交互</li>
+<li>服务访问点SAP:下层实体支撑上层多个实体,SAP用于区分不同的上层实体</li>
+</ul>
+<h2 id="数据单元DU"><a href="#数据单元DU" class="headerlink" title="数据单元DU"></a>数据单元DU</h2><p>上层发送SDU(服务数据单元),通过SAP到达本层,把SDU加上本层的头部,形成本层PDU(协议数据单元)</p>
+<p>若SDU较大,则将SDU分解成为小部分,各自加上本层的头部,形成本层PDU</p>
+<p>若SDU较小,将多个SDU合并,加上本层头部,形成本次PDU</p>
+<h2 id="分层处理的好处"><a href="#分层处理的好处" class="headerlink" title="分层处理的好处"></a>分层处理的好处</h2><ul>
+<li>分而治之,结构清晰,大问题分解为小问题,便于独立设计和解决</li>
+<li>保持接口不变,每一层可以在不影响其他层的情况下进行升级或改变</li>
+</ul>
+<p>问题:</p>
+<ul>
+<li>分层后,子系统间需要交换信息,效率会降低</li>
+</ul>
+<h2 id="层次"><a href="#层次" class="headerlink" title="层次"></a>层次</h2><ul>
+<li>物理层: 单位 bit ,将数据转换为物理信号或反转,发送和接收</li>
+<li>链路层: 基于物理层提供的服务,传输以 frame 帧为单位的数据,将bit组合成帧,<strong>在相邻两点间传输</strong>,</li>
+<li>网络层: 基于链路层提供的服务,以 分组 为单位提供源主机和目标主机的<strong>端到端</strong>(非相连)之间的传输,IP协议</li>
+<li>传输层:基于网络层,把数据进行<strong>进程间的区分</strong>,把网络层不可靠的服务通过TCP向上层提供可靠的服务(或其他协议如UDP)</li>
+<li>应用层:基于传输层,实现网络应用,如FTP,HTTP等</li>
+</ul>
+<h2 id="ISO-x2F-OSI参考模型"><a href="#ISO-x2F-OSI参考模型" class="headerlink" title="ISO&#x2F;OSI参考模型"></a>ISO&#x2F;OSI参考模型</h2><ul>
+<li>相对于上述层次,在应用层和传输层之间增加了表示层和会话层</li>
+<li>互联网协议栈没有这两层,若需要则通过应用自身实现</li>
+</ul>
+<h2 id="封装和解封装"><a href="#封装和解封装" class="headerlink" title="封装和解封装"></a>封装和解封装</h2><p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E5%B0%81%E8%A3%85.png"></p>
+<ul>
+<li>网络接口层指连接链路层</li>
+<li>数据从应用经过每一层时,都添加该层的头部,标志各自的信息,进行封装</li>
+<li>解封装时根据头部的信息,将数据分配给响应的目标</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/07/%E5%AE%89%E5%85%A8%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/06/07/%E5%AE%89%E5%85%A8%E6%80%A7/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-07 22:23:27" itemprop="dateCreated datePublished" datetime="2023-06-07T22:23:27+08:00">2023-06-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-12 21:03:20" itemprop="dateModified" datetime="2023-08-12T21:03:20+08:00">2023-08-12</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/06/07/%E5%AE%89%E5%85%A8%E6%80%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/21/RSA,ECDHE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/21/RSA,ECDHE/" class="post-title-link" itemprop="url">RSA,ECDHE</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-21 20:45:30" itemprop="dateCreated datePublished" datetime="2023-05-21T20:45:30+08:00">2023-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-23 17:51:19" itemprop="dateModified" datetime="2023-05-23T17:51:19+08:00">2023-05-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​	RSA是HTTPS下层TLS&#x2F;SSL握手过程中的一种密钥交换算法,用于交换会话用于对称加密的密钥</p>
+<p>​	ECDHE支持前向保密,目前被广泛使用</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/21/RSA,ECDHE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/17/java%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/17/java%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">java网络编程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-17 21:14:10" itemprop="dateCreated datePublished" datetime="2023-05-17T21:14:10+08:00">2023-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li>C&#x2F;S模型</li>
+<li>B&#x2F;S模型</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/17/HTTP%E6%BC%94%E5%8F%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/17/HTTP%E6%BC%94%E5%8F%98/" class="post-title-link" itemprop="url">HTTP演变和优化</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-17 20:17:21" itemprop="dateCreated datePublished" datetime="2023-05-17T20:17:21+08:00">2023-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-21 19:46:43" itemprop="dateModified" datetime="2023-05-21T19:46:43+08:00">2023-05-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>HTTP&#x2F;1.1,HTTP&#x2F;2,HTTP&#x2F;3</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/17/HTTP%E6%BC%94%E5%8F%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/14/HTTPS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/14/HTTPS/" class="post-title-link" itemprop="url">HTTPS</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-14 16:11:30" itemprop="dateCreated datePublished" datetime="2023-05-14T16:11:30+08:00">2023-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-16 22:31:11" itemprop="dateModified" datetime="2023-05-16T22:31:11+08:00">2023-05-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>HTTPS的实现,混合加密,数字签名,数字证书,TLS握手,数字证书校验和HTTPS安全性</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/14/HTTPS/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/13/HTTP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/13/HTTP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">HTTP基本概念</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-13 19:53:49" itemprop="dateCreated datePublished" datetime="2023-05-13T19:53:49+08:00">2023-05-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-14 15:33:45" itemprop="dateModified" datetime="2023-05-14T15:33:45+08:00">2023-05-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​	HTTP基本概念,GET与POST,HTTP缓存,HTTP特性,HTTP性能</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/13/HTTP%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/09/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/09/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="post-title-link" itemprop="url">线程池</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-09 17:34:46" itemprop="dateCreated datePublished" datetime="2023-04-09T17:34:46+08:00">2023-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-09 21:41:04" itemprop="dateModified" datetime="2023-05-09T21:41:04+08:00">2023-05-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/09/%E7%BA%BF%E7%A8%8B%E6%B1%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/01/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -353,667 +1119,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/17/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/03/17/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95-2/" class="post-title-link" itemprop="url">基础算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-03-17 15:55:41" itemprop="dateCreated datePublished" datetime="2023-03-17T15:55:41+08:00">2023-03-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-01 19:28:52" itemprop="dateModified" datetime="2023-04-01T19:28:52+08:00">2023-04-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="基础算法-2"><a href="#基础算法-2" class="headerlink" title="基础算法-2"></a>基础算法-2</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/03/17/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95-2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/03/java%E5%B9%B6%E5%8F%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/03/03/java%E5%B9%B6%E5%8F%91/" class="post-title-link" itemprop="url">JAVA并发</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-03-03 16:22:38" itemprop="dateCreated datePublished" datetime="2023-03-03T16:22:38+08:00">2023-03-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-01 21:45:57" itemprop="dateModified" datetime="2023-04-01T21:45:57+08:00">2023-04-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="进程-x2F-线程"><a href="#进程-x2F-线程" class="headerlink" title="进程&#x2F;线程"></a>进程&#x2F;线程</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/03/03/java%E5%B9%B6%E5%8F%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/27/%E9%9A%8F%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/02/27/%E9%9A%8F%E8%AE%B0/" class="post-title-link" itemprop="url">随记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-02-27 15:11:12" itemprop="dateCreated datePublished" datetime="2023-02-27T15:11:12+08:00">2023-02-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-09 15:22:33" itemprop="dateModified" datetime="2023-03-09T15:22:33+08:00">2023-03-09</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <span id="more"></span>
-
-<h1 id="最大公约数和最大公倍数"><a href="#最大公约数和最大公倍数" class="headerlink" title="最大公约数和最大公倍数"></a>最大公约数和最大公倍数</h1><p>a,b两个数</p>
-<ul>
-<li>求最大公约数:</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(x%y!=<span class="number">0</span>):</span><br><span class="line">    z=x%y</span><br><span class="line">    x=y</span><br><span class="line">    y=z</span><br><span class="line"><span class="built_in">print</span>(z)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>最小公倍数 : a * b &#x3D; a,b的最小公倍数* a,b的最大公约数</li>
-<li>故 最小公倍数&#x3D; (a*b)&#x2F;z</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/22/java%E5%9B%BE%E7%89%87%E5%A2%9E%E5%BC%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/02/22/java%E5%9B%BE%E7%89%87%E5%A2%9E%E5%BC%BA/" class="post-title-link" itemprop="url">java图片增强</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-02-22 22:17:15" itemprop="dateCreated datePublished" datetime="2023-02-22T22:17:15+08:00">2023-02-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-09 15:25:48" itemprop="dateModified" datetime="2023-03-09T15:25:48+08:00">2023-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JAVA-IO"><a href="#JAVA-IO" class="headerlink" title="JAVA IO"></a>JAVA IO</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/02/22/java%E5%9B%BE%E7%89%87%E5%A2%9E%E5%BC%BA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/06/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/02/06/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">基础算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-02-06 17:23:51" itemprop="dateCreated datePublished" datetime="2023-02-06T17:23:51+08:00">2023-02-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-17 15:54:41" itemprop="dateModified" datetime="2023-03-17T15:54:41+08:00">2023-03-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="基础算法-1"><a href="#基础算法-1" class="headerlink" title="基础算法-1"></a>基础算法-1</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/02/06/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/17/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/17/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-title-link" itemprop="url">算法竞赛-1</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-17 16:18:35" itemprop="dateCreated datePublished" datetime="2023-01-17T16:18:35+08:00">2023-01-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-09 15:23:31" itemprop="dateModified" datetime="2023-03-09T15:23:31+08:00">2023-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="基础数据结构"><a href="#基础数据结构" class="headerlink" title="基础数据结构"></a>基础数据结构</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/17/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/16/Uinty3DUI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/16/Uinty3DUI/" class="post-title-link" itemprop="url">Uinty3DUI</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-16 17:31:02" itemprop="dateCreated datePublished" datetime="2023-01-16T17:31:02+08:00">2023-01-16</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Unity3D/" itemprop="url" rel="index"><span itemprop="name">Unity3D</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ol>
-<li>画布</li>
-<li>锚点和轴心点</li>
-<li>文字</li>
-<li>按钮</li>
-<li>文本框</li>
-<li>选项</li>
-<li>滚动</li>
-<li>面板</li>
-<li>UI组件</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/16/Uinty3DUI/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/15/Unity3D%E5%8A%A8%E7%94%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/15/Unity3D%E5%8A%A8%E7%94%BB/" class="post-title-link" itemprop="url">Unity3D动画</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-15 22:23:31" itemprop="dateCreated datePublished" datetime="2023-01-15T22:23:31+08:00">2023-01-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-01-16 11:29:01" itemprop="dateModified" datetime="2023-01-16T11:29:01+08:00">2023-01-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Unity3D/" itemprop="url" rel="index"><span itemprop="name">Unity3D</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ol>
-<li>角色动画</li>
-<li>按键控制</li>
-<li>剪辑</li>
-<li>曲线和帧事件</li>
-<li>混合动画</li>
-<li>动画分层</li>
-<li>反向动力</li>
-<li>导航网格</li>
-<li>网格连接和动态障碍物</li>
-<li>导航区域</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/15/Unity3D%E5%8A%A8%E7%94%BB/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1081,14 +1190,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

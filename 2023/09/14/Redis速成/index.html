@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一.安装配置 使用sudo service redis-server start 启动Redis服务器,使用redis-cli启动客户端 推荐使用RedisInsight操作Redis 切换WSL版本:wsl --set-version Ubuntu-版本号 2  二.数据类型1.字符串 Redis中的数据都是以键值对存在,使用SET命令来创建数据,Redis中区分大小写  	SET name r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis速成">
+<meta property="og:url" content="http://example.com/2023/09/14/Redis%E9%80%9F%E6%88%90/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="一.安装配置 使用sudo service redis-server start 启动Redis服务器,使用redis-cli启动客户端 推荐使用RedisInsight操作Redis 切换WSL版本:wsl --set-version Ubuntu-版本号 2  二.数据类型1.字符串 Redis中的数据都是以键值对存在,使用SET命令来创建数据,Redis中区分大小写  	SET name r">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-14T11:55:37.808Z">
+<meta property="article:modified_time" content="2023-09-16T05:14:58.144Z">
+<meta property="article:author" content="YQYjin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/09/14/Redis%E9%80%9F%E6%88%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Redis速成 | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/14/Redis%E9%80%9F%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis速成
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-09-14 19:55:37" itemprop="dateCreated datePublished" datetime="2023-09-14T19:55:37+08:00">2023-09-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-16 13:14:58" itemprop="dateModified" datetime="2023-09-16T13:14:58+08:00">2023-09-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-安装配置"><a href="#一-安装配置" class="headerlink" title="一.安装配置"></a>一.安装配置</h1><ul>
+<li>使用<code>sudo service redis-server start </code>启动Redis服务器,使用<code>redis-cli</code>启动客户端</li>
+<li>推荐使用RedisInsight操作Redis</li>
+<li>切换WSL版本:<code>wsl --set-version Ubuntu-版本号 2</code></li>
+</ul>
+<h1 id="二-数据类型"><a href="#二-数据类型" class="headerlink" title="二.数据类型"></a>二.数据类型</h1><h2 id="1-字符串"><a href="#1-字符串" class="headerlink" title="1.字符串"></a>1.字符串</h2><ul>
+<li><p>Redis中的数据都是以键值对存在,使用<code>SET</code>命令来创建数据,Redis中区分大小写</p>
+</li>
+<li><p><code>	SET name redis</code>即创建了一个键值对: name:redis</p>
+</li>
+<li><p>Redis中默认使用字符串存储数据且是二进制安全的</p>
+</li>
+<li><p>使用<code>DEL</code>命令删除键值对(删除键及对应的值)</p>
+</li>
+<li><p>使用<code>EXISTS</code>命令查看某个键是否存在,使用<code>KEYS</code> 来查找键,使用<code>FLUSHALL</code>删除所有键</p>
+</li>
+<li><p>Redis默认不支持中文显示(显示的是二进制),在登录时使用<code>redis-cli --raw</code>来正常显示中文</p>
+</li>
+<li><p>使用<code>clear</code>清空屏幕</p>
+</li>
+<li><p>使用<code>TTL</code>来查看键的过期时间,使用<code>EXPIRE 键 过期时间</code>来设置过期时间</p>
+</li>
+<li><p><code>SETNX</code>创建值,当键不存在时创建,当键已存在时不执行任何操作</p>
+</li>
+</ul>
+<h2 id="2-列表List"><a href="#2-列表List" class="headerlink" title="2.列表List"></a>2.列表List</h2><ul>
+<li>使用<code>LPUSH</code>向列表中添加数据,使用<code>LRANGE</code>命令从列表中获取数据</li>
+<li><code>LPUSH</code>是将数据添加到列表头部,<code>RPUSH</code>将数据添加到列表尾部</li>
+<li><code>LPOP</code>和<code>RPOP</code>用于删除元素</li>
+<li><code>LTRIM</code>删除区间之外的所有元素</li>
+</ul>
+<h2 id="3-SET"><a href="#3-SET" class="headerlink" title="3.SET"></a>3.SET</h2><ul>
+<li>SET是无序的,不能有重复元素,SET相关命令都以S开头</li>
+<li><code>SADD</code>向集合中添加元素.<code>SMEMBERS</code>查看集合中的元素,<code>SREM</code>删除集合中的元素</li>
+<li><code>SINTER</code>,<code>SUNION</code>等命令用于集合间的运算</li>
+</ul>
+<h2 id="4-有序集合"><a href="#4-有序集合" class="headerlink" title="4.有序集合"></a>4.有序集合</h2><p>​	有序集合会将集合中的元素安装从小到大排序</p>
+<ul>
+<li><code>ZADD</code>用于添加元素,<code>ZRANGE</code> 查询集合中的键,<code>ZSCORE</code>查看集合中的值,<code>ZRANK</code>查看键的排名</li>
+<li>使用<code>ZREVRANK</code>反转集合,使集合从大到小排序</li>
+<li><code>ZREM</code>删除,等等其他命令</li>
+</ul>
+<h2 id="5-哈希"><a href="#5-哈希" class="headerlink" title="5.哈希"></a>5.哈希</h2><p>​	HASH相关命令都以H开头</p>
+<ul>
+<li><code>HSET</code>添加键值对,<code>HGET</code>获取键值对,<code>HGETALL</code>获取所有的键值对</li>
+<li><code>HDEL</code>删除键值对,<code>HEXISTS</code>判断键值对是否存在,<code>HKEYS</code>获取所有键,<code>HLEN</code>获取键值对的数量</li>
+<li>以及其他更多命令</li>
+</ul>
+<h1 id="三-发布订阅模式"><a href="#三-发布订阅模式" class="headerlink" title="三.发布订阅模式"></a>三.发布订阅模式</h1><ul>
+<li><p>使用<code>subscribe +名称</code>来订阅一个频道,就可以接收该频道的消息</p>
+</li>
+<li><p>使用<code>publish+名称</code>来向频道中发送消息,所有订阅该频道的客户端都可接收</p>
+</li>
+<li><p>使用频道无法使消息持久化,无法查看历史消息</p>
+</li>
+</ul>
+<h1 id="四-Stream"><a href="#四-Stream" class="headerlink" title="四.Stream"></a>四.Stream</h1><p>​	Stream相关消息都以X开头,可以解决频道无法持久化数据和查看历史数据的问题</p>
+<ul>
+<li><p>使用<code>XADD</code> 添加消息,使用<code>XLEN</code>查看消息数量,使用<code>XRANGE</code>查看消息内容</p>
+</li>
+<li><p>使用<code>XDEL</code>删除消息,<code>XTRIM</code>批量删除消息</p>
+</li>
+<li><p>可以使用ID发布消息(可手动指定或Redis自动生成)</p>
+</li>
+<li><p><code>XREAD</code>读取消息,可以设置读取的消息数量,没有消息时阻塞等</p>
+</li>
+<li><p>还可以创建一个消费者组<code>XGROUP</code>,<code>XINFO</code>查看消费者组信息,<code>XGROUP CREATECONSUMER</code>向消费者组中添加消费者,<code>XINFO GROUPS</code>查看消费者组信息,可以设置阻塞等</p>
+</li>
+</ul>
+<h1 id="五-其他数据结构"><a href="#五-其他数据结构" class="headerlink" title="五.其他数据结构"></a>五.其他数据结构</h1><h2 id="1-地理空间Geospatial"><a href="#1-地理空间Geospatial" class="headerlink" title="1.地理空间Geospatial"></a>1.地理空间Geospatial</h2><p>​	Redis3.2中的新特性,是一种存储地理位置信息的数据结构,支持地理位置直接的计算,相关指令都以GEO开头</p>
+<ul>
+<li><code>GEOADD</code>添加地理位置信息,位置信息是经纬度</li>
+<li><code>GEOPOS</code>获取某个地点的位置,<code>GEODIST</code>计算两个位置直接的距离,单位默认为米</li>
+<li><code>SEARCH</code>搜索指定范围内的地理位置并返回,范围中心可以是地点或经委度,范围可以是圆形也可以是矩形</li>
+</ul>
+<h2 id="2-HpyerLogLog"><a href="#2-HpyerLogLog" class="headerlink" title="2.HpyerLogLog"></a>2.HpyerLogLog</h2><p>​	是一种用于统计基数的算法,基数:不重复元素的格式(不确定),使用随机算法减少性能消耗,因此存在误差</p>
+<ul>
+<li><code>PFADD</code>向集合中添加数据,<code>PFCOUNT</code>统计基数,<code>PFMERGE</code>合并集合</li>
+</ul>
+<h2 id="3-位图Bitmap"><a href="#3-位图Bitmap" class="headerlink" title="3.位图Bitmap"></a>3.位图Bitmap</h2><p>​	位图是字符串类型的拓展,应用范围广泛,用于统计是否点赞等</p>
+<ul>
+<li><code>SETBIT</code>设置位图,<code>GETBIT</code>获取某个偏移量的值</li>
+<li>使用<code>SET</code>批量设置,如使用16进制表示2进制,一次性设置多个偏移量</li>
+<li><code>BITCOUNT</code>统计位图中有几个bit值为1</li>
+<li><code>BITPOS</code>获取位图中第一个出现的1或0的位置</li>
+</ul>
+<h2 id="4-位域"><a href="#4-位域" class="headerlink" title="4.位域"></a>4.位域</h2><p>​	位域能将很多小的整数存储到一张大的位图中,以提高内存利用率</p>
+<h1 id="六-多操作"><a href="#六-多操作" class="headerlink" title="六.多操作"></a>六.多操作</h1><ul>
+<li><p>使用<code>MULTI</code>开启多操作,使用<code>EXEC</code>执行多操作中的所有命令</p>
+</li>
+<li><p>在Redis中,在发送EXEC命令之前,所有命令都会被放入队列中缓存,不被立即执行;事务中的某一指令执行失败,其他指令依旧会被执行;事务执行的过程中其他客户端提交的命令请求不会被插入到事务中</p>
+</li>
+</ul>
+<h1 id="七-持久化"><a href="#七-持久化" class="headerlink" title="七.持久化"></a>七.持久化</h1><ul>
+<li>RDB持久化<ul>
+<li>在指定时间间隔,将数据快照写入磁盘</li>
+<li>使用<code>SAVE</code>命令手动写入,使用<code>BGSAVE</code>创建一个子进程写入数据</li>
+<li>最后一次快照之后到下一次快照之间的数据会丢失</li>
+</ul>
+</li>
+<li>AOF持久化</li>
+<li>在执行写命令时,将日志写入AOF,重启数据库中重新操作AOF中的命令来恢复数据库</li>
+</ul>
+<h1 id="八-主从复制"><a href="#八-主从复制" class="headerlink" title="八.主从复制"></a>八.主从复制</h1><ul>
+<li>一个主节点有多个从节点,一个从节点只有一个主节点</li>
+</ul>
+<h1 id="九-哨兵模式"><a href="#九-哨兵模式" class="headerlink" title="九.哨兵模式"></a>九.哨兵模式</h1><p>​	实现自动故障转移,哨兵以独立的进制运行在Redis集群中,监控各个节点</p>
+<ul>
+<li>监控:不断发送命令检查Redis节点是否正常</li>
+<li>通过:通过消息订阅发布节点故障信息</li>
+<li>自动故障转移:主节点故障时,将某个子节点升级为主节点</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/16/Gorm%E6%A1%86%E6%9E%B6%E5%AE%9E%E8%B7%B5%E9%9D%92%E8%AE%AD%E8%90%A5/" rel="prev" title="Gorm框架实践|青训营">
+      <i class="fa fa-chevron-left"></i> Gorm框架实践|青训营
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/11/12/DropMessage(%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BA)/" rel="next" title="DropMessage(人工智能导论)">
+      DropMessage(人工智能导论) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80-%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">一.安装配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">二.数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">2.1.</span> <span class="nav-text">1.字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%88%97%E8%A1%A8List"><span class="nav-number">2.2.</span> <span class="nav-text">2.列表List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-SET"><span class="nav-number">2.3.</span> <span class="nav-text">3.SET</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88"><span class="nav-number">2.4.</span> <span class="nav-text">4.有序集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%93%88%E5%B8%8C"><span class="nav-number">2.5.</span> <span class="nav-text">5.哈希</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">三.发布订阅模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B-Stream"><span class="nav-number">4.</span> <span class="nav-text">四.Stream</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94-%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text">五.其他数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9C%B0%E7%90%86%E7%A9%BA%E9%97%B4Geospatial"><span class="nav-number">5.1.</span> <span class="nav-text">1.地理空间Geospatial</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-HpyerLogLog"><span class="nav-number">5.2.</span> <span class="nav-text">2.HpyerLogLog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%BD%8D%E5%9B%BEBitmap"><span class="nav-number">5.3.</span> <span class="nav-text">3.位图Bitmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BD%8D%E5%9F%9F"><span class="nav-number">5.4.</span> <span class="nav-text">4.位域</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD-%E5%A4%9A%E6%93%8D%E4%BD%9C"><span class="nav-number">6.</span> <span class="nav-text">六.多操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83-%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">7.</span> <span class="nav-text">七.持久化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">8.</span> <span class="nav-text">八.主从复制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D-%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F"><span class="nav-number">9.</span> <span class="nav-text">九.哨兵模式</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
