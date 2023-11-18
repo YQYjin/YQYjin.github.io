@@ -195,6 +195,198 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/07/14/%E8%AE%A1%E7%BD%912/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/07/14/%E8%AE%A1%E7%BD%912/" class="post-title-link" itemprop="url">计网2</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-07-14 11:51:59" itemprop="dateCreated datePublished" datetime="2023-07-14T11:51:59+08:00">2023-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-12 21:02:58" itemprop="dateModified" datetime="2023-08-12T21:02:58+08:00">2023-08-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<h1 id="2-1-应用原理"><a href="#2-1-应用原理" class="headerlink" title="2.1 应用原理"></a>2.1 应用原理</h1><p>可能的应用架构:</p>
+<ul>
+<li>C&#x2F;S模式<ul>
+<li>可拓展性差</li>
+</ul>
+</li>
+<li>对等模式(p2p) 在该架构中也有客户端和服务器之分,但可以既作为客户端又作为服务器<ul>
+<li>管理困难</li>
+</ul>
+</li>
+<li>混合模式</li>
+</ul>
+<p>用户连接到服务器时,在服务器注册自己的IP来标识自身</p>
+<h2 id="分布式通信"><a href="#分布式通信" class="headerlink" title="分布式通信"></a>分布式通信</h2><h3 id="进程标识和寻址问题"><a href="#进程标识和寻址问题" class="headerlink" title="进程标识和寻址问题"></a>进程标识和寻址问题</h3><ul>
+<li><p>标识应唯一来标识自己,且包含地址信息</p>
+</li>
+<li><p>需要: 主机IP,协议UDP&#x2F;TCP,端口port;进程之间可以通过两个端节点标识</p>
+</li>
+</ul>
+<h3 id="传输层-应用层的服务提供"><a href="#传输层-应用层的服务提供" class="headerlink" title="传输层-应用层的服务提供"></a>传输层-应用层的服务提供</h3><ul>
+<li>(地点)通过层间SAP(TCP&#x2F;IP:socket),(形式)调用应用程序接口API(TCP&#x2F;IP: socket API),来调用下层提供的服务</li>
+<li>层间接口需要携带:<ul>
+<li>1.要传输的报文SDU;2.来源:源进程的IP+TCP&#x2F;UDP和端口;3.目标:对方的IP+TCP&#x2F;UDP和端口</li>
+</ul>
+</li>
+<li>传输层实体根据层间接口的信息对数据进行封装,数据+头部</li>
+<li>若每次都传输上述数据,对于频繁进行数据交换的进程会造成数据冗余(不必要的收发方标识),使用Socket来解决该问题,建立TCP socket,使进程间通信持续一段时间,数据穿过层间接口时只需标识IP和TCP端口,使穿过层间接口的信息量最小,代表是本地四元组标识(源IP,源port,目标IP,目标port),不必在每一个报文发送时都指导该四元组</li>
+<li>UDP socket,不需要建立连接,因此只用一个整数表示本应用实体的表示,但传输报文时需提供对方IP和port,传输时需要三个信息:报文,UDP socket,对方IP和port</li>
+<li>UDP使用二元组(IP,port)表示,只用标志目标,不需要表示自身</li>
+</ul>
+<h3 id="如何使用下层服务-实现进程之间交换报文"><a href="#如何使用下层服务-实现进程之间交换报文" class="headerlink" title="如何使用下层服务,实现进程之间交换报文"></a>如何使用下层服务,实现进程之间交换报文</h3><p>​	定义应用层协议:报文格式,解释,时序等,编制程序使用OS提供的API调用下层服务,定义了在不同端系统上的应用进程如何交换报文</p>
+<h3 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h3><ul>
+<li>数据丢失率</li>
+<li>延迟</li>
+<li>吞吐</li>
+<li>安全性</li>
+</ul>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><ol>
+<li>可靠的传输服务;</li>
+<li>流量控制;</li>
+<li>拥塞控制;</li>
+<li>面向连接;</li>
+</ol>
+<p>但不能提供时间保证,最小吞吐保证和安全</p>
+<h3 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h3><ol>
+<li>不可靠数据传输服务</li>
+<li>不提供:流量控制,拥塞控制,时间,带宽保证,连接</li>
+<li>UDP速度快,延迟低,IP也不提供上述服务,但只能区分主机到主机,不能区分进程</li>
+</ol>
+<p>TCP和UDP都不进行加密,通过明文传输,SSL在TCP上实现,提供加密TCP连接,保证安全性,完整性检测,端到端鉴别</p>
+<h1 id="2-2-Web-and-HTTP"><a href="#2-2-Web-and-HTTP" class="headerlink" title="2.2 Web and HTTP"></a>2.2 Web and HTTP</h1><h2 id="URL-通用资源定位符-唯一标识"><a href="#URL-通用资源定位符-唯一标识" class="headerlink" title="URL:通用资源定位符,唯一标识"></a>URL:通用资源定位符,唯一标识</h2><p>格式:协议名+用户+口令+主机名+路径名+端口号</p>
+<p>协议确定是用http还是ftp等协议,匿名访问可以省略用户名和口令,协议有默认端口号,非特殊情况不需要指定</p>
+<h2 id="HTTP-超文本传输协议"><a href="#HTTP-超文本传输协议" class="headerlink" title="HTTP:超文本传输协议"></a>HTTP:超文本传输协议</h2><ul>
+<li>Web应用层协议</li>
+<li>采用C&#x2F;S模型</li>
+</ul>
+<h2 id="往返时间RTT"><a href="#往返时间RTT" class="headerlink" title="往返时间RTT"></a>往返时间RTT</h2><p>一个小的分组从客户端到服务器再回到客户端的时间(忽略传输时间)</p>
+<p>一个RTT用来发起TCP连接,再有一个RTT用来HTTP请求并等待HTTP响应</p>
+<p>总的文件传输时间: 2个RTT加上传输时间</p>
+<h2 id="流水线"><a href="#流水线" class="headerlink" title="流水线"></a>流水线</h2><p>若有10个URL,非流水线处理为发出一个请求,收到响应后再发送下一个请求</p>
+<p>而流水线形式为所有URL都发送,不需要等待前一个返回再进行下一个</p>
+<h2 id="提交表单的形式"><a href="#提交表单的形式" class="headerlink" title="提交表单的形式"></a>提交表单的形式</h2><ul>
+<li>post方式,网页通常包括表单输入,包含在实体主体中的输入被提交到服务器</li>
+<li>URL方式,通过GET方法获取</li>
+</ul>
+<p>还有HEAD,PUT,DELETE等,不同HTTP版本也有区别</p>
+<h2 id="Web缓存"><a href="#Web缓存" class="headerlink" title="Web缓存"></a>Web缓存</h2><p>​	不访问原始服务器就满足需求,加快速度,减少服务器负担,28原理,80%的人访问20%的资源,将这些资源缓存,可以提高效率.缓存对于原始服务器是客户端,而对于用户则作为服务器</p>
+<p>​	缓存示例:</p>
+<p>​                                                  	<img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%BC%93%E5%AD%98%E7%A4%BA%E4%BE%8B.png"></p>
+<p><img src="https://cdn.staticaly.com/gh/YQYjin/blogcdn@master/imgs/%E7%BC%93%E5%AD%98%E7%A4%BA%E4%BE%8B3.png"></p>
+<p>增大带宽以减少排队等待时间,但费用增加</p>
+<p>具体讲解:P14 1:11:0</p>
+<h1 id="2-5-DNS"><a href="#2-5-DNS" class="headerlink" title="2.5 DNS"></a>2.5 DNS</h1><p>​	域名解析系统,最重要的功能是将提供的域名(或别名)解析为IP地址,运行在UDP协议的53号端口上,解析时,从顶到下开始,从根名字服务器到顶级域服务器再向下,直至IP地址</p>
+<h2 id="层次化"><a href="#层次化" class="headerlink" title="层次化"></a>层次化</h2><ul>
+<li><p>通过层次化命名,解决重名问题,NDS采用层次树状结构命名</p>
+</li>
+<li><p>将Internet分为几百个顶级域,顶级域分为通用的(.com;.edu)和国家的(.cn .us)</p>
+</li>
+<li><p>每个域下再化为多个子域</p>
+</li>
+<li><p>叶子节点是主机</p>
+</li>
+</ul>
+<p>​	一个域管理其下的子域,域与物理网络无关,域的划分是逻辑上的而不是物理上的</p>
+<h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>​	问题:可靠性问题(单点故障),扩展性问题(通信容量),维护问题</p>
+<p>​	TLD服务器(顶级域服务器),负责顶级域名和所有国家级顶级域名,如Network solutions公司维护 com TLD服务器</p>
+<p>​	服务器通过资源记录维护:域名-IP地址的映射关系,位置在服务器的分布式数据库中,格式为RR格式,包括以下字段:</p>
+<ul>
+<li>Class:资源类型,对应Internet,值为IN,即DNS不止处理互联网内容</li>
+<li>TTL:资源生存时间(对于自身的资源,TTL为无限大,而对于从其他服务器获取的资源,则TTL是一个有限值,即作为缓存的生存时间), </li>
+<li>Domain_name: 存储域名到IP地址的映射关系 </li>
+<li>Value:值</li>
+<li>Type:记录资源类别,值有 A,CNAME,NS,MX</li>
+</ul>
+<p>​	解析大致过程:本地调用解析器,解析器向名称服务器发送请求(已预先配置好名称服务器的地址),服务器返回响应信息.若local server没有缓存信息,从下往上走到有信息的服务器(最高到根DNS服务器),再从有信息的服务器向下查询,最后返回结果.</p>
+<p>​	DNS查询和响应报文给格式相同</p>
+<h1 id="2-6-P2P"><a href="#2-6-P2P" class="headerlink" title="2.6 P2P"></a>2.6 P2P</h1><p>​	C&#x2F;S模式中,下载时间受服务器上载时间和客户端下载时间限制,总下载时间为两者中的最大值,由于服务器上载带宽有限,随着请求增多,效率会快速下降 </p>
+<p>​	P2P中随着请求增加,Peer节点数也会增加,下载时间的增加非常缓慢,效率大于C&#x2F;S模式,高度动态,难以管理</p>
+<h2 id="管理模式"><a href="#管理模式" class="headerlink" title="管理模式"></a>管理模式</h2><h3 id="非结构化P2P"><a href="#非结构化P2P" class="headerlink" title="非结构化P2P"></a>非结构化P2P</h3><ul>
+<li>相互通信间的peer节点间构成覆盖网,两个节点间形成一条边,是逻辑上的,非物理的,节点间的关系是任意的</li>
+<li>集中化目录:目录服务器中存储集中化目录,通过查询集中化目录建立连接,节点上线或下线时需要向服务器报告,并说明自身存储的资源,存在单点故障问题</li>
+<li>完全分布式:没有某个节点维护其他节点信息,没有中心服务器;泛洪查询:查询时,先查询自身邻居,邻居再向邻居的邻居查询,有资源的节点应答,通过设置TTL限制查询距离</li>
+<li>混合式:peer间划分为组,组长之间对等,组员向组长发出查询,若组内有,则从组内获取,若组内没有,则组长向其他组长发出查询,组长通过哈希值来唯一标识文件</li>
+<li>BitTorrent:请求过多时,不是先来后到来分配,而是每个周期评估每个节点对自身的贡献(即该节点向自己提供过资源),先疏通贡献高的节点,再向后改为随机选择节点</li>
+</ul>
+<h3 id="结构化P2P"><a href="#结构化P2P" class="headerlink" title="结构化P2P"></a>结构化P2P</h3><ul>
+<li>节点之间不是任意的,维护的是树状,环状等结构,对每个节点唯一标识,通过节点间的关于可以快速查询</li>
+<li>了解即可</li>
+</ul>
+<h1 id="2-7-CDN"><a href="#2-7-CDN" class="headerlink" title="2.7 CDN"></a>2.7 CDN</h1><p>​	如何向大量用户提供互联网杀手级业务(带宽占用大,如视频业务等),如何满足异构性(不同的用户的能力不同,如有线网无线网,设备处理能力等)</p>
+<ul>
+<li>压缩</li>
+<li>流化技术</li>
+</ul>
+<p>​	靠单一服务器提升带宽无法解决该问题,有距离远,单点故障,流量浪费(重复资源)</p>
+<p>​	通过CDN实现,全网部署缓存节点,预先缓存,为用户就近提供服务,可以将CDN服务器深入部署到接入网(local isp内部),数量多接近用户但管理困难,另一种是部署在少数(10个左右)关键位置,如距离数据中心机房距离近(距离1st ISP距离近),也可以提供较好的服务</p>
+<p>​	OTT挑战:在拥塞的互联网上复制内容,从哪个CDN节点获取,CDN中存储了什么内容,用户会做出什么请求</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/07/10/%E8%AE%A1%E7%BD%911/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1038,87 +1230,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/01/%E6%90%9C%E7%B4%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YQYjin">
-      <meta itemprop="description" content="任 重 而 道 远">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月 夜 梦 灵">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/01/%E6%90%9C%E7%B4%A2/" class="post-title-link" itemprop="url">搜索</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-04-01 19:32:05" itemprop="dateCreated datePublished" datetime="2023-04-01T19:32:05+08:00">2023-04-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-14 21:12:39" itemprop="dateModified" datetime="2023-05-14T21:12:39+08:00">2023-05-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>BFS,DFS,剪枝,判重,最短路径dijkstra</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/04/01/%E6%90%9C%E7%B4%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1190,7 +1301,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
