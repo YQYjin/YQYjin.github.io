@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1title: 线代复习  1.什么是代数（algebra）?​	为了形式化一个概念，构建出有关这个概念的符号以及操作符号的公式。 2.什么是线性代数（linear algebra）？​	一项关于向量以及操作向量的公式的研究 3.什么是线性方程组（system of linear equation）？​	其中，是这个式子的未知量，每一个满足这个方程组的n元组都可以称为线性方程组的一个解。 5.实数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="月 夜 梦 灵">
+<meta property="og:url" content="http://example.com/2024/05/23/%E7%BA%BF%E4%BB%A3%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="月 夜 梦 灵">
+<meta property="og:description" content="1title: 线代复习  1.什么是代数（algebra）?​	为了形式化一个概念，构建出有关这个概念的符号以及操作符号的公式。 2.什么是线性代数（linear algebra）？​	一项关于向量以及操作向量的公式的研究 3.什么是线性方程组（system of linear equation）？​	其中，是这个式子的未知量，每一个满足这个方程组的n元组都可以称为线性方程组的一个解。 5.实数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/direct/e6c502931b6e40b3906b674ec7d91f3e.png">
+<meta property="og:image" content="https://latex.csdn.net/eq?x_1,x_2...x_n">
+<meta property="article:published_time" content="2024-05-23T01:21:47.072Z">
+<meta property="article:modified_time" content="2024-05-23T01:28:02.182Z">
+<meta property="article:author" content="YQYjin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/direct/e6c502931b6e40b3906b674ec7d91f3e.png">
+
+<link rel="canonical" href="http://example.com/2024/05/23/%E7%BA%BF%E4%BB%A3%E5%A4%8D%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title> | 月 夜 梦 灵</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">月 夜 梦 灵</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/23/%E7%BA%BF%E4%BB%A3%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YQYjin">
+      <meta itemprop="description" content="任 重 而 道 远">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月 夜 梦 灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-23 09:21:47 / 修改时间：09:28:02" itemprop="dateCreated datePublished" datetime="2024-05-23T09:21:47+08:00">2024-05-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">title: 线代复习</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-什么是代数（algebra）"><a href="#1-什么是代数（algebra）" class="headerlink" title="1.什么是代数（algebra）?"></a>1.什么是代数（algebra）?</h4><p>​	为了形式化一个概念，构建出<strong>有关这个概念的符号以及操作符号的公式。</strong></p>
+<h4 id="2-什么是线性代数（linear-algebra）？"><a href="#2-什么是线性代数（linear-algebra）？" class="headerlink" title="2.什么是线性代数（linear algebra）？"></a>2.什么是线性代数（linear algebra）？</h4><p>​	一项<strong>关于向量以及操作向量的公式的研究</strong></p>
+<h4 id="3-什么是线性方程组（system-of-linear-equation）？"><a href="#3-什么是线性方程组（system-of-linear-equation）？" class="headerlink" title="3.什么是线性方程组（system of linear equation）？"></a>3.什么是<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84&spm=1001.2101.3001.7020">线性方程组</a>（system of linear equation）？<img src="https://img-blog.csdnimg.cn/direct/e6c502931b6e40b3906b674ec7d91f3e.png" alt="img"></h4><p>​	其中<img src="https://latex.csdn.net/eq?x_1,x_2...x_n" alt="x_1,x_2...x_n">，是这个式子的<strong>未知量</strong>，每一个满足这个方程组的n元组都可以称为线性方程组的一个解。</p>
+<h4 id="5-实数线性方程组的解（solution）有哪些情况？"><a href="#5-实数线性方程组的解（solution）有哪些情况？" class="headerlink" title="5.实数线性方程组的解（solution）有哪些情况？"></a>5.实数线性方程组的解（solution）有哪些情况？</h4><p>​	要么无解，要么有一个解，要么有多个解。</p>
+<p>​	如果是，那么可以看做二维平面两条直线相交，那么结果是1.无交集2.一个点3.一条直线。如果是，那么可以看做是在三维立体空间两个平面相交，结果可能是1.一个平面2.一条直线3.一个点4.空。</p>
+<h4 id="6-什么是点积（dot-product），也称作Hadamard-product"><a href="#6-什么是点积（dot-product），也称作Hadamard-product" class="headerlink" title="6.什么是点积（dot product），也称作Hadamard product?"></a>6.什么是点积（dot product），也称作Hadamard product?</h4><p>​	对于元素，我们用矩阵A的第i行与矩阵B的第j列逐个元素相乘，然后相加。</p>
+<h4 id="7-什么是单位矩阵（Identity-Matrix）？"><a href="#7-什么是单位矩阵（Identity-Matrix）？" class="headerlink" title="7.什么是单位矩阵（Identity Matrix）？"></a>7.什么是单位矩阵（Identity Matrix）？</h4><p>​	在n阶方阵中，只是在对角（diagonal）元素值为1，在其他元素值为0。</p>
+<h4 id="8-什么是矩阵的逆（inverse）？"><a href="#8-什么是矩阵的逆（inverse）？" class="headerlink" title="8.什么是矩阵的逆（inverse）？"></a>8.什么是矩阵的逆（inverse）？</h4><p>​	对于n行n列的矩阵A和n行n列的矩阵B，如果满足 AB&#x3D;I&#x3D;BA，B被叫做A的逆。如果B存在，那么称A为正则矩阵&#x2F;可逆矩阵&#x2F;非奇异矩阵（regular&#x2F;invertible&#x2F;nonsingular）。如果矩阵的行列式（determinant）不为零，那么可以认为矩阵可逆。</p>
+<h4 id="9-什么是矩阵的转置（transpose）？"><a href="#9-什么是矩阵的转置（transpose）？" class="headerlink" title="9.什么是矩阵的转置（transpose）？"></a>9.什么是矩阵的转置（transpose）？</h4><p>​	对于m行n列的矩阵A，A的转置B是n行m列，A的每一行作为B的每一列。如果A可逆，那么B（A的转置）爷可逆。</p>
+<h4 id="10-什么是高斯消元法（Gaussian-elimination）"><a href="#10-什么是高斯消元法（Gaussian-elimination）" class="headerlink" title="10.什么是高斯消元法（Gaussian elimination）"></a>10.什么是高斯消元法（Gaussian elimination）</h4><p>​	高斯消元法是通过初等变换（elementary transformation）把一个线性方程组的增广矩阵（augmented matrix），譬如，那么其增广矩阵为，变成一个行递减的形式（reduced row-echelon）。</p>
+<h4 id="11-行递减阶梯矩阵有什么特点？"><a href="#11-行递减阶梯矩阵有什么特点？" class="headerlink" title="11.行递减阶梯矩阵有什么特点？"></a>11.行递减阶梯矩阵有什么特点？</h4><p>​	是一个行阶梯的形式<br>​	每个枢轴的值都是1<br>​	每一列只有唯一一个枢轴是这一列不为零的值</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/04/01/Hot100/" rel="prev" title="Hot100">
+      <i class="fa fa-chevron-left"></i> Hot100
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/09/19/D2L/" rel="next" title="D2L">
+      D2L <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E4%BB%A3%E6%95%B0%EF%BC%88algebra%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">1.什么是代数（algebra）?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%EF%BC%88linear-algebra%EF%BC%89%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">2.什么是线性代数（linear algebra）？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84%EF%BC%88system-of-linear-equation%EF%BC%89%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">3.什么是线性方程组（system of linear equation）？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E5%AE%9E%E6%95%B0%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84%E7%9A%84%E8%A7%A3%EF%BC%88solution%EF%BC%89%E6%9C%89%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">5.实数线性方程组的解（solution）有哪些情况？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AF%E7%82%B9%E7%A7%AF%EF%BC%88dot-product%EF%BC%89%EF%BC%8C%E4%B9%9F%E7%A7%B0%E4%BD%9CHadamard-product"><span class="nav-number">5.</span> <span class="nav-text">6.什么是点积（dot product），也称作Hadamard product?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E4%BD%8D%E7%9F%A9%E9%98%B5%EF%BC%88Identity-Matrix%EF%BC%89%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">7.什么是单位矩阵（Identity Matrix）？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-%E4%BB%80%E4%B9%88%E6%98%AF%E7%9F%A9%E9%98%B5%E7%9A%84%E9%80%86%EF%BC%88inverse%EF%BC%89%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">8.什么是矩阵的逆（inverse）？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-%E4%BB%80%E4%B9%88%E6%98%AF%E7%9F%A9%E9%98%B5%E7%9A%84%E8%BD%AC%E7%BD%AE%EF%BC%88transpose%EF%BC%89%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">9.什么是矩阵的转置（transpose）？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-%E4%BB%80%E4%B9%88%E6%98%AF%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E6%B3%95%EF%BC%88Gaussian-elimination%EF%BC%89"><span class="nav-number">9.</span> <span class="nav-text">10.什么是高斯消元法（Gaussian elimination）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-%E8%A1%8C%E9%80%92%E5%87%8F%E9%98%B6%E6%A2%AF%E7%9F%A9%E9%98%B5%E6%9C%89%E4%BB%80%E4%B9%88%E7%89%B9%E7%82%B9%EF%BC%9F"><span class="nav-number">10.</span> <span class="nav-text">11.行递减阶梯矩阵有什么特点？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YQYjin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YQYjin</p>
+  <div class="site-description" itemprop="description">任 重 而 道 远</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YQYjin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
